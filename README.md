@@ -1,10 +1,9 @@
-# Nome do Seu Projeto
+# Gerenciador de horários - Colégio e Curso Real
 
-[Inserir logo ou imagem representativa do projeto (opcional)]
-
+[logo-site-real](https://github.com/Wilksonflor/gerenciadorCcr/assets/90102289/56d06841-bbef-4eeb-8594-10ac0b1cd3cb)
 ## Descrição do Projeto
 
-<DESCRICAO_DO_PROJETO>
+Projeto foi feito para gerenciar o aluguel da quadra de forma mais organizada e dinâmica.
 
 ## Instalação
 
