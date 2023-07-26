@@ -1,0 +1,30 @@
+.container_Login {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.login_left {
+  width: 47%;
+  height: auto;
+  display: flex;
+  align-items: left;
+  /* border: 2px solid red; */
+}
+
+.jogador {
+  margin-left: 1px;
+  width: 80%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.login_right {
+  width: 50%;
+  height: 100vh;
+  border: 2px solid blue;
+}
+
+.logoReal{
+    
+}
