@@ -6,25 +6,61 @@
 
 .login_left {
   width: 47%;
-  height: auto;
+  height: 100vh;
   display: flex;
-  align-items: left;
-  /* border: 2px solid red; */
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .jogador {
-  margin-left: 1px;
-  width: 80%;
-  height: 100vh;
+  width: 90%;
+  height: 95vh;
   object-fit: cover;
 }
 
-.login_right {
-  width: 50%;
-  height: 100vh;
-  border: 2px solid blue;
+.wrapper_form{
+
+  width: 70%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
 
-.logoReal{
-    
+.header_form{
+  width: 100%;
+  text-align: center;
 }
+.header_form h1{
+  margin-top: 70px;
+}
+.header_form h2{
+  margin-bottom: 50px;
+}
+.logoLogin{
+  margin: 56px 0 69px 0;
+}
+.form_control{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  width: 80%;
+  max-width: 500px;
+  height: 50%;
+  border-radius: 4px;
+}
+form{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+@media (min-width: 1025px) {
+  .h-custom-2 {
+    height: 100%;
+    }
+  }
