@@ -1,25 +1,26 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import Relatorios from "../pages/Relatorios";
 import Clientes from "../pages/Clientes";
 import Login from "../pages/Login";
 
 const Private = ({ Item }) => {
-  const signed = false; 
-  return signed ? <Item /> : <Login />;
+  const signed = true; 
+  return signed ? <Item /> : <Navigate to="/login" />;
 };
 
 const RoutesApp = () => {
   return (
-    <BrowserRouter>
+
       <Routes>
-        <Route path="/home" element={<Private Item={Home} />} />
-        <Route path="/relatorios" element={<Private Item={Relatorios} />} />
-        <Route path="/clientes" element={<Private Item={Clientes} />} />
-        <Route path="/*" element={<Login />} />
+        <Route element={<Private Item={Home} />} path="/home" />
+        <Route element={<Private Item={Relatorios} />} path="/relatorios" />
+        <Route element={<Private Item={Clientes} />} path="/clientes" />
+        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<Navigate to="/login" />} />
       </Routes>
-    </BrowserRouter>
+
   );
 };
 

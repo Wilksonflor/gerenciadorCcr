@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import {useHistory} from 'react'
+
 import jogador from "../assets/jogador.jpg";
 import logo from "../assets/logo-site-real.png";
 import styles from "./Login.module.css";
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBRow,
-  MDBCol,
-  MDBIcon,
-  MDBInput,
-} from "mdb-react-ui-kit";
+import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from "mdb-react-ui-kit";
+
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
+  
   };
 
   return (
@@ -33,20 +29,38 @@ const Login = () => {
           <img src={logo} className={styles.logoLogin} />
           <h2>Faça login na sua conta</h2>
         </div>
-
-        <MDBCol md='4'>
-            <MDBCardBody className='d-flex flex-column '>
-
-                <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
-                <MDBInput wrapperClass='mb-4 ' label='Password' id='formControlLg' type='password' size="lg"/>
-
-              <MDBBtn className="mb-4 px-5" color='dark' size='lg'>Entrar</MDBBtn>
-              <a className="small text-muted" href="#!">Esqueceu a senha?</a>
-    
-
-
-            </MDBCardBody>
-          </MDBCol>
+        <MDBContainer>
+          <form className="form" onSubmit={handleSubmit}>
+            <MDBCol md="4">
+              <MDBCardBody className="d-flex flex-column">
+                <label>E-mail</label>
+                <MDBInput
+                  wrapperClass="mb-4"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  size="lg"
+                />
+                <label>Senha</label>
+                <MDBInput
+                  wrapperClass="mb-4 "
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  size="lg"
+                />
+                <button type="submit" className={styles.btn_entrar}>
+                  Entrar
+                </button>
+                <a className="small text-muted" href="#!">
+                  Esqueceu a senha?
+                </a>
+              </MDBCardBody>
+            </MDBCol>
+          </form>
+        </MDBContainer>
       </div>
     </div>
   );

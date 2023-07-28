@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import NavBar from "../components/NavBar";
+import { BrowserRouter, Route, Routes, Router } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <Route>
+ 
+    <div>
+      <Navbar />
+    </div>
+    </Route>
+  );
+};
 
-export default Home
+export default Home;
