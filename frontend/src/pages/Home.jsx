@@ -1,15 +1,21 @@
 import React from "react";
 import NavBar from "../components/NavBar";
-import { BrowserRouter, Route, Routes, Router } from "react-router-dom";
+import Table from "../layouts/Table";
+import styles from "./Home.module.css";
 
 const Home = () => {
   return (
-    <Route>
- 
-    <div>
-      <Navbar />
-    </div>
-    </Route>
+    <>
+      <div className={styles.main_home}>
+        <NavBar />
+        <h1>Horários da semana</h1>
+
+        <div className={styles.tableContent}>
+          <h2>Segunda-feira</h2>
+          <Table />
+        </div>
+      </div>
+    </>
   );
 };
 

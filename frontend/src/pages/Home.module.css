@@ -1,0 +1,13 @@
+.main_home{
+    height: 100vh;
+}
+
+.main_home h1, .main_home h2{
+    text-align: center;
+    margin-block: 50px;
+}
+
+.tableContent{
+    margin-inline: 60px;
+
+}

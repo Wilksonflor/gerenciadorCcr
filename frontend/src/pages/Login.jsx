@@ -1,20 +1,19 @@
 import { useState } from "react";
-import {useHistory} from 'react'
-
+import { useHistory } from "react";
+import {Link, redirect} from 'react-router-dom'
 import jogador from "../assets/jogador.jpg";
 import logo from "../assets/logo-site-real.png";
 import styles from "./Login.module.css";
 import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from "mdb-react-ui-kit";
 
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    
+   
   };
 
   return (
