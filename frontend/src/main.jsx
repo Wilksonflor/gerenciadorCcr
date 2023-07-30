@@ -9,7 +9,7 @@ import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import Clientes from "./pages/Clientes.jsx";
 import Relatorios from "./pages/Relatorios.jsx";
-
+import CriarConta from "./components/criarConta.jsx";
 const router = createBrowserRouter([
   
   {
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
     path: "/relatorios",
     element: <Relatorios />,
   },
+  {
+    path: "/newuser",
+    element: <CriarConta/>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

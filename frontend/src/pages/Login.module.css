@@ -20,7 +20,6 @@
   object-fit: cover;
 }
 
-
 /* Formulário */
 .wrapper_form {
   width: 70%;
@@ -41,7 +40,8 @@
   margin-bottom: 50px;
 }
 .logoLogin {
-  width: 250px;
+  width: 30%;
+  max-width: 300px;
   height: 130px;
   margin: 56px 0 69px 0;
 }
@@ -66,23 +66,23 @@ form {
   border: 2px solid blue;
 }
 
-.wrapper_form form .btn_entrar{
+.wrapper_form form .btn_entrar {
   width: 130px;
   height: 29px;
   margin: 0 auto;
   margin-bottom: 20px;
-  background-color: #04C35C;
-  color: #FFFFFF;
+  background-color: #04c35c;
+  color: #ffffff;
   font-family: Roboto;
   opacity: 1;
-  transition: .3s;
+  transition: 0.3s;
   border: none;
   border-radius: 8px;
 }
-.btn_entrar:hover{
-  background-color: #04C35C;
+.btn_entrar:hover {
+  background-color: #04c35c;
   opacity: 0.8;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: Roboto;
   border: none;
 }
@@ -90,5 +90,17 @@ form {
 @media (min-width: 1025px) {
   .h-custom-2 {
     height: 100%;
+  }
+}
+@media only screen and (max-width: 960px) {
+  .wrapper_form{
+    width: 100%;
+  }
+  .login_left {
+    display: none;
+  }
+
+  .login_right {
+    width: 100%;
   }
 }

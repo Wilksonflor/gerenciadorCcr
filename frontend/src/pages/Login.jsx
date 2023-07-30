@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import jogador from "../assets/jogador.jpg";
 import logo from "../assets/logo-site-real.png";
 import styles from "./Login.module.css";
@@ -10,6 +10,17 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -58,9 +69,11 @@ const Login = () => {
                 </a>
                 <p className="ms-5 m-5">
                   Não tem uma conta?{" "}
-                  <a href="#!" className="link-info">
+                  <Link to="/newuser" >
+
                     Criar conta
-                  </a>
+                  </Link>
+                  
                 </p>
               </MDBCardBody>
             </MDBCol>
