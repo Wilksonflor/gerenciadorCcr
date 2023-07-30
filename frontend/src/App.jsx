@@ -1,18 +1,13 @@
-import React from "react";
+import { Outlet, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import NavBar from "./components/NavBar";
 import RoutesApp from './routes/index'
-
-import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
-    
-      <div>
-        <RoutesApp />
-      </div>
-    </Router>
+    <div>
+      <RoutesApp />
+      <Outlet />
+    </div>
   );
 }
 

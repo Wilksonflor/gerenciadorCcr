@@ -20,6 +20,8 @@
   object-fit: cover;
 }
 
+
+/* Formulário */
 .wrapper_form {
   width: 70%;
   height: 80vh;
@@ -39,6 +41,8 @@
   margin-bottom: 50px;
 }
 .logoLogin {
+  width: 250px;
+  height: 130px;
   margin: 56px 0 69px 0;
 }
 .form_control {
@@ -62,7 +66,9 @@ form {
   border: 2px solid blue;
 }
 
-.btn_entrar{
+.wrapper_form form .btn_entrar{
+  width: 130px;
+  height: 29px;
   margin: 0 auto;
   margin-bottom: 20px;
   background-color: #04C35C;

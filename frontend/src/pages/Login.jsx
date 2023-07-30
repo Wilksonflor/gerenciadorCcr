@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react";
-import {Link, redirect} from 'react-router-dom'
+import { Navigate, useNavigate } from "react-router-dom";
 import jogador from "../assets/jogador.jpg";
 import logo from "../assets/logo-site-real.png";
 import styles from "./Login.module.css";
@@ -9,11 +9,11 @@ import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from "mdb-react-ui-kit";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-   
+
+    navigate("/home");
   };
 
   return (
@@ -53,9 +53,15 @@ const Login = () => {
                 <button type="submit" className={styles.btn_entrar}>
                   Entrar
                 </button>
-                <a className="small text-muted" href="#!">
+                <a className="small text-muted m-2" href="#!">
                   Esqueceu a senha?
                 </a>
+                <p className="ms-5 m-5">
+                  Não tem uma conta?{" "}
+                  <a href="#!" className="link-info">
+                    Criar conta
+                  </a>
+                </p>
               </MDBCardBody>
             </MDBCol>
           </form>

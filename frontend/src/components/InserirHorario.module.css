@@ -1,0 +1,24 @@
+.formModal {
+    display: flex;
+    width: 100%;
+    height: 50vh;
+    max-width: 500px; /* Definir a largura máxima do formulário */
+  }
+  
+  .formModal form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+  }
+  
+  .formModal label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .formModal input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+  }
+  

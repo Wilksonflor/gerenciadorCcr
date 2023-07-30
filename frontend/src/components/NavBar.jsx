@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom";
 import styles from "./NavBar.module.css";
 import logo from "../assets/Logo.png";
+import InserirHorario from './InserirHorario'
 import { Button, Space } from 'antd';
+import { useState } from "react";
 const NavBar = () => {
+
+  const [modalOpen, setModalOpen] = useState(false)
+  const handleOpenModal = () =>{
+    setModalOpen(true)  // Para abrir o modal
+  }
+  const handleCloseModal = () =>{
+    setModalOpen(false)  // Para fechar o modal
+  }
   return (
     <div className={styles.header_container}>
       <nav>
@@ -24,9 +34,13 @@ const NavBar = () => {
         </ul>
 
       <Space wrap>
-       <Button type="primary">Agendar horário</Button>
+      
+       <Button type="primary" onClick={handleOpenModal}>Agendar horário</Button>
       </Space>
       </nav>
+      {modalOpen && (
+        <InserirHorario onClose={handleCloseModal} />
+      )}
     </div>
   );
 };
