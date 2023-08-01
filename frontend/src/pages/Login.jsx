@@ -5,9 +5,9 @@ import jogador from "../assets/jogador.jpg";
 import logo from "../assets/logo-site-real.png";
 import styles from "./Login.module.css";
 import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from "mdb-react-ui-kit";
-
+import axios from "axios";
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -20,11 +20,29 @@ const Login = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    navigate("/home");
+    const credenciais = {
+      usuario,
+      password,
+    };
+    axios
+    .post("http://localhost:5000/authenticate", credenciais)
+    .then((response) => {
+      // Verifique a resposta do servidor
+      if (response.data.success) {
+        // Se a autenticação for bem-sucedida, redirecione para a página inicial
+        navigate("/home");
+      } else {
+        // Se a autenticação falhar, exiba uma mensagem de erro ou tome outra ação adequada
+        console.error("Credenciais inválidas");
+      }
+    })
+    .catch((error) => {
+      // Em caso de erro na requisição
+      console.error("Erro ao fazer a autenticação:", error);
+    });
   };
 
   return (
@@ -43,13 +61,13 @@ const Login = () => {
           <form className="form" onSubmit={handleSubmit}>
             <MDBCol md="4">
               <MDBCardBody className="d-flex flex-column">
-                <label>E-mail</label>
+                <label>Usuário</label>
                 <MDBInput
                   wrapperClass="mb-4"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
+                  id="usuario"
+                  value={usuario}
+                  onChange={(e) => setUsuario(e.target.value)}
+                  type="text"
                   size="lg"
                 />
                 <label>Senha</label>
@@ -68,12 +86,7 @@ const Login = () => {
                   Esqueceu a senha?
                 </a>
                 <p className="ms-5 m-5">
-                  Não tem uma conta?{" "}
-                  <Link to="/newuser" >
-
-                    Criar conta
-                  </Link>
-                  
+                  Não tem uma conta? <Link to="/newuser">Criar conta</Link>
                 </p>
               </MDBCardBody>
             </MDBCol>

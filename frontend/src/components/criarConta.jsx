@@ -1,9 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import styles from "./criarConta.module.css";
-
+import {useNavigate} from 'react-router-dom'
 const CriarConta = ({ isOpen, closeModal }) => {
-  const [nome, setNome] = useState("");
+  const navigate = useNavigate()
+  const [nomeCompleto, setNomeCompleto] = useState("");
   const [telefone, setTelefone] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +13,7 @@ const CriarConta = ({ isOpen, closeModal }) => {
     e.preventDefault();
 
     const user = {
-      nome,
+      nomeCompleto,
       telefone,
       username,
       password,
@@ -22,13 +23,14 @@ const CriarConta = ({ isOpen, closeModal }) => {
       .post("http://localhost:5000/user", user)
       .then((response) => {
         console.log("Dados enviados com sucesso:", response.data);
-        closeModal();
+        navigate('/')
       })
       .catch((error) => {
         console.error("Erro ao enviar dados:", error);
       });
   };
 
+ 
   return (
     <div>
       <div>
@@ -39,10 +41,10 @@ const CriarConta = ({ isOpen, closeModal }) => {
               className="form-control"
               id="nome"
               placeholder="Nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              value={nomeCompleto}
+              onChange={(e) => setNomeCompleto(e.target.value)}
             />
-            <label htmlFor="nome">Nome completo</label>
+            <label htmlFor="nomeCompleto">Nome completo</label>
           </div>
 
           <div className="form-floating">
