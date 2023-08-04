@@ -13,6 +13,10 @@ const NavBar = () => {
   const handleCloseModal = () =>{
     setModalOpen(false)  // Para fechar o modal
   }
+
+  const loginSucess = () =>{
+
+  }
   return (
     <div className={styles.header_container}>
       <nav>
