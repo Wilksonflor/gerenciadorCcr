@@ -23,26 +23,27 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const credenciais = {
-      usuario,
-      password,
-    };
-    axios
-    .post("http://localhost:5000/authenticate", credenciais)
-    .then((response) => {
-      // Verifique a resposta do servidor
-      if (response.data.success) {
-        // Se a autenticação for bem-sucedida, redirecione para a página inicial
-        navigate("/home");
-      } else {
-        // Se a autenticação falhar, exiba uma mensagem de erro ou tome outra ação adequada
-        console.error("Credenciais inválidas");
-      }
-    })
-    .catch((error) => {
-      // Em caso de erro na requisição
-      console.error("Erro ao fazer a autenticação:", error);
-    });
+    // const credenciais = {
+    //   usuario,
+    //   password,
+    // };
+    // axios
+    // .post("http://localhost:5000/authenticate", credenciais)
+    // .then((response) => {
+    //   // Verifique a resposta do servidor
+    //   if (response.data.success) {
+    //     // Se a autenticação for bem-sucedida, redirecione para a página inicial
+    //     navigate("/home");
+    //   } else {
+    //     // Se a autenticação falhar, exiba uma mensagem de erro ou tome outra ação adequada
+    //     console.error("Credenciais inválidas");
+    //   }
+    // })
+    // .catch((error) => {
+    //   // Em caso de erro na requisição
+    //   console.error("Erro ao fazer a autenticação:", error);
+    // });
+    navigate('/home')
   };
 
   return (
