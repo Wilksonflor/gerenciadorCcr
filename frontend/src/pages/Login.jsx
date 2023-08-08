@@ -24,16 +24,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post("http://localhost:5000/authenticate", {
-        usuario,
-        password,
-      });
-      console.log("fez o login", response);
-      navigate("/home");
-    } catch (error) {
-      console.log("Erro na autenticação erro:", error);
-    }
+    // try {
+    //   const response = await axios.post("http://localhost:5000/authenticate", {
+    //     usuario,
+    //     password,
+    //   });
+    //   console.log("fez o login", response);
+     
+    // } catch (error) {
+    //   console.log("Erro na autenticação erro:", error);
+    // }
+    navigate("/");
   };
 
   return (

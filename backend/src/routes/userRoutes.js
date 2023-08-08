@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', userController.getAllUser);
 router.post('/user', userController.createUser);
-router.get('/alarmbyid/:id', userController.getOneUser);
+router.get('/user/:nome', userController.getOneUser);
 router.post('/authenticate', userController.authenticateUser)
 
 module.exports = router;

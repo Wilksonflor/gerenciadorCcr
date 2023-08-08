@@ -6,12 +6,7 @@ const { response } = require("express");
 exports.createUser = async (req, res) => {
   console.log("chegou do create", req.body);
   const { nomeCompleto, telefone, username, password } = req.body;
-  const userExist = await User.findOne({ username: username });
-  if (userExist) {
-    return res.status(422).json({ msg: "Por favor, utilize outro email" });
-  }
-  const salt = await bcrypt.genSalt(12);
-  const passwordHash = await bcrypt.hash(password, salt);
+
   try {
     const user = await User.create({
       nomeCompleto,
@@ -38,15 +33,16 @@ exports.getAllUser = async (req, res) => {
 };
 
 exports.getOneUser = async (req, res) => {
-  console.log("Chegou do get ID", req.body);
-  const { id } = req.params;
+  const { nome } = req.params;
   try {
-    const user = await User.findById(id);
-    console.log("Usuário encontrado", user);
+    const user = await User.findOne({ nomeCompleto: { $regex: nome, $options: "i" } });
+    if (!user) {
+      return res.status(404).json({ msg: "Usuário não encontrado" });
+    }
     res.status(200).json({ msg: "Usuário encontrado", user });
   } catch (error) {
-    console.log("Erro", error);
-    res.status(500).json({ msg: "Erro ao localizar um unico usuário", error });
+    console.log("Erro ao buscar usuário:", error);
+    res.status(500).json({ msg: "Erro ao localizar o usuário", error });
   }
 };
 

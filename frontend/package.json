@@ -15,6 +15,7 @@
     "antd": "^5.7.3",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
+    "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^6.1.0",
     "mdb-ui-kit": "^6.4.0",
     "react": "^18.2.0",

@@ -4,6 +4,7 @@ import logo from "../assets/Logo.png";
 import InserirHorario from './InserirHorario'
 import { Button, Space } from 'antd';
 import { useState } from "react";
+
 const NavBar = () => {
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -20,13 +21,13 @@ const NavBar = () => {
   return (
     <div className={styles.header_container}>
       <nav>
-        <Link to="/home">
+        <Link to="/">
           <img src={logo} />
         </Link>
 
         <ul>
           <li>
-            <Link to="/home">Inicio</Link>
+            <Link to="/">Inicio</Link>
           </li>
           <li>
             <Link to="/relatorios">Relatórios</Link>

@@ -13,11 +13,11 @@ import CriarConta from "./components/criarConta.jsx";
 const router = createBrowserRouter([
   
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "/home",
+    path: "/",
     element: <Home />,
   },
   {
