@@ -1,25 +1,24 @@
 const User = require("../models/userModel");
 const userRoutes = require("../routes/userRoutes");
 const axios = require("axios");
+const bcrypt = require("bcrypt");
 const { response } = require("express");
-
-exports.createUser = async (req, res) => {
-  console.log("chegou do create", req.body);
-  const { nomeCompleto, telefone, username, password } = req.body;
-
-  try {
-    const user = await User.create({
-      nomeCompleto,
-      telefone,
-      username,
-      password,
-    });
-    res.status(201).json({ msg: "Usuário criado com sucesso", user });
-  } catch (error) {
-    console.log("Deu esse erro ao criar", error);
-    res.status(500).json({ msg: "Deu esse erro", error });
-  }
-};
+// exports.createUser = async (req, res) => {
+//   console.log("chegou do create", req.body);
+//   const { nomeCompleto, telefone, username, password } = req.body;
+//   try {
+//     const user = await User.create({
+//       nomeCompleto,
+//       telefone,
+//       username,
+//       password,
+//     });
+//     res.status(201).json({ msg: "Usuário criado com sucesso", user });
+//   } catch (error) {
+//     console.log("Deu esse erro ao criar", error);
+//     res.status(500).json({ msg: "Deu esse erro", error });
+//   }
+// };
 
 exports.getAllUser = async (req, res) => {
   console.log("Chegou do getAllUser");
@@ -35,7 +34,9 @@ exports.getAllUser = async (req, res) => {
 exports.getOneUser = async (req, res) => {
   const { nome } = req.params;
   try {
-    const user = await User.findOne({ nomeCompleto: { $regex: nome, $options: "i" } });
+    const user = await User.findOne({
+      nomeCompleto: { $regex: nome, $options: "i" },
+    });
     if (!user) {
       return res.status(404).json({ msg: "Usuário não encontrado" });
     }
@@ -96,3 +97,43 @@ exports.authenticateUser = async (req, res) => {
       .json({ success: false, message: "Erro ao autenticar o usuário" });
   }
 };
+
+exports.registerUser = async (req, res) => {
+  const { nomeCompleto, telefone, username, password, confirmpassword } = req.body;
+
+  if (
+    !nomeCompleto || nomeCompleto.trim() === "" ||
+    !telefone || telefone.trim() === "" ||
+    !password || password.trim() === "" ||
+    !confirmpassword || confirmpassword.trim() === "" ||
+    !username || username.trim() === ""
+  ) {
+    return res.status(422).json({ msg: "Todos os campos são obrigatórios" });
+  }
+
+  if (password !== confirmpassword) {
+    return res.status(422).json({ msg: "A senha e a confirmação de senha não coincidem" });
+  }
+
+  const usernameExist = await User.findOne({ username: username });
+  if (usernameExist) {
+    return res.status(422).json({ msg: "Usuário em uso, tente outro" });
+  }
+
+  const salt = await bcrypt.genSalt(12);
+  const passwordHash = await bcrypt.hash(password, salt);
+  try {
+    const user = await User.create({
+      nomeCompleto,
+      telefone,
+      username,
+      password: passwordHash,
+    });
+    res.status(201).json({ msg: "Usuário criado com sucesso", user });
+  } catch (error) {
+    console.log("Deu esse erro ao criar", error);
+    res.status(500).json({ msg: "Deu esse erro", error });
+  }
+};
+
+

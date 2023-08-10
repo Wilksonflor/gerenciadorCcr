@@ -8,6 +8,7 @@ const CriarConta = ({ isOpen, closeModal }) => {
   const [telefone, setTelefone] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,6 +18,7 @@ const CriarConta = ({ isOpen, closeModal }) => {
       telefone,
       username,
       password,
+      confirmPassword,
     };
 
     axios
@@ -81,6 +83,18 @@ const CriarConta = ({ isOpen, closeModal }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <label htmlFor="senha">Senha</label>
+          </div>
+
+          <div className="form-floating">
+            <input
+              type="password"
+              className="form-control"
+              id="confirmPassword"
+              placeholder="*****"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <label htmlFor="confirmSenha">Confirme a senha</label>
           </div>
 
           <button type="submit">Criar conta</button>
