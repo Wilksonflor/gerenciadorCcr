@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styles from "./criarConta.module.css";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 const CriarConta = ({ isOpen, closeModal }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [nomeCompleto, setNomeCompleto] = useState("");
   const [telefone, setTelefone] = useState("");
   const [username, setUsername] = useState("");
@@ -22,17 +22,16 @@ const CriarConta = ({ isOpen, closeModal }) => {
     };
 
     axios
-      .post("http://localhost:5000/user", user)
-      .then((response) => {
-        console.log("Dados enviados com sucesso:", response.data);
-        navigate('/')
-      })
-      .catch((error) => {
-        console.error("Erro ao enviar dados:", error);
-      });
+  .post("http://localhost:5000/auth/register", user) 
+  .then((response) => {
+    console.log("Dados enviados com sucesso:", response.data);
+    navigate('/');
+  })
+  .catch((error) => {
+    console.error("Erro ao enviar dados:", error);
+  });
   };
 
- 
   return (
     <div>
       <div>

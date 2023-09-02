@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const http = require("http");
 const dataBase = require("./src/config/base");
 const userRoutes = require("./src/routes/userRoutes");
+const clientsRoutes = require('./src/routes/clientsRoutes')
 require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
@@ -23,6 +24,8 @@ app.use(express.json());
 // rota
 app.use(userRoutes);
 app.use("/user", userRoutes);
+app.use('/clients', clientsRoutes)
+
 
 const server = http.createServer(app);
 
