@@ -4,6 +4,6 @@ const router = express.Router();
 
 
 
-router.post('/clients', clientsController.createClient);
+router.post('/clientes', clientsController.createClient);
 
 module.exports = router

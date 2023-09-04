@@ -1,13 +1,13 @@
 const Clients = require('../models/clientsModel')
 
 exports.createClient = async (req,res) =>{
-    const {nomeCompleto, telefone, outro} = req.body
+    const {nomeCompleto, contato, observacoes} = req.body
     console.log("cliente", req.body)
     try{
         const client = await Clients.create({
             nomeCompleto,
-            telefone,
-            outro,
+            contato,
+            observacoes,
         })
         res.status(201).json({msg: "Cliente criado com sucesso"})
     }
