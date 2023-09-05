@@ -9,7 +9,7 @@ exports.createClient = async (req,res) =>{
             contato,
             observacoes,
         })
-        res.status(201).json({msg: "Cliente criado com sucesso"})
+        res.status(201).json({msg: "Cliente criado com sucesso", client})
     }
     catch(error){
         console.log("erro: ", error)

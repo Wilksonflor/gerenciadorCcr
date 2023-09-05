@@ -10,8 +10,7 @@ const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  const [form] = Form.useForm(); // Adicionei esta linha para criar o objeto de formulário
-
+  const [form] = Form.useForm(); 
   const adicionarCliente = () => {
     setModalVisible(true);
   };
@@ -23,11 +22,11 @@ const Clientes = () => {
       const response = await axios.post(
         "http://localhost:5000/clientes",
         values
-      );
-      console.log("Cliente criado com sucesso", response.data);
-      setClientes([...clientes, response.data]);
-      setModalVisible(false);
-      showSuccessMessage();
+        );
+        console.log("Cliente criado com sucesso", response.data);
+      // setClientes([...clientes, response.data]);
+      // setModalVisible(false);
+      // showSuccessMessage();
     } catch (error) {
       console.error("Erro ao criar cliente", error);
     }

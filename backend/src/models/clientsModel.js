@@ -8,6 +8,10 @@ const clientsSchema = new mongoose.Schema({
     telefone: {
         type: "string",
         require: true,
+    },
+    observacoes:{
+        type: "String",
+        required: false,
     }
 }) 
 
