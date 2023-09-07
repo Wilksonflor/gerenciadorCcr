@@ -8,15 +8,24 @@ const useForm = (initialState) => {
   };
 
   const handleInputChange = ({ target }) => {
+    // Obtém o nome e o valor do campo de input
+    const { name, value } = target;
+
+    // Exibe os valores no console
+    console.log(`Campo: ${name}, Valor: ${value}`);
+
     setInputValues({
       ...inputValues,
-      [target.name]: target.value,
+      [name]: value,
     });
   };
 
-  return {inputValues, 
-    handleInputChange, 
-    resetForm};
+  return {
+    inputValues,
+    handleInputChange,
+    resetForm,
+  };
 };
+
 
 export default useForm;

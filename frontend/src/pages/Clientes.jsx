@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UserAddOutlined } from "@ant-design/icons";
 import Navbar from "../components/NavBar";
 import styles from "../layouts/Table.module.css";
-import { Button, Space, Modal, Form, Input } from "antd";
+import { Button, Space, Modal, Form, Input, message } from "antd";
 import axios from "axios";
 import ClientList from "../components/ClientList";
 import useForm from "../useForm";
 
 const Clientes = () => {
-  const [size, setSize] = useState("large");
+  const [size] = useState("large");
   const [clientes, setClientes] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
@@ -18,27 +18,45 @@ const Clientes = () => {
     observacoes: "",
   });
 
+  const [clienteForm] = Form.useForm();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/clientes");
+      setClientes(response.data.clients);
+    } catch (error) {
+      console.error("Erro ao obter clientes:", error);
+    }
+  };
+
   const adicionarCliente = () => {
     setModalVisible(true);
   };
 
   const handleModalOk = async () => {
     try {
-      console.log("Botão 'Salvar' clicado");
-      const response = await axios.post(
-        "http://localhost:5000/novoCliente", // Rota corrigida
-        inputValues
-      );
-      console.log("Cliente criado com sucesso", response.data);
+      clienteForm
+        .validateFields()
+        .then(async (values) => {
+          const response = await axios.post(
+            "http://localhost:5000/novoCliente",
+            values
+          );
+          console.log("Cliente criado com sucesso", response.data);
 
-      // Limpar o formulário após o envio bem-sucedido
-      resetForm();
+          setClientes([...clientes, response.data]);
 
-      // Fechar o modal
-      setModalVisible(false);
-
-      // Exibir mensagem de sucesso
-      showSuccessMessage();
+          clienteForm.resetFields(); // Usar form.resetFields() em vez de resetForm()
+          setModalVisible(false);
+          showSuccessMessage();
+        })
+        .catch((error) => {
+          console.error("Erro ao criar cliente", error);
+        });
     } catch (error) {
       console.error("Erro ao criar cliente", error);
     }
@@ -49,6 +67,7 @@ const Clientes = () => {
   };
 
   const showSuccessMessage = () => {
+    message.success("Cliente criado com sucesso!");
     setSuccessMessageVisible(true);
     setTimeout(() => {
       setSuccessMessageVisible(false);
@@ -82,9 +101,10 @@ const Clientes = () => {
             </tr>
           </thead>
           <tbody>
-            {clientes.map((cliente) => (
-              <ClientList key={cliente.id} cliente={cliente} />
-            ))}
+            {clientes.map(
+              (cliente) =>
+                cliente && <ClientList key={cliente.id} cliente={cliente} />
+            )}
           </tbody>
         </table>
       </div>
@@ -97,7 +117,7 @@ const Clientes = () => {
         width={650}
         destroyOnClose
       >
-        <Form form={form} onFinish={handleModalOk} layout="vertical">
+        <Form form={clienteForm} onFinish={handleModalOk} layout="vertical">
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ marginBottom: 12, width: 500 }}>
               <Form.Item
@@ -152,10 +172,6 @@ const Clientes = () => {
           </div>
         </Form>
       </Modal>
-
-      {successMessageVisible && (
-        <div className={styles.msgSucess}>Cliente criado com sucesso!</div>
-      )}
     </>
   );
 };

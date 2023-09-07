@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 const clientsSchema = new mongoose.Schema({
   nomeCompleto: {
-    type: "string",
+    type: String,
     required: true,
   },
   contato: {
-    type: "string",
+    type: String, 
     required: true,
   },
   observacoes: {
-    type: "string",
+    type: String,
     required: false,
   },
 });

@@ -24,6 +24,7 @@ app.use(express.json());
 
 // rota
 app.use(userRoutes);
+app.use(clientsRoutes)
 app.use("/user", userRoutes);
 app.use("/clientes", clientsRoutes);
 
