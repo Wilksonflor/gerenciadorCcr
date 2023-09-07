@@ -25,7 +25,7 @@ app.use(express.json());
 // rota
 app.use(userRoutes);
 app.use("/user", userRoutes);
-app.use("/clients", clientsRoutes);
+app.use("/clientes", clientsRoutes);
 
 const server = http.createServer(app);
 

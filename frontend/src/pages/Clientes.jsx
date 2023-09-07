@@ -4,35 +4,45 @@ import Navbar from "../components/NavBar";
 import styles from "../layouts/Table.module.css";
 import { Button, Space, Modal, Form, Input } from "antd";
 import axios from "axios";
+import ClientList from "../components/ClientList";
+import useForm from "../useForm";
 
 const Clientes = () => {
   const [size, setSize] = useState("large");
   const [clientes, setClientes] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  const [form] = Form.useForm(); 
+  const { inputValues, handleInputChange, resetForm, form } = useForm({
+    nomeCompleto: "",
+    contato: "",
+    observacoes: "",
+  });
+
   const adicionarCliente = () => {
     setModalVisible(true);
   };
 
-  const handleModalOk = async (values) => {
+  const handleModalOk = async () => {
     try {
       console.log("Botão 'Salvar' clicado");
-      console.log("Valores do formulário:", values); 
       const response = await axios.post(
-        "http://localhost:5000/clientes",
-        values
-        );
-        console.log("Cliente criado com sucesso", response.data);
-      // setClientes([...clientes, response.data]);
-      // setModalVisible(false);
-      // showSuccessMessage();
+        "http://localhost:5000/novoCliente", // Rota corrigida
+        inputValues
+      );
+      console.log("Cliente criado com sucesso", response.data);
+
+      // Limpar o formulário após o envio bem-sucedido
+      resetForm();
+
+      // Fechar o modal
+      setModalVisible(false);
+
+      // Exibir mensagem de sucesso
+      showSuccessMessage();
     } catch (error) {
       console.error("Erro ao criar cliente", error);
     }
   };
-  
-  
 
   const handleModalCancel = () => {
     setModalVisible(false);
@@ -72,13 +82,8 @@ const Clientes = () => {
             </tr>
           </thead>
           <tbody>
-            {clientes.map((cliente, index) => (
-              <tr key={index}>
-                <td>{cliente.nome}</td>
-                <td>{cliente.contato}</td>
-                <td>{cliente.observacoes}</td>
-                <td>Ações</td>
-              </tr>
+            {clientes.map((cliente) => (
+              <ClientList key={cliente.id} cliente={cliente} />
             ))}
           </tbody>
         </table>
@@ -98,6 +103,8 @@ const Clientes = () => {
               <Form.Item
                 label="Nome completo"
                 name="nomeCompleto"
+                value={inputValues.nomeCompleto}
+                onChange={handleInputChange}
                 rules={[
                   {
                     required: true,
@@ -112,6 +119,8 @@ const Clientes = () => {
               <Form.Item
                 label="Telefone para contato"
                 name="contato"
+                value={inputValues.contato}
+                onChange={handleInputChange}
                 rules={[
                   {
                     required: true,
@@ -126,6 +135,8 @@ const Clientes = () => {
               <Form.Item
                 label="Observações"
                 name="observacoes"
+                value={inputValues.observacoes}
+                onChange={handleInputChange}
                 rules={[
                   { required: false, message: "Por favor, insira este campo" },
                 ]}
