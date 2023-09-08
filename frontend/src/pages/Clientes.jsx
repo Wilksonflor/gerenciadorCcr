@@ -6,6 +6,8 @@ import { Button, Space, Modal, Form, Input, message } from "antd";
 import axios from "axios";
 import ClientList from "../components/ClientList";
 import useForm from "../useForm";
+import InputMask from "react-input-mask";
+
 
 const Clientes = () => {
   const [size] = useState("large");
@@ -147,6 +149,7 @@ const Clientes = () => {
                     message: "Por favor, insira o contato do cliente",
                   },
                 ]}
+                
               >
                 <Input />
               </Form.Item>
