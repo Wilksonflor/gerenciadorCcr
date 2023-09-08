@@ -95,7 +95,7 @@ const Clientes = () => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Nome completo</th>
+              <th>Cliente</th>
               <th>Contato</th>
               <th>Observações</th>
               <th>Ações</th>
