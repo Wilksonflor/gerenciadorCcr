@@ -6,8 +6,7 @@ import { Button, Space, Modal, Form, Input, message } from "antd";
 import axios from "axios";
 import ClientList from "../components/ClientList";
 import useForm from "../useForm";
-import InputMask from "react-input-mask";
-
+import MaskedInput from "../components/MaskedInput";
 
 const Clientes = () => {
   const [size] = useState("large");
@@ -52,7 +51,7 @@ const Clientes = () => {
 
           setClientes([...clientes, response.data]);
 
-          clienteForm.resetFields(); // Usar form.resetFields() em vez de resetForm()
+          clienteForm.resetFields();
           setModalVisible(false);
           showSuccessMessage();
         })
@@ -103,9 +102,14 @@ const Clientes = () => {
             </tr>
           </thead>
           <tbody>
-            {clientes.map(
-              (cliente) =>
-                cliente && <ClientList key={cliente.id} cliente={cliente} />
+            {clientes.map((cliente, index) =>
+              cliente ? (
+                <ClientList key={index} cliente={cliente} />
+              ) : (
+                <tr key="SemClientes">
+                  <td colSpan="7">Não há nenhum cliente</td>
+                </tr>
+              )
             )}
           </tbody>
         </table>
@@ -123,7 +127,7 @@ const Clientes = () => {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ marginBottom: 12, width: 500 }}>
               <Form.Item
-                label="Nome completo"
+                label="Cliente"
                 name="nomeCompleto"
                 value={inputValues.nomeCompleto}
                 onChange={handleInputChange}
@@ -149,11 +153,11 @@ const Clientes = () => {
                     message: "Por favor, insira o contato do cliente",
                   },
                 ]}
-                
               >
-                <Input />
+                <MaskedInput />
               </Form.Item>
             </div>
+
             <div style={{ marginBottom: 16 }}>
               <Form.Item
                 label="Observações"

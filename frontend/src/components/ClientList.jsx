@@ -4,8 +4,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 const ClientList = ({ cliente, onEdit, onDelete }) => {
   return (
-    <tr key={cliente ? cliente.id : "Sem clientes"}>
-    {cliente ? (
+    <tr >
         <>
           <td>{cliente.nomeCompleto}</td>
           <td>{cliente.contato}</td>
@@ -22,16 +21,13 @@ const ClientList = ({ cliente, onEdit, onDelete }) => {
               <span
                 type="button"
                 className="btn btn-danger"
-                onClick={() => onDelete(cliente.id)}
+                onClick={() => onDelete(cliente)}
               >
                 <DeleteForeverIcon />
               </span>
             </div>
           </td>
         </>
-      ) : (
-        <td colSpan="7">Não há nenhum funcionário</td>
-      )}
     </tr>
   );
 };
