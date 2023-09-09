@@ -30,20 +30,12 @@ const InserirHorario = ({ onClose }) => {
     // Colocar a logica do timerModel;
   };
 
-  // Função para fazer a busca dos responsáveis com debounce
-  const searchResponsaveis = debounce(async (value) => {
-    setBusca(value); // Atualiza o estado da busca
-    try {
-      const response = await searchClient(value); // Faz a busca no servidor
-      setResponsaveisEncontrados(response.data.users); // Atualiza os responsáveis encontrados
-    } catch (error) {
-      console.log("error", error);
-    }
-  });
+
+  
 
   const searchClient = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/user/${busca}`);
+      const response = await axios.get(`http://localhost:5000/clientes/${busca}`);
       if (response.data && response.data.users) {
         setResponsaveisEncontrados(response.data.users);
       } else {
@@ -63,7 +55,7 @@ const InserirHorario = ({ onClose }) => {
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
       cancelText="Cancelar"
-      style={{ height: "80vh" }}
+      style={{ height: "50vh" }}
       bodyStyle={{
         display: "flex",
         flexDirection: "column",
@@ -74,9 +66,9 @@ const InserirHorario = ({ onClose }) => {
       <h3>Preencha os campos</h3>
       <div className={styles.formModal}>
         <ConfigProvider locale={ptBR}>
-          {/* Configurar o idioma para português */}
-          <Form onFinish={onFinish}>
-            <Form.Item name="responsavel" label="Responsável">
+
+          <Form onFinish={onFinish} >
+            <Form.Item name="cliente" label="Cliente">
               <Input
                 value={busca}
                 onChange={(e) => searchResponsaveis(e.target.value)}
@@ -85,11 +77,8 @@ const InserirHorario = ({ onClose }) => {
             <Form.Item name="data" label="Selecione a data">
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>
-            <Form.Item label="Horário de inicio" name="horarioInicio">
-              <Input />
-            </Form.Item>
-            <TimePicker.RangePicker />
-            {/* Adicione outros campos do formulário aqui */}
+
+
           </Form>
         </ConfigProvider>
       </div>
