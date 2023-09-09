@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Input, DatePicker } from "antd";
 import ptBR from "antd/lib/locale/pt_BR";
 import { ConfigProvider, TimePicker } from "antd";
 import styles from "./InserirHorario.module.css";
 import axios from "axios";
-import { debounce } from "lodash";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 const InserirHorario = ({ onClose }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("");
   const [busca, setBusca] = useState("");
-  const [responsaveisEncontrados, setResponsaveisEncontrados] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [clientesFiltrados, setClientesFiltrados] = useState([]);
+
+
+
+  const onChange = (time, timeString) => {
+    console.log(time, timeString);
+  };
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -27,23 +36,14 @@ const InserirHorario = ({ onClose }) => {
 
   const onFinish = (values) => {
     console.log("Form values:", values);
-    // Colocar a logica do timerModel;
+    // Colocar a lógica do timerModel;
   };
 
-
-  
-
-  const searchClient = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/clientes/${busca}`);
-      if (response.data && response.data.users) {
-        setResponsaveisEncontrados(response.data.users);
-      } else {
-        setResponsaveisEncontrados([]);
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
+  const filterClientes = () => {
+    const filtered = clientes.filter((cliente) =>
+      cliente.nome.toLowerCase().includes(busca.toLowerCase())
+    );
+    setClientesFiltrados(filtered);
   };
 
   return (
@@ -63,34 +63,39 @@ const InserirHorario = ({ onClose }) => {
         justifyContent: "center",
       }}
     >
-      <h3>Preencha os campos</h3>
+      <h3 className="p-1">Agende o horário do cliente</h3>
       <div className={styles.formModal}>
         <ConfigProvider locale={ptBR}>
-
-          <Form onFinish={onFinish} >
-            <Form.Item name="cliente" label="Cliente">
+          <Form onFinish={onFinish}>
+            <Form.Item name="cliente">
               <Input
                 value={busca}
-                onChange={(e) => searchResponsaveis(e.target.value)}
+                placeholder="Digite o nome do cliente"
+                onChange={(e) => {
+                  setBusca(e.target.value);
+                  filterClientes(); // Aplica o filtro quando o usuário digitar algo
+                }}
               />
             </Form.Item>
-            <Form.Item name="data" label="Selecione a data">
+            <Form.Item name="data">
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>
 
-
+            <Form.Item name="horaInicio">
+              <TimePicker
+                format="HH:mm"
+                onChange={onChange}
+                initialValues={dayjs("00:00", "HH:mm")}
+              />
+            </Form.Item>
           </Form>
         </ConfigProvider>
       </div>
       <p>{modalText}</p>
-      {/* Exibir os responsáveis encontrados */}
-      {responsaveisEncontrados.length > 0 ? (
-        responsaveisEncontrados.map((responsavel) => (
-          <div key={responsavel._id}>{responsavel.nomeCompleto}</div>
-        ))
-      ) : (
-        <div>Nenhum responsável encontrado</div>
-      )}
+      {/* Exibir os clientes filtrados */}
+      {clientesFiltrados.map((cliente) => (
+        <div key={cliente.id}>{cliente.nome}</div>
+      ))}
     </Modal>
   );
 };
