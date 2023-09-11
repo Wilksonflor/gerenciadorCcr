@@ -1,7 +1,7 @@
 .formModal {
     display: flex;
     width: 100%;
-    height: 30vh;
+    height: 40vh;
     max-width: 500px; /* Definir a largura máxima do formulário */
   }
   
@@ -22,3 +22,19 @@
     margin-bottom: 16px;
   }
   
+  .horario_control{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .horario_control input{
+    width: 30%;
+    outline: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+  }
+  .horario_control input:focus{
+    border: 2px solid #4096ff;
+    transition: border 0.2s,box-shadow 0.2s;
+  }

@@ -15,8 +15,7 @@ const InserirHorario = ({ onClose }) => {
   const [clientes, setClientes] = useState([]);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
 
-
-
+  
   const onChange = (time, timeString) => {
     console.log(time, timeString);
   };
@@ -73,7 +72,7 @@ const InserirHorario = ({ onClose }) => {
                 placeholder="Digite o nome do cliente"
                 onChange={(e) => {
                   setBusca(e.target.value);
-                  filterClientes(); // Aplicando o filtro quando digita 
+                  filterClientes(); // Aplicando o filtro quando digita
                 }}
               />
             </Form.Item>
@@ -81,14 +80,38 @@ const InserirHorario = ({ onClose }) => {
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>
 
-            <Form.Item name="horaInicio">
-            
+            <textfield>
+              <legend>Horário</legend>
+            </textfield>
+
+            <div className={styles.horario_control}>
+              <label>Hora de inicio</label>
+              <input
+                type="text"
+                name="horaInicio"
+                placeholder="hh:mm"
+                onChange={onChange}
+                maxLength={5} // Limita o número de caracteres a 5 (hh:mm)
+                pattern="\d{2}:\d{2}" // Usa uma expressão regular para validar o formato hh:mm
+              />
+              <label>Hora de término</label>
+              <input type="time" name="horaTermino" onChange={onChange} />
+              {/* <Form.Item name="horaInicio">
               <TimePicker
                 format="HH:mm"
                 onChange={onChange}
                 initialValues={dayjs("00:00", "HH:mm")}
               />
             </Form.Item>
+
+            <Form.Item name="horaTermino" placeholder="Horário de término">
+              <TimePicker
+                format="HH:mm"
+                onChange={onChange}
+                initialValues={dayjs("00:00", "HH:mm")}
+              />
+            </Form.Item> */}
+            </div>
           </Form>
         </ConfigProvider>
       </div>
