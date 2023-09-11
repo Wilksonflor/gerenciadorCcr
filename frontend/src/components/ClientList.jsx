@@ -3,6 +3,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 
 const ClientList = ({ cliente, onEdit, onDelete }) => {
+
+ 
+  
   return (
     <tr >
         <>

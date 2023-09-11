@@ -73,7 +73,7 @@ const InserirHorario = ({ onClose }) => {
                 placeholder="Digite o nome do cliente"
                 onChange={(e) => {
                   setBusca(e.target.value);
-                  filterClientes(); // Aplica o filtro quando o usuário digitar algo
+                  filterClientes(); // Aplicando o filtro quando digita 
                 }}
               />
             </Form.Item>
@@ -82,6 +82,7 @@ const InserirHorario = ({ onClose }) => {
             </Form.Item>
 
             <Form.Item name="horaInicio">
+            
               <TimePicker
                 format="HH:mm"
                 onChange={onChange}

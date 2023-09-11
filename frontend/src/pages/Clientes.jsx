@@ -40,24 +40,18 @@ const Clientes = () => {
 
   const handleModalOk = async () => {
     try {
-      clienteForm
-        .validateFields()
-        .then(async (values) => {
-          const response = await axios.post(
-            "http://localhost:5000/novoCliente",
-            values
-          );
-          console.log("Cliente criado com sucesso", response.data);
+      clienteForm.validateFields().then(async (values) => {
+        const response = await axios.post("http://localhost:5000/novoCliente", values);
+        console.log("Cliente criado com sucesso", response.data);
 
-          setClientes([...clientes, response.data]);
+        setClientes([...clientes, response.data]);
 
-          clienteForm.resetFields();
-          setModalVisible(false);
-          showSuccessMessage();
-        })
-        .catch((error) => {
-          console.error("Erro ao criar cliente", error);
-        });
+        clienteForm.resetFields();
+        setModalVisible(false);
+        showSuccessMessage();
+      }).catch((error) => {
+        console.error("Erro ao criar cliente", error);
+      });
     } catch (error) {
       console.error("Erro ao criar cliente", error);
     }
@@ -75,6 +69,26 @@ const Clientes = () => {
     }, 2000);
   };
 
+  const handleEdit = (cliente)=>{
+    
+  }
+  
+  const handleDelete = async (cliente) => { // Note que o parâmetro é 'cliente'
+    try {
+      await axios.delete(`http://localhost:5000/clientes/${cliente.id}`); 
+      
+      // Atualizar a lista de clientes após a exclusão.
+      const updatedClientes = clientes.filter((c) => c.id !== cliente.id); 
+      setClientes(updatedClientes);
+    
+      message.success("Cliente excluído com sucesso!");
+    } catch (error) {
+      console.error("Erro ao excluir cliente", error);
+      message.error("Erro ao excluir cliente");
+    }
+  };
+  
+  
   return (
     <>
       <Navbar />
@@ -102,14 +116,14 @@ const Clientes = () => {
             </tr>
           </thead>
           <tbody>
-            {clientes.map((cliente, index) =>
-              cliente ? (
-                <ClientList key={index} cliente={cliente} />
-              ) : (
-                <tr key="SemClientes">
-                  <td colSpan="7">Não há nenhum cliente</td>
-                </tr>
-              )
+            {clientes.length > 0 ? (
+              clientes.map((cliente, index) => (
+                <ClientList key={index} cliente={cliente} onEdit={handleEdit} onDelete={handleDelete}/>
+              ))
+            ) : (
+              <tr key="SemClientes">
+                <td colSpan="7">Não há nenhum cliente</td>
+              </tr>
             )}
           </tbody>
         </table>

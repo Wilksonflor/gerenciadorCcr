@@ -40,7 +40,7 @@ const NavBar = () => {
 
       <Space wrap>
       
-       <Button type="primary" onClick={handleOpenModal}>Agendar horário</Button>
+       <Button type="primary" id="btnNavbar" onClick={handleOpenModal}>Agendar horário</Button>
       </Space>
       </nav>
       {modalOpen && (
