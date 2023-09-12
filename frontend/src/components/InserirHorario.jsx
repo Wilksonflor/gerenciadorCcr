@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form, Input, DatePicker } from "antd";
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+  DatePicker,
+  ConfigProvider,
+  TimePicker,
+} from "antd";
 import ptBR from "antd/lib/locale/pt_BR";
-import { ConfigProvider, TimePicker } from "antd";
 import styles from "./InserirHorario.module.css";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -14,11 +21,7 @@ const InserirHorario = ({ onClose }) => {
   const [busca, setBusca] = useState("");
   const [clientes, setClientes] = useState([]);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
-
-  
-  const onChange = (time, timeString) => {
-    console.log(time, timeString);
-  };
+  const [dataAgendamento, setDataAgendamento] = useState("");
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -38,12 +41,9 @@ const InserirHorario = ({ onClose }) => {
     // Colocar a lógica do timerModel;
   };
 
-  const filterClientes = () => {
-    const filtered = clientes.filter((cliente) =>
-      cliente.nome.toLowerCase().includes(busca.toLowerCase())
-    );
-    setClientesFiltrados(filtered);
-  };
+  const fetchClients = () => {};
+  const fetchDataAgendamento = () => {};
+  const fetchHorarioJogo = () => {};
 
   return (
     <Modal
@@ -68,8 +68,8 @@ const InserirHorario = ({ onClose }) => {
           <Form onFinish={onFinish}>
             <Form.Item name="cliente">
               <Input
-                value={busca}
                 placeholder="Digite o nome do cliente"
+                value={busca}
                 onChange={(e) => {
                   setBusca(e.target.value);
                   filterClientes(); // Aplicando o filtro quando digita
@@ -80,46 +80,20 @@ const InserirHorario = ({ onClose }) => {
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>
 
-            <textfield>
-              <legend>Horário</legend>
-            </textfield>
+            <div className={styles.horario_Legend}>
+              <span>Horário</span>
+            </div>
 
             <div className={styles.horario_control}>
-              <label>Hora de inicio</label>
-              <input
-                type="text"
-                name="horaInicio"
-                placeholder="hh:mm"
-                onChange={onChange}
-                maxLength={5} // Limita o número de caracteres a 5 (hh:mm)
-                pattern="\d{2}:\d{2}" // Usa uma expressão regular para validar o formato hh:mm
-              />
-              <label>Hora de término</label>
-              <input type="time" name="horaTermino" onChange={onChange} />
-              {/* <Form.Item name="horaInicio">
-              <TimePicker
-                format="HH:mm"
-                onChange={onChange}
-                initialValues={dayjs("00:00", "HH:mm")}
-              />
-            </Form.Item>
+              <Input placeholder="Inicio do jogo" />
 
-            <Form.Item name="horaTermino" placeholder="Horário de término">
-              <TimePicker
-                format="HH:mm"
-                onChange={onChange}
-                initialValues={dayjs("00:00", "HH:mm")}
-              />
-            </Form.Item> */}
+              <p>até</p>
+
+              <Input placeholder="Final do jogo" />
             </div>
           </Form>
         </ConfigProvider>
       </div>
-      <p>{modalText}</p>
-      {/* Exibir os clientes filtrados */}
-      {clientesFiltrados.map((cliente) => (
-        <div key={cliente.id}>{cliente.nome}</div>
-      ))}
     </Modal>
   );
 };
