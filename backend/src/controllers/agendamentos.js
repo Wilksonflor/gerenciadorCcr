@@ -1,3 +1,0 @@
-// ID usuário
-// startDateTime 
-// DurationInMinute

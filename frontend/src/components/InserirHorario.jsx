@@ -23,6 +23,10 @@ const InserirHorario = ({ onClose }) => {
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
   const [dataAgendamento, setDataAgendamento] = useState("");
 
+  useEffect(() => {
+    fetchClients();
+  }, [busca]);
+
   const handleOk = () => {
     setModalText("Agendando...");
     setConfirmLoading(true);
@@ -38,10 +42,34 @@ const InserirHorario = ({ onClose }) => {
 
   const onFinish = (values) => {
     console.log("Form values:", values);
-    // Colocar a lógica do timerModel;
+    // Colocar a lógica do agendamento ;
   };
 
-  const fetchClients = () => {};
+  const fetchClients = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/clientes?search=${id}`
+      );
+      const dadosClientes = response.data.clientes;
+      setClientes(dadosClientes);
+      console.log("dados do servidor", response.data);
+
+      // Preciso que o dadosClientes seja um Array
+      if (Array.isArray(dadosClientes)) {
+        const buscaLower = busca.toLowerCase();
+        const clientesFiltrados = dadosClientes.filter((cliente) => {
+          const clienteNomeLower = cliente.nome.toLowerCase();
+          return clienteNomeLower.startsWith(buscaLower);
+        });
+        setClientesFiltrados(clientesFiltrados);
+      } else {
+        setClientesFiltrados([]);
+      }
+    } catch (error) {
+      console.log("Erro ao filtrar cliente", error);
+    }
+  };
+
   const fetchDataAgendamento = () => {};
   const fetchHorarioJogo = () => {};
 
@@ -72,10 +100,16 @@ const InserirHorario = ({ onClose }) => {
                 value={busca}
                 onChange={(e) => {
                   setBusca(e.target.value);
-                  filterClientes(); // Aplicando o filtro quando digita
                 }}
+                // O datalist
+                list="clientes"
               />
             </Form.Item>
+            <datalist id="clientes">
+              {clientesFiltrados.map((cliente) => (
+                <option key={cliente.id} value={cliente.nome} />
+              ))}
+            </datalist>
             <Form.Item name="data">
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>

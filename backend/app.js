@@ -7,6 +7,7 @@ const http = require("http");
 const dataBase = require("./src/config/base");
 const userRoutes = require("./src/routes/userRoutes");
 const clientsRoutes = require("./src/routes/clientsRoutes");
+// const agendamentoRoutes = require('./src/routes/agendamentoRoutes')
 require("dotenv").config();
 
 const jwt = require("jsonwebtoken");
@@ -27,6 +28,7 @@ app.use(userRoutes);
 app.use(clientsRoutes)
 app.use("/user", userRoutes);
 app.use("/clientes", clientsRoutes);
+// app.use("/agendamento", agendamentoRoutes);
 
 const server = http.createServer(app);
 
