@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Modal,
-  Form,
-  Input,
-  DatePicker,
-  ConfigProvider,
-  TimePicker,
-} from "antd";
+import SearchResults from "./SearchResults";
+import { Button, Modal, Form, Input, DatePicker, ConfigProvider } from "antd";
 import ptBR from "antd/lib/locale/pt_BR";
 import styles from "./InserirHorario.module.css";
 import axios from "axios";
@@ -19,13 +12,9 @@ const InserirHorario = ({ onClose }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("");
   const [busca, setBusca] = useState("");
-  const [clientes, setClientes] = useState([]);
+  const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
   const [dataAgendamento, setDataAgendamento] = useState("");
-
-  useEffect(() => {
-    fetchClients();
-  }, [busca]);
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -42,32 +31,37 @@ const InserirHorario = ({ onClose }) => {
 
   const onFinish = (values) => {
     console.log("Form values:", values);
-    // Colocar a lógica do agendamento ;
+    // Coloque sua lógica de agendamento aqui
   };
 
-  const fetchClients = async (id) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/clientes?search=${id}`
-      );
-      const dadosClientes = response.data.clientes;
-      setClientes(dadosClientes);
-      console.log("dados do servidor", response.data);
+  const handleBusca = (value) => {
+    setBusca(value); // Atualize o estado 'busca' com o valor do campo de entrada
 
-      // Preciso que o dadosClientes seja um Array
-      if (Array.isArray(dadosClientes)) {
-        const buscaLower = busca.toLowerCase();
-        const clientesFiltrados = dadosClientes.filter((cliente) => {
-          const clienteNomeLower = cliente.nome.toLowerCase();
-          return clienteNomeLower.startsWith(buscaLower);
-        });
-        setClientesFiltrados(clientesFiltrados);
-      } else {
-        setClientesFiltrados([]);
-      }
-    } catch (error) {
-      console.log("Erro ao filtrar cliente", error);
+    if (!value) {
+      setClientesFiltrados([]); // Limpe os resultados se a busca estiver vazia
+      return;
     }
+
+    axios
+      .get(`http://localhost:5000/clientes?search=${value}`)
+      .then((response) => {
+        if (response.status === 200) {
+          return response.data.clients;
+        } else {
+          throw new Error(`Erro na requisição: ${response.status}`);
+        }
+      })
+      .then((data) => {
+        setClientesFiltrados(data);
+        console.log("Dados da resposta:", data);
+      })
+      .catch((error) => {
+        console.error("Erro na requisição:", error);
+      });
+  };
+
+  const handleClienteSelect = (clienteId) => {
+    setClienteSelecionado(clienteId);
   };
 
   const fetchDataAgendamento = () => {};
@@ -94,22 +88,18 @@ const InserirHorario = ({ onClose }) => {
       <div className={styles.formModal}>
         <ConfigProvider locale={ptBR}>
           <Form onFinish={onFinish}>
-            <Form.Item name="cliente">
-              <Input
-                placeholder="Digite o nome do cliente"
-                value={busca}
-                onChange={(e) => {
-                  setBusca(e.target.value);
-                }}
-                // O datalist
-                list="clientes"
-              />
-            </Form.Item>
-            <datalist id="clientes">
-              {clientesFiltrados.map((cliente) => (
-                <option key={cliente.id} value={cliente.nome} />
-              ))}
-            </datalist>
+            {/* Input para "Digite o nome do cliente" */}
+            <Input
+              placeholder="Digite o nome do cliente"
+              value={busca}
+              onChange={(e) => handleBusca(e.target.value)}
+            />
+            {/* SearchResults para exibir os resultados */}
+            <SearchResults
+              name="cliente"
+              clientes={clientesFiltrados}
+              onSelect={handleClienteSelect}
+            />
             <Form.Item name="data">
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>
@@ -120,9 +110,7 @@ const InserirHorario = ({ onClose }) => {
 
             <div className={styles.horario_control}>
               <Input placeholder="Inicio do jogo" />
-
               <p>até</p>
-
               <Input placeholder="Final do jogo" />
             </div>
           </Form>

@@ -73,11 +73,11 @@ const Clientes = () => {
     
   }
   
-  const handleDelete = async (cliente) => { // Note que o parâmetro é 'cliente'
+  const handleDelete = async (cliente) => { 
     try {
       await axios.delete(`http://localhost:5000/clientes/${cliente.id}`); 
       
-      // Atualizar a lista de clientes após a exclusão.
+      
       const updatedClientes = clientes.filter((c) => c.id !== cliente.id); 
       setClientes(updatedClientes);
     
