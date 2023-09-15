@@ -31,14 +31,13 @@ const InserirHorario = ({ onClose }) => {
 
   const onFinish = (values) => {
     console.log("Form values:", values);
-    // Coloque sua lógica de agendamento aqui
   };
 
   const handleBusca = (value) => {
-    setBusca(value); // Atualize o estado 'busca' com o valor do campo de entrada
+    setBusca(value); 
 
     if (!value) {
-      setClientesFiltrados([]); // Limpe os resultados se a busca estiver vazia
+      setClientesFiltrados([]); 
       return;
     }
 
