@@ -21,9 +21,10 @@ const InserirHorario = ({ onClose }) => {
   const [modalText, setModalText] = useState("");
   const [busca, setBusca] = useState("");
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
+  const [nomeClienteSelecionado, setNomeClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-
+  
   // const showSuccessMessage = () => {
   //   // setSuccessMessageVisible(true);
   //   setTimeout(() => {
@@ -83,6 +84,7 @@ const InserirHorario = ({ onClose }) => {
   const handleAgendamento = async () => {
     try {
       // Preciso pegar os valores do Input do form
+      
       const date = document.getElementById("date").value;
       const horaInicio = document.getElementById("horaInicio").value;
       const horaTermino = document.getElementById("horaTermino").value;

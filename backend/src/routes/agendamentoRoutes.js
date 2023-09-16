@@ -3,7 +3,7 @@ const router = express.Router();
 const agendamentoController = require('../controllers/agendamentosController')
 
 
-router.get('/horarios/:id', agendamentoController.getHorarios)
+router.get('/horarios', agendamentoController.getHorarios)
 router.post('/novoAgendamento', agendamentoController.criarHorario)
 
 
