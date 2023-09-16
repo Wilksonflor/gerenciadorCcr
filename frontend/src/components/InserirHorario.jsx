@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import SearchResults from "./SearchResults";
-import { Button, Modal, Form, Input, DatePicker, ConfigProvider } from "antd";
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+  DatePicker,
+  ConfigProvider,
+  message,
+} from "antd";
 import ptBR from "antd/lib/locale/pt_BR";
 import styles from "./InserirHorario.module.css";
 import axios from "axios";
@@ -14,13 +22,22 @@ const InserirHorario = ({ onClose }) => {
   const [busca, setBusca] = useState("");
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
-  const [dataAgendamento, setDataAgendamento] = useState("");
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+
+  // const showSuccessMessage = () => {
+  //   // setSuccessMessageVisible(true);
+  //   setTimeout(() => {
+  //     message.success("Cliente criado com sucesso!");
+  //     // setSuccessMessageVisible(false);
+  //   }, 2000);
+  // };
 
   const handleOk = () => {
     setModalText("Agendando...");
     setConfirmLoading(true);
     setTimeout(() => {
       onClose();
+      message.success("Horário agendado com sucesso");
       setConfirmLoading(false);
     }, 2000);
   };
@@ -34,10 +51,10 @@ const InserirHorario = ({ onClose }) => {
   };
 
   const handleBusca = (value) => {
-    setBusca(value); 
+    setBusca(value);
 
     if (!value) {
-      setClientesFiltrados([]); 
+      setClientesFiltrados([]);
       return;
     }
 
@@ -63,14 +80,46 @@ const InserirHorario = ({ onClose }) => {
     setClienteSelecionado(clienteId);
   };
 
-  const fetchDataAgendamento = () => {};
+  const handleAgendamento = async () => {
+    try {
+      // Preciso pegar os valores do Input do form
+      const date = document.getElementById("date").value;
+      const horaInicio = document.getElementById("horaInicio").value;
+      const horaTermino = document.getElementById("horaTermino").value;
+
+      // Validação que todos os campoos precisam ser preenchidos
+      if (!clienteSelecionado || !date || !horaInicio || !horaTermino) {
+        console.error("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      const data = {
+        date,
+        horaInicio,
+        horaTermino,
+        clientId: clienteSelecionado,
+      };
+      console.log("data", data);
+
+      const response = await axios.post(
+        "http://localhost:5000/novoAgendamento",
+        data
+      );
+
+      console.log("Agendado com sucesso", response.data);
+      handleOk();
+    } catch (error) {
+      console.error("Erro ao agendar", error);
+    }
+  };
+
   const fetchHorarioJogo = () => {};
 
   return (
     <Modal
       title="Agendar horários"
       open={true}
-      onOk={handleOk}
+      onOk={handleAgendamento}
       okText={"Agendar"}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
@@ -87,19 +136,18 @@ const InserirHorario = ({ onClose }) => {
       <div className={styles.formModal}>
         <ConfigProvider locale={ptBR}>
           <Form onFinish={onFinish}>
-            {/* Input para "Digite o nome do cliente" */}
             <Input
               placeholder="Digite o nome do cliente"
               value={busca}
               onChange={(e) => handleBusca(e.target.value)}
             />
-            {/* SearchResults para exibir os resultados */}
+
             <SearchResults
               name="cliente"
               clientes={clientesFiltrados}
               onSelect={handleClienteSelect}
             />
-            <Form.Item name="data">
+            <Form.Item name="date" id="date">
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>
 
@@ -108,9 +156,17 @@ const InserirHorario = ({ onClose }) => {
             </div>
 
             <div className={styles.horario_control}>
-              <Input placeholder="Inicio do jogo" />
+              <Input
+                placeholder="Inicio do jogo"
+                name="horaInicio"
+                id="horaInicio"
+              />
               <p>até</p>
-              <Input placeholder="Final do jogo" />
+              <Input
+                placeholder="Final do jogo"
+                name="horaTermino"
+                id="horaTermino"
+              />
             </div>
           </Form>
         </ConfigProvider>

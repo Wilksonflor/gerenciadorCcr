@@ -3,15 +3,14 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const http = require("http");
-
 const dataBase = require("./src/config/base");
 const userRoutes = require("./src/routes/userRoutes");
 const clientsRoutes = require("./src/routes/clientsRoutes");
-// const agendamentoRoutes = require('./src/routes/agendamentoRoutes')
+const agendamentoRoutes = require('./src/routes/agendamentoRoutes')
 require("dotenv").config();
 
-const jwt = require("jsonwebtoken");
 
+const jwt = require("jsonwebtoken");
 const app = express();
 
 // Middleware
@@ -23,12 +22,13 @@ app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 
-// rota
+// rotas
 app.use(userRoutes);
 app.use(clientsRoutes)
+app.use(agendamentoRoutes);
 app.use("/user", userRoutes);
 app.use("/clientes", clientsRoutes);
-// app.use("/agendamento", agendamentoRoutes);
+app.use("/novoAgendamento", agendamentoRoutes);
 
 const server = http.createServer(app);
 
