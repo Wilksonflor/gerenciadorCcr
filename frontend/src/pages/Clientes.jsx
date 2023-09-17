@@ -49,6 +49,7 @@ const Clientes = () => {
         clienteForm.resetFields();
         setModalVisible(false);
         showSuccessMessage();
+
       }).catch((error) => {
         console.error("Erro ao criar cliente", error);
       });

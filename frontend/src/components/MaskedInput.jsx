@@ -16,7 +16,7 @@ const MaskedInput = forwardRef((props, ref) => {
   }, [ref]);
 
   return (
-    <InputMask mask="(99) 9999-9999" maskChar="_" {...props}>
+    <InputMask mask="(99) 99999-9999" maskChar="_" {...props}>
       {({ inputRef, ...inputProps }) => (
         <Input {...inputProps} ref={inputRef || inputRef} />
       )}
