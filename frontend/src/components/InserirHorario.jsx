@@ -16,6 +16,10 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
+
+
+
+
 const InserirHorario = ({ onClose }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("");
@@ -24,14 +28,6 @@ const InserirHorario = ({ onClose }) => {
   const [nomeClienteSelecionado, setNomeClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  
-  // const showSuccessMessage = () => {
-  //   // setSuccessMessageVisible(true);
-  //   setTimeout(() => {
-  //     message.success("Cliente criado com sucesso!");
-  //     // setSuccessMessageVisible(false);
-  //   }, 2000);
-  // };
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -83,8 +79,6 @@ const InserirHorario = ({ onClose }) => {
 
   const handleAgendamento = async () => {
     try {
-      // Preciso pegar os valores do Input do form
-      
       const date = document.getElementById("date").value;
       const horaInicio = document.getElementById("horaInicio").value;
       const horaTermino = document.getElementById("horaTermino").value;
@@ -114,8 +108,6 @@ const InserirHorario = ({ onClose }) => {
       console.error("Erro ao agendar", error);
     }
   };
-
-  const fetchHorarioJogo = () => {};
 
   return (
     <Modal

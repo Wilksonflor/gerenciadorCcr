@@ -6,9 +6,9 @@ exports.createClient = async (req,res) =>{
     try{
         const cliente = await Clients.create({
             nomeCompleto,
-            contato,
-            observacoes,
-        })
+            contato: req.body.contato,
+            observacoes: req.body.observacoes,
+        });
         res.status(201).json({msg: "Cliente criado com sucesso", cliente})
     }
     catch(error){
@@ -18,7 +18,7 @@ exports.createClient = async (req,res) =>{
 }
 
 exports.getAllClients = async (req,res) =>{
-    console.log("Chegou do getAll", req.body)
+    console.log("Chegou do getAll dos clientes", req.body)
     try{
         const clients = await Clients.find();
         res.status(200).json({msg: "todos os clientes", clients})
@@ -54,10 +54,10 @@ exports.updateClient = async( req, res) =>{
             {nomeCompleto, contato, observacoes},
             {new: true}
         )
-        if(!client){
-            res.status(404).json({msg: "Cliente não encontrado!"})
-        }
-        res.status(200).json({msg: "Cliente atualizado!", cliente})
+        if (!client) {
+            return res.status(404).json({ msg: "Cliente não encontrado!" });
+        }        
+        res.status(200).json({msg: "Cliente atualizado!", client})
     }
     catch(error){
         res.status(500).json({msg: "Erro ao atualizar cliente", error})
