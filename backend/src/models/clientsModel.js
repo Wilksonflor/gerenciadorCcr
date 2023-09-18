@@ -13,6 +13,10 @@ const clientsSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  Horario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Horario"
+  }
 });
 
 const Clients = mongoose.model("Clients", clientsSchema);

@@ -12,15 +12,13 @@ const Table = () => {
   const fetchHorarios = async () => {
     try {
       const response = await axios.get("http://localhost:5000/horarios");
-      console.log('Resposta do Axios', response);
+      console.log("Resposta do Axios", response);
       setHorarios(response.data);
     } catch (error) {
       console.log("Erro ao obter resposta do servidor para horários", error);
     }
   };
 
-  console.log("O componente Table está sendo renderizado.");
-  console.log("A função fetchHorarios foi chamada.");
   return (
     <div>
       <table className={styles.table}>
@@ -35,16 +33,22 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {horarios.map((horario, index) => (
-            <tr key={index}>
-              <td>{horario.nomeCompleto ? horario.client.nomeCompleto : ""}</td>
-              <td>{horario.date}</td>
-              <td>{horario.horaInicio}</td>
-              <td>{horario.horaTermino}</td>
-              <td>R$ {horario.valor},00</td>
-              <td>{horario.client ? horario.client.contato : ""}</td>
+          {horarios.length === 0 ? (
+            <tr>
+              <td colSpan="6">Nenhum horário marcado</td>
             </tr>
-          ))}
+          ) : (
+            horarios.map((horario, index) => (
+              <tr key={index}>
+                <td>{horario.client ? horario.client.nomeCompleto : ""}</td>
+                <td>{horario.date}</td>
+                <td>{horario.horaInicio}</td>
+                <td>{horario.horaTermino}</td>
+                <td>R$ {horario.valor},00</td>
+                <td>{horario.client ? horario.client.contato : ""}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
