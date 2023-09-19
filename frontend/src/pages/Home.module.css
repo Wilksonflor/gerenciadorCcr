@@ -2,9 +2,10 @@
     height: 100vh;
 }
 
-.main_home h1, .main_home h2{
+.main_home h1, 
+.main_home h2{
     text-align: center;
-    margin-block: 50px;
+    margin-block: 70px;
 }
 
 .tableContent{
