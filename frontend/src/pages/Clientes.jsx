@@ -88,7 +88,21 @@ const Clientes = () => {
       message.error("Erro ao excluir cliente");
     }
   };
-  
+  const handleSave = async (cliente) => { 
+    try {
+      await axios.get(`http://localhost:5000/clientes/${cliente.id}`); 
+      
+      
+      // const updatedClientes = clientes.filter((c) => c.id !== cliente.id); 
+      setClientes(updatedClientes);
+    
+      // message.success("Cliente excluído com sucesso!");
+    } catch (error) {
+      console.error("Erro ao gerar relatório", error);
+      message.error("Erro ao gerar relatório");
+    }
+  };
+
   
   return (
     <>
@@ -119,7 +133,7 @@ const Clientes = () => {
           <tbody>
             {clientes.length > 0 ? (
               clientes.map((cliente, index) => (
-                <ClientList key={index} cliente={cliente} onEdit={handleEdit} onDelete={handleDelete}/>
+                <ClientList key={index} cliente={cliente} onEdit={handleEdit} onDelete={handleDelete} onSave={handleSave}/>
               ))
             ) : (
               <tr key="SemClientes">

@@ -19,4 +19,13 @@
     font-weight: bold;
     border-radius: 5px;
   }
-  
+
+  .table a{
+    text-decoration: none;
+    color: #000;
+    opacity: 0.8;
+    margin-left: 7px;
+  }
+  .table a:hover{
+    opacity: 1;
+  }

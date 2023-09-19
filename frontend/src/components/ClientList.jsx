@@ -1,8 +1,8 @@
 import React from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-
-const ClientList = ({ cliente, onEdit, onDelete }) => {
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+const ClientList = ({ cliente, onEdit, onDelete, onSave }) => {
 
  
   
@@ -13,7 +13,7 @@ const ClientList = ({ cliente, onEdit, onDelete }) => {
           <td>{cliente.contato}</td>
           <td>{cliente.observacoes}</td>
           <td>
-            <div className="d-flex justify-content-center gap-4 ">
+            <div className="d-flex justify-content-center gap-2 ">
               <span
                 type="button"
                 className="btn btn-info"
@@ -27,6 +27,13 @@ const ClientList = ({ cliente, onEdit, onDelete }) => {
                 onClick={() => onDelete(cliente)}
               >
                 <DeleteForeverIcon />
+              </span>
+              <span
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => onSave(cliente)}
+              >
+                <PictureAsPdfIcon />
               </span>
             </div>
           </td>

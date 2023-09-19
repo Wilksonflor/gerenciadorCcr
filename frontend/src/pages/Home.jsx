@@ -8,10 +8,10 @@ const Home = () => {
     <>
       <div className={styles.main_home}>
         <NavBar />
-        <h1>Horários da semana</h1>
+        <h1>Horários</h1>
 
         <div className={styles.tableContent}>
-          <h2>Segunda-feira</h2>
+          {/* <h2>Segunda-feira</h2> */}
           <Table />
         </div>
       </div>

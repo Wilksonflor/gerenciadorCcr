@@ -11,7 +11,7 @@ exports.criarHorario = async (req, res) => {
       date,
       horaInicio,
       horaTermino,
-      clientId,
+      client: clientId,
     });
 
     res.status(200).json({ msg: "Horário agendado com sucesso", novoHorario });
@@ -22,6 +22,7 @@ exports.criarHorario = async (req, res) => {
 };
 
 exports.getHorarios = async (req, res) => {
+  console.log("Chegou do get", req.body)
   try {
     const horarios = await Horario.find().populate(
       "client",

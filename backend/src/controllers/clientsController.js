@@ -6,8 +6,8 @@ exports.createClient = async (req,res) =>{
     try{
         const cliente = await Clients.create({
             nomeCompleto,
-            contato: req.body.contato,
-            observacoes: req.body.observacoes,
+            contato,
+            observacoes,
         });
         res.status(201).json({msg: "Cliente criado com sucesso", cliente})
     }
