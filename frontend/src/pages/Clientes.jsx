@@ -75,7 +75,9 @@ const Clientes = () => {
     }, 2000);
   };
 
-  const handleEdit = (cliente) => {};
+  const handleEdit = (cliente) => {
+    const response = axios.get('htpp://localhost:5000/clients')
+  };
 
   const handleDelete = async (cliente) => {
     try {

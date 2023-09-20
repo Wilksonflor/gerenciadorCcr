@@ -44,10 +44,10 @@ const InserirHorario = ({ onClose }) => {
   const handleBusca = (value) => {
     setBusca(value);
 
-    if (!value) {
-      setClientesFiltrados([]);
-      return;
-    }
+    // if (!value) {
+    //   setClientesFiltrados([]);
+    //   return;
+    // }
 
     axios
       .get(`http://localhost:5000/clientes?search=${value}`)
