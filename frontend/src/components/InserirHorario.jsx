@@ -16,18 +16,12 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
-
-
-
-
 const InserirHorario = ({ onClose }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("");
   const [busca, setBusca] = useState("");
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
-  const [nomeClienteSelecionado, setNomeClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -96,7 +90,6 @@ const InserirHorario = ({ onClose }) => {
         clientId: clienteSelecionado,
       };
       console.log("data", data);
-
       const response = await axios.post(
         "http://localhost:5000/novoAgendamento",
         data
@@ -135,12 +128,15 @@ const InserirHorario = ({ onClose }) => {
               value={busca}
               onChange={(e) => handleBusca(e.target.value)}
             />
+            <div className={styles.controlSelect}>
+              <SearchResults
+                name="cliente"
+                id="cliente"
+                clientes={clientesFiltrados}
+                onSelect={handleClienteSelect}
+              />
+            </div>
 
-            <SearchResults
-              name="cliente"
-              clientes={clientesFiltrados}
-              onSelect={handleClienteSelect}
-            />
             <Form.Item name="date" id="date">
               <DatePicker format="DD/MM/YYYY" />
             </Form.Item>

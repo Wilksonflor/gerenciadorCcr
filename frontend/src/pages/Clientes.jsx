@@ -40,19 +40,24 @@ const Clientes = () => {
 
   const handleModalOk = async () => {
     try {
-      clienteForm.validateFields().then(async (values) => {
-        const response = await axios.post("http://localhost:5000/novoCliente", values);
-        console.log("Cliente criado com sucesso", response.data);
+      clienteForm
+        .validateFields()
+        .then(async (values) => {
+          const response = await axios.post(
+            "http://localhost:5000/novoCliente",
+            values
+          );
+          console.log("Cliente criado com sucesso", response.data);
 
-        setClientes([...clientes, response.data]);
+          setClientes([...clientes, response.data]);
 
-        clienteForm.resetFields();
-        setModalVisible(false);
-        showSuccessMessage();
-
-      }).catch((error) => {
-        console.error("Erro ao criar cliente", error);
-      });
+          clienteForm.resetFields();
+          setModalVisible(false);
+          showSuccessMessage();
+        })
+        .catch((error) => {
+          console.error("Erro ao criar cliente", error);
+        });
     } catch (error) {
       console.error("Erro ao criar cliente", error);
     }
@@ -70,32 +75,28 @@ const Clientes = () => {
     }, 2000);
   };
 
-  const handleEdit = (cliente)=>{
-    
-  }
-  
-  const handleDelete = async (cliente) => { 
+  const handleEdit = (cliente) => {};
+
+  const handleDelete = async (cliente) => {
     try {
-      await axios.delete(`http://localhost:5000/clientes/${cliente.id}`); 
-      
-      
-      const updatedClientes = clientes.filter((c) => c.id !== cliente.id); 
+      await axios.delete(`http://localhost:5000/clientes/${cliente.id}`);
+
+      const updatedClientes = clientes.filter((c) => c.id !== cliente.id);
       setClientes(updatedClientes);
-    
+
       message.success("Cliente excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir cliente", error);
       message.error("Erro ao excluir cliente");
     }
   };
-  const handleSave = async (cliente) => { 
+  const handleSave = async (cliente) => {
     try {
-      await axios.get(`http://localhost:5000/clientes/${cliente.id}`); 
-      
-      
-      // const updatedClientes = clientes.filter((c) => c.id !== cliente.id); 
+      await axios.get(`http://localhost:5000/clientes/${cliente.id}`);
+
+      // const updatedClientes = clientes.filter((c) => c.id !== cliente.id);
       setClientes(updatedClientes);
-    
+
       // message.success("Cliente excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao gerar relatório", error);
@@ -103,7 +104,6 @@ const Clientes = () => {
     }
   };
 
-  
   return (
     <>
       <Navbar />
@@ -133,7 +133,13 @@ const Clientes = () => {
           <tbody>
             {clientes.length > 0 ? (
               clientes.map((cliente, index) => (
-                <ClientList key={index} cliente={cliente} onEdit={handleEdit} onDelete={handleDelete} onSave={handleSave}/>
+                <ClientList
+                  key={index}
+                  cliente={cliente}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onSave={handleSave}
+                />
               ))
             ) : (
               <tr key="SemClientes">

@@ -12,11 +12,11 @@ const SearchResults = ({ clientes, onSelect }) => {
     <div>
       <Select
         showSearch
-        style={{ width: 200 }}
+        style={{ width: 300, marginBottom: 20 }}
         placeholder="Selecione o cliente"
         optionFilterProp="children"
         filterOption={(input, option) =>
-          (option?.label.toLowerCase() ?? "").includes(input)
+          (option?.label.toLowerCase() ?? "").includes(input.toLowerCase())
         }
         filterSort={(optionA, optionB) =>
           (optionA?.label ?? "")
