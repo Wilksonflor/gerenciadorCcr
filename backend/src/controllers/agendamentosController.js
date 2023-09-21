@@ -21,6 +21,8 @@ exports.criarHorario = async (req, res) => {
   }
 };
 
+
+
 exports.getHorarios = async (req, res) => {
   console.log("Chegou do get", req.body)
   try {

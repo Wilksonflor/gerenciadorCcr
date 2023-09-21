@@ -22,6 +22,9 @@ const Table = () => {
     }
   };
 
+  // Filtra os horários para garantir que apenas os associados a clientes existentes sejam exibidos
+  const horariosFiltrados = horarios.filter((horario) => horario.client);
+
   return (
     <div>
       <table className={styles.table}>
@@ -36,27 +39,25 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {horarios.length === 0 ? (
+          {horariosFiltrados.length === 0 ? (
             <tr>
               <td colSpan="6">Nenhum horário marcado</td>
             </tr>
           ) : (
-            horarios.map((horario, index) => (
+            horariosFiltrados.map((horario, index) => (
               <tr key={index}>
-                <td>{horario.client ? horario.client.nomeCompleto : ""}</td>
+                <td>{horario.client.nomeCompleto}</td>
                 <td>{horario.date}</td>
                 <td>{horario.horaInicio}</td>
                 <td>{horario.horaTermino}</td>
                 <td>R$ {horario.valor}Valor</td>
                 <td>
-                <WhatsAppOutlined style={{ color: '#25d366', fontSize: '24px' }} />
+                  <WhatsAppOutlined style={{ color: '#25d366', fontSize: '24px' }} />
                   <Link
-                    to={`https://api.whatsapp.com/send?phone=${
-                      horario.client ? horario.client.contato : ""
-                    }`}
+                    to={`https://api.whatsapp.com/send?phone=${horario.client.contato}`}
                     target="_blank"
                   >
-                    {horario.client ? horario.client.contato : ""}
+                    {horario.client.contato}
                   </Link>
                 </td>
               </tr>
