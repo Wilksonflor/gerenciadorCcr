@@ -1,5 +1,4 @@
 {
-  "homepage": "https://github.com/Wilksonflor/gerenciadorCcr",
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
@@ -23,9 +22,11 @@
     "lodash": "^4.17.21",
     "mdb-react-ui-kit": "^6.1.0",
     "mdb-ui-kit": "^6.4.0",
+    "pdfmake": "^0.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-input-mask": "^2.0.4",
+    "react-pdf": "^7.3.3",
     "react-router-dom": "^6.14.2"
   },
   "devDependencies": {

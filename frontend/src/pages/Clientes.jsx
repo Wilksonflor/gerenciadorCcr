@@ -11,6 +11,9 @@ import axios from "axios";
 import ClientList from "../components/ClientList";
 import useForm from "../useForm";
 import MaskedInput from "../components/MaskedInput";
+import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfMake/build/vfs_fonts";
 
 const Clientes = () => {
   // Estados
@@ -20,6 +23,7 @@ const Clientes = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [clienteToPdf, setClienteToPdf] = useState([])
   const [clienteToDelete, setClienteToDelete] = useState(null);
   const [clienteEditForm] = Form.useForm();
   const [clienteForm] = Form.useForm();
@@ -101,7 +105,6 @@ const Clientes = () => {
     });
   };
 
-  
   const handleSaveEdit = async () => {
     try {
       const response = await axios.put(
@@ -156,7 +159,79 @@ const Clientes = () => {
   };
 
   // Função para lidar com a ação de gerar relatório (a ser implementada)
-  const handleRelatorio = () => {};
+  const handleRelatorio = () => {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+    const reportTitle = [];
+    const details = [];
+    const footer = [];
+
+    const docDefinition = {
+      content: [
+        { text: "Relatório de todos os clientes", style: "header" },
+
+        // Loop pelos clientes para criar um bloco de informações para cada um
+        ...clientes.map((cliente) => [
+          { text: "Nome Completo:", bold: true },
+          cliente.nomeCompleto,
+          { text: "Contato:", bold: true },
+          cliente.contato,
+          { text: "Observações:", bold: true },
+          cliente.observacoes || "Nenhuma observação disponível",
+          { text: "\n" },
+        ]),
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: "center",
+          margin: [0, 0, 0, 20],
+          border: [false, false, false, true],
+        },
+      },
+    };
+    pdfMake.createPdf(docDefinition).download("Relatório de todos os clientes");
+  };
+
+  const handleRelatorioCliente = async ({ cliente }) => {
+    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    try {
+      const response = axios.get(`http://localhost:5000/agendamento/${cliente._id}`);
+      const agendamento = response.data;
+      console.log('response', agendamento)
+
+      const agendamentoParaRelatorio = agendamentos.map((agendamento) => {
+        return {
+          text: `Cliente: ${cliente.nomeCompleto}\n data: ${agendamento.date}\n Horário inicial: ${agendamento.horaInicio}\n Horário final: ${agendamento.horaTermino}\n`,
+          margin: [0, 5],
+        };
+      });
+      const docDefinition = {
+        content: [
+          {
+            text: `Relatório do cliente ${cliente.nomeCompleto}`,
+            style: "header",
+          },
+          { text: "\n" },
+          ...agendamentoParaRelatorio,
+        ],
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            alignment: "Center",
+            margin: [0, 0, 0, 10],
+          },
+        },
+      };
+      pdfMake
+        .createPdf(docDefinition)
+        .download(`Relatorio_${cliente.nomeCompleto}`);
+    } catch (error) {
+      console.log("erro ao tirar relatório do cliente", error);
+    }
+  };
 
   return (
     <>
@@ -171,6 +246,17 @@ const Clientes = () => {
             onClick={adicionarCliente}
           >
             Adicionar cliente
+          </Button>
+        </Space>
+        <Space wrap>
+          <Button
+            type="button"
+            className="btn btn-danger m-lg-1"
+            icon={<DescriptionIcon />}
+            size={size}
+            onClick={handleRelatorio}
+          >
+            Lista de clientes
           </Button>
         </Space>
       </div>
@@ -194,7 +280,7 @@ const Clientes = () => {
                   cliente={cliente}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
-                  onSave={handleRelatorio}
+                  onSave={handleRelatorioCliente}
                 />
               ))
             ) : (
