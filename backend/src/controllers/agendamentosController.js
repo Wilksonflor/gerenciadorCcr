@@ -37,3 +37,14 @@ exports.getHorarios = async (req, res) => {
   }
 };
 
+exports.getAgendamentoPorCliente = async(req,res) =>{
+  try{
+    const {id} = req.params;
+    const agendamentos = await Horario.Find({client: id});
+    res.status(200).json(agendamentos);
+  }
+  catch(error){
+    console.log('erro ao obter agendamento do cliente', error)
+    res.status(500).json({msg: "Erro ao recuperar do relatorio por cliente", error})
+  }
+}

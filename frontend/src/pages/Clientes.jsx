@@ -23,7 +23,7 @@ const Clientes = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  const [clienteToPdf, setClienteToPdf] = useState([])
+  const [clienteToPdf, setClienteToPdf] = useState([]);
   const [clienteToDelete, setClienteToDelete] = useState(null);
   const [clienteEditForm] = Form.useForm();
   const [clienteForm] = Form.useForm();
@@ -158,7 +158,7 @@ const Clientes = () => {
     }
   };
 
-  // Função para lidar com a ação de gerar relatório (a ser implementada)
+  // Função para gerar um relatório com todos os clientes
   const handleRelatorio = () => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -166,6 +166,7 @@ const Clientes = () => {
     const details = [];
     const footer = [];
 
+    // Definição e conteudo do pdf
     const docDefinition = {
       content: [
         { text: "Relatório de todos os clientes", style: "header" },
@@ -194,42 +195,24 @@ const Clientes = () => {
     pdfMake.createPdf(docDefinition).download("Relatório de todos os clientes");
   };
 
-  const handleRelatorioCliente = async ({ cliente }) => {
+  // Função para tirar relatório de apenas um cliente
+  const handleRelatorioCliente = async () => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     try {
-      const response = axios.get(`http://localhost:5000/agendamento/${cliente._id}`);
-      const agendamento = response.data;
-      console.log('response', agendamento)
+      
+      const response = await axios.get(
+        `http://localhost:5000/clientes/${cliente._id}`
+      );
+      
+        console.log('resposta', response)
+      
 
-      const agendamentoParaRelatorio = agendamentos.map((agendamento) => {
-        return {
-          text: `Cliente: ${cliente.nomeCompleto}\n data: ${agendamento.date}\n Horário inicial: ${agendamento.horaInicio}\n Horário final: ${agendamento.horaTermino}\n`,
-          margin: [0, 5],
-        };
-      });
-      const docDefinition = {
-        content: [
-          {
-            text: `Relatório do cliente ${cliente.nomeCompleto}`,
-            style: "header",
-          },
-          { text: "\n" },
-          ...agendamentoParaRelatorio,
-        ],
-        styles: {
-          header: {
-            fontSize: 18,
-            bold: true,
-            alignment: "Center",
-            margin: [0, 0, 0, 10],
-          },
-        },
-      };
+      // Gera o pdf e faz o download com o nome do cliente
       pdfMake
         .createPdf(docDefinition)
-        .download(`Relatorio_${cliente.nomeCompleto}`);
+        .download(`Relatorio de ${cliente.nomeCompleto}.pdf`);
     } catch (error) {
-      console.log("erro ao tirar relatório do cliente", error);
+      console.log("Erro ao tirar relatório do cliente", error);
     }
   };
 
