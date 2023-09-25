@@ -161,26 +161,30 @@ const Clientes = () => {
   // Função para gerar um relatório com todos os clientes
   const handleRelatorio = () => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
-    const reportTitle = [];
-    const details = [];
-    const footer = [];
-
-    // Definição e conteudo do pdf
+  
+    // Definição e conteúdo do PDF
     const docDefinition = {
       content: [
         { text: "Relatório de todos os clientes", style: "header" },
-
-        // Loop pelos clientes para criar um bloco de informações para cada um
-        ...clientes.map((cliente) => [
-          { text: "Nome Completo:", bold: true },
-          cliente.nomeCompleto,
-          { text: "Contato:", bold: true },
-          cliente.contato,
-          { text: "Observações:", bold: true },
-          cliente.observacoes || "Nenhuma observação disponível",
-          { text: "\n" },
-        ]),
+        {
+          style: 'tableExample',
+          table: {
+            headerRows: 1,
+            widths: ['*', '*', '*'], // Defina as larguras das colunas conforme necessário
+            body: [
+              [
+                { text: 'Cliente', style: 'tableHeader' },
+                { text: 'Contato', style: 'tableHeader' },
+                { text: 'Observações', style: 'tableHeader' },
+              ],
+              ...clientes.map((cliente) => [
+                { text: cliente.nomeCompleto },
+                { text: cliente.contato },
+                { text: cliente.observacoes || "Sem observações" },
+              ]),
+            ],
+          },
+        },
       ],
       styles: {
         header: {
@@ -190,10 +194,19 @@ const Clientes = () => {
           margin: [0, 0, 0, 20],
           border: [false, false, false, true],
         },
+        tableExample: {
+          margin: [0, 20, 0, 8],
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 13,
+          color: "black",
+        },
       },
     };
     pdfMake.createPdf(docDefinition).download("Relatório de todos os clientes");
   };
+  
 
   // Função para tirar relatório de apenas um cliente
   const handleRelatorioCliente = async () => {
