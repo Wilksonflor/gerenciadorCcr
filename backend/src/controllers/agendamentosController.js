@@ -40,7 +40,10 @@ exports.getHorarios = async (req, res) => {
 exports.getAgendamentoPorCliente = async(req,res) =>{
   try{
     const {id} = req.params;
-    const agendamentos = await Horario.Find({client: id});
+    const agendamentos = await Horario.Find().populate(
+      "client",
+      "nomeCompleto contato horaInicio horaTermino"
+    );
     res.status(200).json(agendamentos);
   }
   catch(error){

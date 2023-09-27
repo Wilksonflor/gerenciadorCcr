@@ -170,7 +170,7 @@ const Clientes = () => {
           style: 'tableExample',
           table: {
             headerRows: 1,
-            widths: ['*', '*', '*'], // Defina as larguras das colunas conforme necessário
+            widths: ['*', '*', '*'],
             body: [
               [
                 { text: 'Cliente', style: 'tableHeader' },
@@ -209,26 +209,69 @@ const Clientes = () => {
   
 
   // Função para tirar relatório de apenas um cliente
-  const handleRelatorioCliente = async () => {
+  const handleRelatorioCliente = async (clienteId) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
+  
     try {
+      // Faça uma solicitação ao backend para obter os dados do cliente e seus agendamentos
+      const response = await axios.get(`http://localhost:5000/clientes/relatorio/${clienteId}`);
+  
+      const { client, agendamentos } = response.data;
       
-      const response = await axios.get(
-        `http://localhost:5000/clientes/${cliente._id}`
-      );
-      
-        console.log('resposta', response)
-      
-
-      // Gera o pdf e faz o download com o nome do cliente
-      pdfMake
-        .createPdf(docDefinition)
-        .download(`Relatorio de ${cliente.nomeCompleto}.pdf`);
+      if(!client){
+        console.log('cliente não encontrado')
+        return;
+      }
+      // Definição e conteúdo do PDF
+      const docDefinition = {
+        content: [
+          { text: `Relatório de Agendamentos de ${client.nomeCompleto}`, style: 'header' },
+          {
+            style: 'tableExample',
+            table: {
+              headerRows: 1,
+              widths: ['*', '*', '*', '*'],
+              body: [
+                [
+                  { text: 'Data de Agendamento', style: 'tableHeader' },
+                  { text: 'Hora de Início', style: 'tableHeader' },
+                  { text: 'Hora de Término', style: 'tableHeader' },
+                ],
+                ...agendamentos.map((agendamento) => [
+                  agendamento.date,
+                  agendamento.horaInicio,
+                  agendamento.horaTermino,
+                ]),
+              ],
+            },
+          },
+        ],
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            alignment: 'center',
+            margin: [0, 0, 0, 20],
+            border: [false, false, false, true],
+          },
+          tableExample: {
+            margin: [0, 20, 0, 8],
+          },
+          tableHeader: {
+            bold: true,
+            fontSize: 13,
+            color: 'black',
+          },
+        },
+      };
+  
+      // Gere o PDF com os dados do cliente e seus agendamentos
+      pdfMake.createPdf(docDefinition).download(`Relatório de Agendamentos de ${client.nomeCompleto}.pdf`);
     } catch (error) {
-      console.log("Erro ao tirar relatório do cliente", error);
+      console.log('Erro ao gerar o relatório do cliente', error);
     }
   };
-
+  
   return (
     <>
       <Navbar />
@@ -276,7 +319,7 @@ const Clientes = () => {
                   cliente={cliente}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
-                  onSave={handleRelatorioCliente}
+                  onSave={() => {handleRelatorioCliente(cliente._id)}}
                 />
               ))
             ) : (
