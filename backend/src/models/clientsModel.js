@@ -13,7 +13,7 @@ const clientsSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  Horario: {
+  horario: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Horario"
   }

@@ -1,4 +1,6 @@
 const Clients = require("../models/clientsModel");
+const Horario = require('../models/agendamentoModel');
+
 
 exports.createClient = async (req, res) => {
   const { nomeCompleto, contato, observacoes } = req.body;
@@ -77,20 +79,28 @@ exports.deleteOneCliente = async (req, res) => {
 };
 
 exports.relatorioClient = async (req, res) => {
-  console.log("Chegou do relatório do cliente", req.body);
   const { id } = req.params;
+  
   try {
+    console.log("Chegou do relatório do cliente", req.body);
+    console.log("ID do cliente", id);
+
+
     const client = await Clients.findOne({ _id: id }).populate({
-        path: "horario", 
-        select: "date horaInicio horaTermino"
+      path: "horario", 
+      select: "date horaInicio horaTermino"
     });
-    console.lopg('cliente', client)
+    
     if (!client) {
       return res.status(404).json({ msg: "Cliente não encontrado" });
     }
-    console.log('cliente', client)
+   
+    console.log("Cliente", client);
+
 
     const agendamentos = await Horario.find({ client: id });
+    console.log("Agendamentos: ", agendamentos);
+
 
     const clienteComAgendamento = {
       client,
@@ -99,6 +109,7 @@ exports.relatorioClient = async (req, res) => {
 
     res.status(200).json({ msg: "Cliente", clienteComAgendamento });
   } catch (error) {
-    res.status(500).json({ msg: "Erro ao resgatar do getOne", error });
+    console.error("Erro ao resgatar do relatório", error)
+    res.status(500).json({ msg: "Erro ao resgatar do relatório do cliente", error });
   }
 };
