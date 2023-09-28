@@ -161,21 +161,21 @@ const Clientes = () => {
   // Função para gerar um relatório com todos os clientes
   const handleRelatorio = () => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  
+
     // Definição e conteúdo do PDF
     const docDefinition = {
       content: [
         { text: "Relatório de todos os clientes", style: "header" },
         {
-          style: 'tableExample',
+          style: "tableExample",
           table: {
             headerRows: 1,
-            widths: ['*', '*', '*'],
+            widths: ["*", "*", "*"],
             body: [
               [
-                { text: 'Cliente', style: 'tableHeader' },
-                { text: 'Contato', style: 'tableHeader' },
-                { text: 'Observações', style: 'tableHeader' },
+                { text: "Cliente", style: "tableHeader" },
+                { text: "Contato", style: "tableHeader" },
+                { text: "Observações", style: "tableHeader" },
               ],
               ...clientes.map((cliente) => [
                 { text: cliente.nomeCompleto },
@@ -206,36 +206,43 @@ const Clientes = () => {
     };
     pdfMake.createPdf(docDefinition).download("Relatório de todos os clientes");
   };
-  
 
   // Função para tirar relatório de apenas um cliente
   const handleRelatorioCliente = async (clienteId) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  
+
     try {
-      // Faça uma solicitação ao backend para obter os dados do cliente e seus agendamentos
-      const response = await axios.get(`http://localhost:5000/clientes/relatorio/${clienteId}`);
-  
-      const { client, agendamentos } = response.data;
-      
-      if(!client){
-        console.log('cliente não encontrado')
+      const response = await axios.get(
+        `http://localhost:5000/clientes/relatorio/${clienteId}`
+      );
+
+      const { clienteComAgendamento} = response.data
+      const { client, agendamentos } = clienteComAgendamento;
+
+      if (!client) {
+        console.log("cliente não encontrado");
         return;
       }
-      // Definição e conteúdo do PDF
+
       const docDefinition = {
+        alignment: 'center',
         content: [
-          { text: `Relatório de Agendamentos de ${client.nomeCompleto}`, style: 'header' },
           {
-            style: 'tableExample',
+            text: `Relatório de Agendamentos de ${client.nomeCompleto}`,
+            style: "header",
+           
+          },
+          {
+            margin: [0,0,0,20],
+            style: "tableExample",
             table: {
               headerRows: 1,
-              widths: ['*', '*', '*', '*'],
+              widths: [150, 150, 150, 150],
               body: [
                 [
-                  { text: 'Data de Agendamento', style: 'tableHeader' },
-                  { text: 'Hora de Início', style: 'tableHeader' },
-                  { text: 'Hora de Término', style: 'tableHeader' },
+                  { text: "Data de Agendamento", style: "tableHeader" },
+                  { text: "Hora de Início", style: "tableHeader" },
+                  { text: "Hora de Término", style: "tableHeader" },
                 ],
                 ...agendamentos.map((agendamento) => [
                   agendamento.date,
@@ -250,28 +257,30 @@ const Clientes = () => {
           header: {
             fontSize: 18,
             bold: true,
-            alignment: 'center',
-            margin: [0, 0, 0, 20],
-            border: [false, false, false, true],
+            // alignment: "center",
+            margin: [5, 15, 0, 20],
+        
           },
           tableExample: {
             margin: [0, 20, 0, 8],
+            alignment: 'center'
           },
           tableHeader: {
             bold: true,
             fontSize: 13,
-            color: 'black',
+            color: "black",
           },
         },
       };
-  
-      // Gere o PDF com os dados do cliente e seus agendamentos
-      pdfMake.createPdf(docDefinition).download(`Relatório de Agendamentos de ${client.nomeCompleto}.pdf`);
+
+      pdfMake
+        .createPdf(docDefinition)
+        .download(`Relatório de Agendamentos de ${client.nomeCompleto}.pdf`);
     } catch (error) {
-      console.log('Erro ao gerar o relatório do cliente', error);
+      console.log("Erro ao gerar o relatório do cliente", error);
     }
   };
-  
+
   return (
     <>
       <Navbar />
@@ -319,7 +328,9 @@ const Clientes = () => {
                   cliente={cliente}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
-                  onSave={() => {handleRelatorioCliente(cliente._id)}}
+                  onSave={() => {
+                    handleRelatorioCliente(cliente._id);
+                  }}
                 />
               ))
             ) : (

@@ -8,7 +8,7 @@ const Home = () => {
     <>
       <div className={styles.main_home}>
         <NavBar />
-        <h1>Horários da semana</h1>
+        <h1>Todos os horários</h1>
 
         <div className={styles.tableContent}>
           <Table />
