@@ -164,13 +164,15 @@ const Clientes = () => {
 
     // Definição e conteúdo do PDF
     const docDefinition = {
+     
       content: [
         { text: "Relatório de todos os clientes", style: "header" },
         {
           style: "tableExample",
           table: {
+            alignment: 'center',
             headerRows: 1,
-            widths: ["*", "*", "*"],
+            widths: [180, 120, 150],
             body: [
               [
                 { text: "Cliente", style: "tableHeader" },
@@ -180,7 +182,7 @@ const Clientes = () => {
               ...clientes.map((cliente) => [
                 { text: cliente.nomeCompleto },
                 { text: cliente.contato },
-                { text: cliente.observacoes || "Sem observações" },
+                { text: cliente.observacoes || "" },
               ]),
             ],
           },
@@ -192,12 +194,13 @@ const Clientes = () => {
           bold: true,
           alignment: "center",
           margin: [0, 0, 0, 20],
-          border: [false, false, false, true],
+
         },
         tableExample: {
           margin: [0, 20, 0, 8],
         },
         tableHeader: {
+          
           bold: true,
           fontSize: 13,
           color: "black",
@@ -225,11 +228,12 @@ const Clientes = () => {
       }
 
       const docDefinition = {
-        alignment: 'center',
         content: [
           {
-            text: `Relatório de Agendamentos de ${client.nomeCompleto}`,
+            alignment: 'center',
+            text: `Relatório de agendamentos de ${client.nomeCompleto}`,
             style: "header",
+            width: [100,100,100],
            
           },
           {
@@ -255,9 +259,9 @@ const Clientes = () => {
         ],
         styles: {
           header: {
-            fontSize: 18,
+            fontSize: 16,
             bold: true,
-            // alignment: "center",
+            alignment: "center",
             margin: [5, 15, 0, 20],
         
           },
@@ -280,6 +284,9 @@ const Clientes = () => {
       console.log("Erro ao gerar o relatório do cliente", error);
     }
   };
+
+ 
+
 
   return (
     <>
