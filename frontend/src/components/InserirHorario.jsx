@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SearchResults from "./SearchResults";
 import {
   Button,
+  TimePicker,
   Modal,
   Form,
   Input,
@@ -152,6 +153,7 @@ const InserirHorario = ({ onClose }) => {
                 id="horaInicio"
               />
               <p>até</p>
+              
               <Input
                 placeholder="Final do jogo"
                 name="horaTermino"

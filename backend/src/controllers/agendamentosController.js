@@ -6,6 +6,8 @@ exports.criarHorario = async (req, res) => {
   console.log("Horário agendado com sucesso", req.body);
   try {
     const client = await Clients.findById(clientId);
+
+    
     const novoHorario = await Horario.create({
       nomeCompleto: client.nomeCompleto,
       date,
