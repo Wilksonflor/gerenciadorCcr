@@ -2,7 +2,7 @@ const Horario = require("../models/agendamentoModel");
 const Clients = require("../models/clientsModel");
 
 exports.criarHorario = async (req, res) => {
-  const { date, horaInicio, horaTermino, clientId } = req.body;
+  const { date, horaInicio, horaTermino, clientId, valor} = req.body;
   console.log("Horário agendado com sucesso", req.body);
   try {
     const client = await Clients.findById(clientId);
@@ -13,6 +13,7 @@ exports.criarHorario = async (req, res) => {
       date,
       horaInicio,
       horaTermino,
+      valor,
       client: clientId,
     });
 
@@ -44,7 +45,7 @@ exports.getAgendamentoPorCliente = async(req,res) =>{
     const {id} = req.params;
     const agendamentos = await Horario.Find().populate(
       "client",
-      "nomeCompleto contato horaInicio horaTermino"
+      "nomeCompleto contato horaInicio horaTermino valor"
     );
     res.status(200).json(agendamentos);
   }

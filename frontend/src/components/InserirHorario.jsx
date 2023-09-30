@@ -24,6 +24,8 @@ const InserirHorario = ({ onClose }) => {
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
 
+ 
+
   const handleOk = () => {
     setModalText("Agendando...");
     setConfirmLoading(true);
@@ -83,12 +85,14 @@ const InserirHorario = ({ onClose }) => {
         console.error("Por favor, preencha todos os campos.");
         return;
       }
+      const valor = calcularValor(horaInicio, horaTermino);
 
       const data = {
         date,
         horaInicio,
         horaTermino,
         clientId: clienteSelecionado,
+        valor,
       };
       console.log("data", data);
       const response = await axios.post(
@@ -101,6 +105,18 @@ const InserirHorario = ({ onClose }) => {
     } catch (error) {
       console.error("Erro ao agendar", error);
     }
+  };
+  
+  const calcularValor = (horaInicio, horaTermino) => {
+    const [horaInicioHora, horaInicioMin] = horaInicio.split(":");
+    const [horaTerminoHora, horaTerminoMin] = horaTermino.split(":");
+
+
+    const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicio, 10)
+    const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10)
+
+    const valor = horas * 50 + minutos / 60 *50;
+    return valor
   };
 
   return (
@@ -153,13 +169,14 @@ const InserirHorario = ({ onClose }) => {
                 id="horaInicio"
               />
               <p>até</p>
-              
+
               <Input
                 placeholder="Final do jogo"
                 name="horaTermino"
                 id="horaTermino"
               />
             </div>
+
           </Form>
         </ConfigProvider>
       </div>

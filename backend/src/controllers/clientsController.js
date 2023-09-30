@@ -87,7 +87,7 @@ exports.relatorioClient = async (req, res) => {
 
     const client = await Clients.findOne({ _id: id }).populate({
       path: "client", 
-      select: "date horaInicio horaTermino"
+      select: "date horaInicio horaTermino valor"
     });
     
     if (!client) {
@@ -113,3 +113,4 @@ exports.relatorioClient = async (req, res) => {
     res.status(500).json({ msg: "Erro ao resgatar do relatório do cliente", error });
   }
 };
+

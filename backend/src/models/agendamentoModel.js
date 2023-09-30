@@ -14,6 +14,10 @@ const agendamentoSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  valor: {
+    type: Number,
+    require: true,
+  },
   client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Clients",

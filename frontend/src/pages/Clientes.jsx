@@ -213,46 +213,67 @@ const Clientes = () => {
   // Função para tirar relatório de apenas um cliente
   const handleRelatorioCliente = async (clienteId) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
+  
     try {
       const response = await axios.get(
         `http://localhost:5000/clientes/relatorio/${clienteId}`
       );
-
-      const { clienteComAgendamento} = response.data
+  
+      const { clienteComAgendamento } = response.data;
       const { client, agendamentos } = clienteComAgendamento;
-
+  
       if (!client) {
         console.log("cliente não encontrado");
         return;
       }
-
+  
+      // Calcular a soma dos valores
+      const somaValores = agendamentos.reduce((total, agendamento) => {
+        return total + (agendamento.valor || 0);
+      }, 0);
+  
       const docDefinition = {
         content: [
           {
             alignment: 'center',
             text: `Relatório de agendamentos de ${client.nomeCompleto}`,
             style: "header",
-            width: [100,100,100],
-           
+            width: [100, 100, 100],
           },
           {
-            margin: [0,0,0,20],
+            margin: [0, 0, 0, 20],
             style: "tableExample",
             table: {
               headerRows: 1,
-              widths: [150, 150, 150, 150],
+              widths: [150, 100, 100, 80],
               body: [
                 [
                   { text: "Data de Agendamento", style: "tableHeader" },
                   { text: "Hora de Início", style: "tableHeader" },
                   { text: "Hora de Término", style: "tableHeader" },
+                  { text: "Valor", style: "tableHeader" },
                 ],
                 ...agendamentos.map((agendamento) => [
                   agendamento.date,
                   agendamento.horaInicio,
                   agendamento.horaTermino,
+                  {
+                    text: `R$ ${agendamento.valor ? agendamento.valor.toLocaleString("pt-BR") : ""},00`,
+                    style: "currency",
+                    currency: "BRL",
+                  }
                 ]),
+                [
+                  { text: "Total", style: "tableHeader" },
+                  "", // Célula vazia para as colunas Data e Hora
+                  "",
+                  {
+                    text: `R$ ${somaValores.toFixed(2)}`, // Formatando a soma com 2 casas decimais
+                    style: "currency",
+                    currency: "BRL",
+                    bold: true,
+                  }
+                ],
               ],
             },
           },
@@ -263,7 +284,6 @@ const Clientes = () => {
             bold: true,
             alignment: "center",
             margin: [5, 15, 0, 20],
-        
           },
           tableExample: {
             margin: [0, 20, 0, 8],
@@ -276,7 +296,7 @@ const Clientes = () => {
           },
         },
       };
-
+  
       pdfMake
         .createPdf(docDefinition)
         .download(`Relatório de Agendamentos de ${client.nomeCompleto}.pdf`);

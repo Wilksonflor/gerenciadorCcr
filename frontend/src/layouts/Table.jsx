@@ -27,6 +27,7 @@ const Table = () => {
 
   return (
     <div>
+    
       <table className={styles.table}>
         <thead>
           <tr>
@@ -50,7 +51,7 @@ const Table = () => {
                 <td>{horario.date}</td>
                 <td>{horario.horaInicio}</td>
                 <td>{horario.horaTermino}</td>
-                <td>R$ {horario.valor}Valor</td>
+                <td>{horario.valor !== undefined ? `R$ ${horario.valor.toFixed(2)}` : "Valor não definido"}</td>
                 <td>
                   <WhatsAppOutlined style={{ color: '#25d366', fontSize: '24px' }} />
                   <Link
