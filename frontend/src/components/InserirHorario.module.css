@@ -25,17 +25,18 @@
   .horario_control{
     width: 100%;
     display: flex;
-    
+
     justify-content: center;
     gap: 20px;
     align-items: center;
   }
-  /* .horario_control input{
+  .horario_control input{
     width: 30%;
     outline: none;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
-  } */
+
+  }
 
   .horario_Legend{
     color: rgba(0, 0, 0, 0.45);

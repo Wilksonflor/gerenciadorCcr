@@ -23,8 +23,9 @@ const InserirHorario = ({ onClose }) => {
   const [busca, setBusca] = useState("");
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
+  const customTimeFormat = 'HH:mm';
 
- 
+
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -106,17 +107,16 @@ const InserirHorario = ({ onClose }) => {
       console.error("Erro ao agendar", error);
     }
   };
-  
+
   const calcularValor = (horaInicio, horaTermino) => {
     const [horaInicioHora, horaInicioMin] = horaInicio.split(":");
     const [horaTerminoHora, horaTerminoMin] = horaTermino.split(":");
+   
+    const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicio, 10);
+    const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10);
 
-
-    const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicio, 10)
-    const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10)
-
-    const valor = horas * 50 + minutos / 60 *50;
-    return valor
+    const valor = horas * 50 + (minutos / 60) * 50;
+    return valor;
   };
 
   return (
@@ -144,6 +144,7 @@ const InserirHorario = ({ onClose }) => {
               placeholder="Digite o nome do cliente"
               value={busca}
               onChange={(e) => handleBusca(e.target.value)}
+              id="clienteInput"
             />
             <div className={styles.controlSelect}>
               <SearchResults
@@ -167,16 +168,25 @@ const InserirHorario = ({ onClose }) => {
                 placeholder="Inicio do jogo"
                 name="horaInicio"
                 id="horaInicio"
+           
               />
-              <p>até</p>
+              {/* <p>até</p> */}
 
+              {/* <TimePicker
+                // style={{ width: '100%' }}
+                defaultValue={dayjs('1208', customTimeFormat)} // Usar o formato personalizado
+                format={customTimeFormat}
+                showHour={false} // Esconder o seletor de horas
+                showMinute={false}
+                open={false} // Esconder o seletor de minutos
+              /> */}
               <Input
                 placeholder="Final do jogo"
                 name="horaTermino"
                 id="horaTermino"
+
               />
             </div>
-
           </Form>
         </ConfigProvider>
       </div>
