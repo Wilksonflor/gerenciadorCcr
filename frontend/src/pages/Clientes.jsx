@@ -15,6 +15,7 @@ import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfMake/build/vfs_fonts";
 
+
 const Clientes = () => {
   // Estados
   const [size] = useState("large");
