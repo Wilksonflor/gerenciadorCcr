@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  UserAddOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+  UserAddOutlined} from "@ant-design/icons";
 import Navbar from "../components/NavBar";
 import styles from "../layouts/Table.module.css";
 import { Button, Space, Modal, Form, Input, message } from "antd";
@@ -24,7 +21,6 @@ const Clientes = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  const [clienteToPdf, setClienteToPdf] = useState([]);
   const [clienteToDelete, setClienteToDelete] = useState(null);
   const [clienteEditForm] = Form.useForm();
   const [clienteForm] = Form.useForm();
