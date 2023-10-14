@@ -11,16 +11,16 @@ const userSchema = new mongoose.Schema({
   },
   username: {
     type: String,
-    required: true,
+    require: true,
   },
   password: {
     type: String,
-    required: true,
+    require: true,
   },
-  confirmPassword:{
+  confirmPassword: {
     type: String,
-    required: true,
-  }
+    require: true,
+}
 });
 
 const User = mongoose.model("User", userSchema);

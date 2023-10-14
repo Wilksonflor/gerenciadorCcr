@@ -23,9 +23,7 @@ const InserirHorario = ({ onClose }) => {
   const [busca, setBusca] = useState("");
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
-  const customTimeFormat = 'HH:mm';
-
-
+  const customTimeFormat = "HH:mm";
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -75,6 +73,10 @@ const InserirHorario = ({ onClose }) => {
     setClienteSelecionado(clienteId);
   };
 
+  const disableDate = (current) => {
+    return current && current.isBefore(dayjs(), "day");
+  };
+
   const handleAgendamento = async () => {
     try {
       const date = document.getElementById("date").value;
@@ -86,6 +88,7 @@ const InserirHorario = ({ onClose }) => {
         console.error("Por favor, preencha todos os campos.");
         return;
       }
+
       const valor = calcularValor(horaInicio, horaTermino);
 
       const data = {
@@ -111,7 +114,7 @@ const InserirHorario = ({ onClose }) => {
   const calcularValor = (horaInicio, horaTermino) => {
     const [horaInicioHora, horaInicioMin] = horaInicio.split(":");
     const [horaTerminoHora, horaTerminoMin] = horaTermino.split(":");
-   
+
     const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicio, 10);
     const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10);
 
@@ -156,7 +159,7 @@ const InserirHorario = ({ onClose }) => {
             </div>
 
             <Form.Item name="date" id="date">
-              <DatePicker format="DD/MM/YYYY" />
+              <DatePicker format="DD/MM/YYYY" disabledDate={disableDate} />
             </Form.Item>
 
             <div className={styles.horario_Legend}>
@@ -164,28 +167,21 @@ const InserirHorario = ({ onClose }) => {
             </div>
 
             <div className={styles.horario_control}>
-              <Input
-                placeholder="Inicio do jogo"
-                name="horaInicio"
-                id="horaInicio"
-           
-              />
-              {/* <p>até</p> */}
+       
+              <input 
+              type="time" 
+              name="horaInicio" 
+              id="horaInicio"
+              placeholder="Inicio" 
+              required />
 
-              {/* <TimePicker
-                // style={{ width: '100%' }}
-                defaultValue={dayjs('1208', customTimeFormat)} // Usar o formato personalizado
-                format={customTimeFormat}
-                showHour={false} // Esconder o seletor de horas
-                showMinute={false}
-                open={false} // Esconder o seletor de minutos
-              /> */}
-              <Input
-                placeholder="Final do jogo"
-                name="horaTermino"
-                id="horaTermino"
-
-              />
+              <p>até</p>
+          
+              <input 
+              type="time" 
+              name="horaTermino" 
+              id="horaTermino" 
+              required />
             </div>
           </Form>
         </ConfigProvider>
