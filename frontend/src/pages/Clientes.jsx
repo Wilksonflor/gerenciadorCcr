@@ -15,7 +15,6 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 
 
 const Clientes = () => {
-  // Estados
   const [size] = useState("large");
   const [clientes, setClientes] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,7 +31,6 @@ const Clientes = () => {
     observacoes: "",
   });
 
-  // Função para buscar dados de clientes
   useEffect(() => {
     fetchData();
   }, []);
