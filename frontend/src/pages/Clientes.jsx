@@ -10,7 +10,8 @@ import useForm from "../useForm";
 import MaskedInput from "../components/MaskedInput";
 import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfMake/build/vfs_fonts";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
 
 
 const Clientes = () => {
