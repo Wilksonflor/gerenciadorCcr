@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 
 
 
@@ -13,8 +13,8 @@ exports.registerUser = async (req, res) => {
     // }
 
     // Hash da senha
-    // const salt = await bcrypt.genSalt(10);
-    // const passwordHash = await bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
 
     // Crie o usuário
     const user = await User.create({
@@ -22,7 +22,6 @@ exports.registerUser = async (req, res) => {
       telefone,
       username,
       password,
-      // password: passwordHash,
     });
 
     res.status(201).json({ msg: "Usuário criado com sucesso", user });
@@ -89,22 +88,24 @@ exports.deletUser = async (req, res) => {
 exports.authenticateUser = async (req, res) => {
   const { username, password } = req.body;
   console.log('chegou do req', req.body)
+  
   // Verifique se o nome de usuário e a senha são fornecidos
   if (!username || !password) {
+    console.log('cliente', username)
     return res.status(422).json({ msg: "Usuário e senha obrigatórios" });
   }
   
   try {
     // Encontre o usuário no banco de dados
     const user = await User.findOne({ username });
-    
+    console.log('user', user)
+    console.log('senha', user.password)
     if (!user) {
       // Se o usuário não existe, retorne credenciais inválidas
       return res.status(401).json({ success: false, message: "Credenciais inválidas" });
     }
     
-    // Verifique a senha usando bcrypt.compare
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = bcrypt.compare(password, user.password);
     
     if (isPasswordValid) {
       // Se a senha está correta, retorne autenticação bem-sucedida

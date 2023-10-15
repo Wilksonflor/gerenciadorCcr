@@ -23,17 +23,24 @@ const InserirHorario = ({ onClose }) => {
   const [busca, setBusca] = useState("");
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
+  const [erroHorarioNaoDisponivel, setErroHorarioNaoDisponivel] = useState(false); // Estado para controlar a exibição da mensagem de erro
   const customTimeFormat = "HH:mm";
 
   const handleOk = () => {
     setModalText("Agendando...");
     setConfirmLoading(true);
+  
     setTimeout(() => {
       onClose();
-      message.success("Horário agendado com sucesso");
+      message.success("Horário agendado com sucesso", 2);
       setConfirmLoading(false);
+  
+      setTimeout(() => {
+        window.location.reload(); 
+      }, 2000);
     }, 2000);
   };
+  
 
   const handleCancel = () => {
     onClose();
@@ -45,11 +52,6 @@ const InserirHorario = ({ onClose }) => {
 
   const handleBusca = (value) => {
     setBusca(value);
-
-    // if (!value) {
-    //   setClientesFiltrados([]);
-    //   return;
-    // }
 
     axios
       .get(`http://localhost:5000/clientes?search=${value}`)
@@ -83,7 +85,6 @@ const InserirHorario = ({ onClose }) => {
       const horaInicio = document.getElementById("horaInicio").value;
       const horaTermino = document.getElementById("horaTermino").value;
 
-      // Validação que todos os campoos precisam ser preenchidos
       if (!clienteSelecionado || !date || !horaInicio || !horaTermino) {
         console.error("Por favor, preencha todos os campos.");
         return;
@@ -98,14 +99,18 @@ const InserirHorario = ({ onClose }) => {
         clientId: clienteSelecionado,
         valor,
       };
-      console.log("data", data);
+
       const response = await axios.post(
         "http://localhost:5000/novoAgendamento",
         data
       );
 
-      console.log("Agendado com sucesso", response.data);
-      handleOk();
+      if (response.status === 200) {
+        handleOk();
+      } else {
+        // Exibir mensagem de erro e definir o estado para exibir a mensagem de erro
+        setErroHorarioNaoDisponivel(true);
+      }
     } catch (error) {
       console.error("Erro ao agendar", error);
     }
@@ -167,22 +172,27 @@ const InserirHorario = ({ onClose }) => {
             </div>
 
             <div className={styles.horario_control}>
-       
               <input 
-              type="time" 
-              name="horaInicio" 
-              id="horaInicio"
-              placeholder="Inicio" 
-              required />
+                type="time" 
+                name="horaInicio" 
+                id="horaInicio"
+                placeholder="Inicio" 
+                required />
 
               <p>até</p>
           
               <input 
-              type="time" 
-              name="horaTermino" 
-              id="horaTermino" 
-              required />
+                type="time" 
+                name="horaTermino" 
+                id="horaTermino" 
+                required />
             </div>
+            
+            {erroHorarioNaoDisponivel && (
+              <div className="alert">
+                Horário não disponível, escolha outro horário.
+              </div>
+            )}
           </Form>
         </ConfigProvider>
       </div>

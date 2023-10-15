@@ -7,10 +7,11 @@ import styles from "./Login.module.css";
 import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from "mdb-react-ui-kit";
 import axios from "axios";
 const Login = () => {
-  const [usuario, setUsuario] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [inputErrorClass, setInputErrorClass] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -26,7 +27,7 @@ const Login = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/authenticate", {
-        usuario,
+        username,
         password,
       });
       console.log("fez o login", response);
@@ -56,27 +57,32 @@ const Login = () => {
                 <label>Usuário</label>
                 <MDBInput
                   wrapperClass="mb-4"
+                  name="usuario"
                   id="usuario"
-                  value={usuario}
-                  onChange={(e) => setUsuario(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   type="text"
                   size="lg"
                 />
                 <label>Senha</label>
                 <MDBInput
                   wrapperClass="mb-4 "
+                  name="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   size="lg"
                 />
+
                 <button type="submit" className={styles.btn_entrar}>
                   Entrar
                 </button>
+
                 <a className="small text-muted m-2" href="#!">
                   Esqueceu a senha?
                 </a>
+
                 <p className="ms-5 m-5">
                   Não tem uma conta? <Link to="/newuser">Criar conta</Link>
                 </p>

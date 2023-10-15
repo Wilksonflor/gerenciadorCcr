@@ -4,7 +4,7 @@ const Horario = require('../models/agendamentoModel');
 
 exports.createClient = async (req, res) => {
   const { nomeCompleto, contato, observacoes } = req.body;
-  console.log("Cliente criado com sucesso!!:", req.body);
+  // console.log("Cliente criado com sucesso!!:", req.body);
   try {
     const cliente = await Clients.create({
       nomeCompleto,
@@ -19,7 +19,7 @@ exports.createClient = async (req, res) => {
 };
 
 exports.getAllClients = async (req, res) => {
-  console.log("Chegou do getAll dos clientes", req.body);
+  // console.log("Chegou do getAll dos clientes", req.body);
   try {
     const clients = await Clients.find();
     res.status(200).json({ msg: "todos os clientes", clients });
@@ -31,7 +31,7 @@ exports.getAllClients = async (req, res) => {
 };
 
 exports.getOneClient = async (req, res) => {
-  console.log("Chegou do getOne", req.body);
+  // console.log("Chegou do getOne", req.body);
   const { id } = req.params;
   try {
     const client = await Clients.findOne({ _id: id });
@@ -45,7 +45,7 @@ exports.getOneClient = async (req, res) => {
 };
 
 exports.updateClient = async (req, res) => {
-  console.log("Editei o cliente", req.body);
+  // console.log("Editei o cliente", req.body);
   const { id } = req.params;
   const { nomeCompleto, contato, observacoes } = req.body;
   try {
@@ -82,8 +82,8 @@ exports.relatorioClient = async (req, res) => {
   const { id } = req.params;
   
   try {
-    console.log("Chegou do relatório do cliente", req.body);
-    console.log("ID do cliente", id);
+    // console.log("Chegou do relatório do cliente", req.body);
+    // console.log("ID do cliente", id);
 
     const client = await Clients.findOne({ _id: id }).populate({
       path: "client", 
@@ -94,12 +94,12 @@ exports.relatorioClient = async (req, res) => {
       return res.status(404).json({ msg: "Cliente não encontrado" });
     }
    
-    console.log("Cliente encontrado", client);
+    // console.log("Cliente encontrado", client);
     
 
 
     const agendamentos = await Horario.find({ client: id });
-    console.log("Agendamentos: ", agendamentos);
+    // console.log("Agendamentos: ", agendamentos);
 
 
     const clienteComAgendamento = {

@@ -7,7 +7,16 @@ exports.criarHorario = async (req, res) => {
   try {
     const client = await Clients.findById(clientId);
 
-    
+    const horarioExistente = await Horario.findOne({
+      date,
+      horaInicio,
+      horaTermino,
+    })
+    if(horarioExistente){
+      return res.status(400).json({msg: 'O horário não está disponível, por favor escolha outro horário'})
+    }
+
+    // Se horário estiver livre, cria o outro horário
     const novoHorario = await Horario.create({
       nomeCompleto: client.nomeCompleto,
       date,
@@ -27,7 +36,7 @@ exports.criarHorario = async (req, res) => {
 
 
 exports.getHorarios = async (req, res) => {
-  console.log("Chegou do get", req.body)
+  // console.log("Chegou do get", req.body)
   try {
     const horarios = await Horario.find().populate(
       "client",
