@@ -9,6 +9,7 @@ import {
   DatePicker,
   ConfigProvider,
   message,
+  AutoComplete,
 } from "antd";
 import ptBR from "antd/lib/locale/pt_BR";
 import styles from "./InserirHorario.module.css";
@@ -23,24 +24,24 @@ const InserirHorario = ({ onClose }) => {
   const [busca, setBusca] = useState("");
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
-  const [erroHorarioNaoDisponivel, setErroHorarioNaoDisponivel] = useState(false); // Estado para controlar a exibição da mensagem de erro
+  const [erroHorarioNaoDisponivel, setErroHorarioNaoDisponivel] =
+    useState(false); // Estado para controlar a exibição da mensagem de erro
   const customTimeFormat = "HH:mm";
 
   const handleOk = () => {
     setModalText("Agendando...");
     setConfirmLoading(true);
-  
+
     setTimeout(() => {
       onClose();
       message.success("Horário agendado com sucesso", 2);
       setConfirmLoading(false);
-  
+
       setTimeout(() => {
-        window.location.reload(); 
+        window.location.reload();
       }, 2000);
     }, 2000);
   };
-  
 
   const handleCancel = () => {
     onClose();
@@ -63,16 +64,25 @@ const InserirHorario = ({ onClose }) => {
         }
       })
       .then((data) => {
-        setClientesFiltrados(data);
-        console.log("Dados da resposta:", data);
+        const clientesFiltrados = data.filter((cliente) =>
+        cliente.nomeCompleto.toLowerCase().includes(value.toLowerCase())
+        
+      );
+      
+      clientesFiltrados.sort((a, b) =>
+      a.nomeCompleto.localeCompare(b.nomeCompleto)
+    );
+        setClientesFiltrados(clientesFiltrados);
+        // console.log("Dados da resposta:", data);
       })
       .catch((error) => {
         console.error("Erro na requisição:", error);
       });
   };
 
-  const handleClienteSelect = (clienteId) => {
-    setClienteSelecionado(clienteId);
+  const handleClienteSelect = (cliente) => {
+    setClienteSelecionado(cliente);
+
   };
 
   const disableDate = (current) => {
@@ -96,7 +106,7 @@ const InserirHorario = ({ onClose }) => {
         date,
         horaInicio,
         horaTermino,
-        clientId: clienteSelecionado,
+        clientId: clienteSelecionado._id,
         valor,
       };
 
@@ -119,7 +129,6 @@ const InserirHorario = ({ onClose }) => {
   const calcularValor = (horaInicio, horaTermino) => {
     const [horaInicioHora, horaInicioMin] = horaInicio.split(":");
     const [horaTerminoHora, horaTerminoMin] = horaTermino.split(":");
-
     const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicio, 10);
     const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10);
 
@@ -148,18 +157,17 @@ const InserirHorario = ({ onClose }) => {
       <div className={styles.formModal}>
         <ConfigProvider locale={ptBR}>
           <Form onFinish={onFinish}>
-            <Input
-              placeholder="Digite o nome do cliente"
-              value={busca}
-              onChange={(e) => handleBusca(e.target.value)}
-              id="clienteInput"
-            />
             <div className={styles.controlSelect}>
-              <SearchResults
-                name="cliente"
-                id="cliente"
-                clientes={clientesFiltrados}
+              <AutoComplete
+                options={clientesFiltrados.map((cliente) => ({
+                  value: cliente.nomeCompleto,
+                  label: cliente.nomeCompleto,
+                }))}
                 onSelect={handleClienteSelect}
+                onSearch={handleBusca}
+                placeholder="Digite o nome do cliente"
+                style={{ width: 300 }}
+                id="listaClientes"
               />
             </div>
 
@@ -172,22 +180,19 @@ const InserirHorario = ({ onClose }) => {
             </div>
 
             <div className={styles.horario_control}>
-              <input 
-                type="time" 
-                name="horaInicio" 
+              <input
+                type="time"
+                name="horaInicio"
                 id="horaInicio"
-                placeholder="Inicio" 
-                required />
+                placeholder="Inicio"
+                required
+              />
 
               <p>até</p>
-          
-              <input 
-                type="time" 
-                name="horaTermino" 
-                id="horaTermino" 
-                required />
+
+              <input type="time" name="horaTermino" id="horaTermino" required />
             </div>
-            
+
             {erroHorarioNaoDisponivel && (
               <div className="alert">
                 Horário não disponível, escolha outro horário.
