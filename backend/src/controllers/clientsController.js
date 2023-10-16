@@ -86,7 +86,7 @@ exports.relatorioClient = async (req, res) => {
     // console.log("ID do cliente", id);
 
     const client = await Clients.findOne({ _id: id }).populate({
-      path: "client", 
+      path: "agendamentos", 
       select: "date horaInicio horaTermino valor"
     });
     

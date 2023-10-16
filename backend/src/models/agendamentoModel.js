@@ -8,15 +8,15 @@ const agendamentoSchema = new mongoose.Schema({
   },
   horaInicio: {
     type: String,
-    require: true,
+    required: true,
   },
   horaTermino: {
     type: String,
-    require: true,
+    required: true,
   },
   valor: {
     type: Number,
-    require: true,
+    required: true,
   },
   client: {
     type: mongoose.Schema.Types.ObjectId,

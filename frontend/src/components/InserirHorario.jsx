@@ -65,13 +65,12 @@ const InserirHorario = ({ onClose }) => {
       })
       .then((data) => {
         const clientesFiltrados = data.filter((cliente) =>
-        cliente.nomeCompleto.toLowerCase().includes(value.toLowerCase())
-        
-      );
-      
-      clientesFiltrados.sort((a, b) =>
-      a.nomeCompleto.localeCompare(b.nomeCompleto)
-    );
+          cliente.nomeCompleto.toLowerCase().includes(value.toLowerCase())
+        );
+
+        clientesFiltrados.sort((a, b) =>
+          a.nomeCompleto.localeCompare(b.nomeCompleto)
+        );
         setClientesFiltrados(clientesFiltrados);
         // console.log("Dados da resposta:", data);
       })
@@ -80,9 +79,8 @@ const InserirHorario = ({ onClose }) => {
       });
   };
 
-  const handleClienteSelect = (cliente) => {
-    setClienteSelecionado(cliente);
-
+  const handleClienteSelect = (clienteId) => {
+    setClienteSelecionado(clienteId);
   };
 
   const disableDate = (current) => {
@@ -100,13 +98,18 @@ const InserirHorario = ({ onClose }) => {
         return;
       }
 
+      if (horaTermino <= horaInicio) {
+        console.log("hora de termino deve ser maior que a de inicio");
+        message.error("Insira um horário final superior ao inicial", 2);
+        return;
+      }
       const valor = calcularValor(horaInicio, horaTermino);
 
       const data = {
         date,
         horaInicio,
         horaTermino,
-        clientId: clienteSelecionado._id,
+        clientId: clienteSelecionado,
         valor,
       };
 
@@ -115,11 +118,13 @@ const InserirHorario = ({ onClose }) => {
         data
       );
 
-      if (response.status === 200) {
+      // console.log("resposta", response);
+      if (response.status >= 200 && response.status < 300) {
         handleOk();
       } else {
-        // Exibir mensagem de erro e definir o estado para exibir a mensagem de erro
-        setErroHorarioNaoDisponivel(true);
+        console.log('resposta do else', response)
+        const errorMessage = response.data.message;
+        message.error(errorMessage, 2);
       }
     } catch (error) {
       console.error("Erro ao agendar", error);
