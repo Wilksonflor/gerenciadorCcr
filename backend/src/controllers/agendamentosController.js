@@ -18,7 +18,8 @@ exports.criarHorario = async (req, res) => {
     });
     if (horarioExistente) {
       return res.status(400).json({
-        message: "O horário não está disponível, por favor escolha outro horário",
+        message:
+          "O horário não está disponível, por favor escolha outro horário",
       });
     }
 

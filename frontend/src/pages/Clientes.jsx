@@ -86,6 +86,7 @@ const Clientes = () => {
     setSuccessMessageVisible(true);
     setTimeout(() => {
       setSuccessMessageVisible(false);
+      window.location.reload();
     }, 2000);
   };
 
@@ -114,6 +115,9 @@ const Clientes = () => {
       console.log("Cliente editado com sucesso", editedCliente);
 
       if (response.status === 200) {
+        setTimeout(() =>{
+          window.location.reload();
+        }, 2000)
         message.success("Cliente atualizado");
         setEditModalVisible(false);
       }
@@ -193,10 +197,10 @@ const Clientes = () => {
 
         },
         tableExample: {
-          margin: [0, 20, 0, 8],
+          margin: [20, 20, 0, 20],
         },
         tableHeader: {
-          
+          alignment: "center",
           bold: true,
           fontSize: 13,
           color: "black",
@@ -214,10 +218,13 @@ const Clientes = () => {
       const response = await axios.get(
         `http://localhost:5000/clientes/relatorio/${clienteId}`
       );
-  
+
+      console.log('resposta do servidor', response.data)
       const { clienteComAgendamento } = response.data;
       const { client, agendamentos } = clienteComAgendamento;
   
+      console.log('dados do cliente', client)
+      console.log('agendamento do cliente', agendamentos);
       if (!client) {
         console.log("cliente não encontrado");
         return;

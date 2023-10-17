@@ -5,22 +5,31 @@ import Relatorios from "../pages/Relatorios";
 import Clientes from "../pages/Clientes";
 import Login from "../pages/Login";
 
-const Private = ({ Item }) => {
-  const signed = true; 
-  return signed ? <Item /> : <Navigate to="/login" />;
-};
-
 const RoutesApp = () => {
+  const signed = false;
+
   return (
-
+    <BrowserRouter>
       <Routes>
-        <Route element={<Private Item={Home} />} path="/home" />
-        <Route element={<Private Item={Relatorios} />} path="/relatorios" />
-        <Route element={<Private Item={Clientes} />} path="/clientes" />
+        <Route
+          path="/"
+          element={signed ? <Navigate to="/home" /> : <Navigate to="/login" />} // Redireciona para a página de login se não estiver autenticado
+        />
         <Route path="/login" element={<Login />} />
-        <Route path="/*" element={<Navigate to="/login" />} />
+        <Route
+          path="/home"
+          element={signed ? <Home /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/relatorios"
+          element={signed ? <Relatorios /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/clientes"
+          element={signed ? <Clientes /> : <Navigate to="/login" />}
+        />
       </Routes>
-
+    </BrowserRouter>
   );
 };
 
