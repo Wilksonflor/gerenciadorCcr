@@ -17,19 +17,19 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
         ARGS: "-rltgoDzvO --delete"
-        SOURCE: "./frontend/"  # Diretório do front-end
+        SOURCE: "./frontend/" 
         REMOTE_HOST: "ec2-18-117-111-112.us-east-2.compute.amazonaws.com"
         REMOTE_USER: "ec2-user"
-        TARGET: "/var/www/html/frontend"  # Diretório de destino no servidor
-        EXCLUDE: "/node_modules/, **.env, rebuild_app.sh, watcher.sh"  # Exclui o diretório "dist" do front-end
+        TARGET: "/app/gerenciadorCcr/frontend"  
+        EXCLUDE: "/node_modules/, **.env"  
 
     - name: Copy Backend with SSH
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
         ARGS: "-rltgoDzvO --delete"
-        SOURCE: "./backend/"  # Diretório do back-end
+        SOURCE: "./backend/" 
         REMOTE_HOST: "ec2-18-117-111-112.us-east-2.compute.amazonaws.com"
         REMOTE_USER: "ec2-user"
-        TARGET: "/home/ec2-user/backend"  # Diretório de destino no servidor
-        EXCLUDE: "/node_modules/, **.env"  # Exclui o diretório "node_modules" do back-end
+        TARGET: "/app/gerenciadorCcr/backend"  
+        EXCLUDE: "/node_modules/, **.env"  
