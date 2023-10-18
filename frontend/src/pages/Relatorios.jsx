@@ -5,6 +5,10 @@ const Relatorios = () => {
     <div>
     <Navbar/>
     <h2>Relatórios</h2>
+
+     <div>
+      
+     </div>
     </div>
   )
 }

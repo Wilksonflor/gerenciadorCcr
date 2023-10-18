@@ -207,7 +207,9 @@ const Clientes = () => {
         },
       },
     };
-    pdfMake.createPdf(docDefinition).download("Relatório de todos os clientes");
+    const pdfDoc = pdfMake.createPdf(docDefinition);
+    pdfDoc.open();
+    // pdfMake.createPdf(docDefinition).download("Relatório de todos os clientes");
   };
 
   // Função para tirar relatório de apenas um cliente
@@ -299,10 +301,11 @@ const Clientes = () => {
           },
         },
       };
-  
-      pdfMake
-        .createPdf(docDefinition)
-        .download(`Relatório de Agendamentos de ${client.nomeCompleto}.pdf`);
+      const pdfDoc = pdfMake.createPdf(docDefinition);
+      pdfDoc.open();
+      // pdfMake
+      //   .createPdf(docDefinition)
+      //   .download(`Relatório de Agendamentos de ${client.nomeCompleto}.pdf`);
     } catch (error) {
       console.log("Erro ao gerar o relatório do cliente", error);
     }
