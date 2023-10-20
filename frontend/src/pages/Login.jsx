@@ -10,9 +10,10 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState(false);
   const [inputErrorClass, setInputErrorClass] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -35,6 +36,7 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       console.log("Erro na autenticação erro:", error);
+      setErrorMessage("Credenciais inválidas");
     }
   };
 
@@ -79,6 +81,14 @@ const Login = () => {
                   Entrar
                 </button>
 
+
+                {errorMessage && (
+                  <div className="alert alert-danger mt-3" role="alert">
+                    {errorMessage}
+                  </div>
+                )}
+
+                
                 <a className="small text-muted m-2" href="#!">
                   Esqueceu a senha?
                 </a>

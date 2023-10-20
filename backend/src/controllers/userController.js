@@ -21,7 +21,7 @@ exports.registerUser = async (req, res) => {
       nomeCompleto,
       telefone,
       username,
-      password,
+      password: passwordHash,
     });
 
     res.status(201).json({ msg: "Usuário criado com sucesso", user });
@@ -87,37 +87,33 @@ exports.deletUser = async (req, res) => {
 
 exports.authenticateUser = async (req, res) => {
   const { username, password } = req.body;
-  console.log('chegou do req', req.body)
-  
+
   // Verifique se o nome de usuário e a senha são fornecidos
   if (!username || !password) {
-    console.log('cliente', username)
     return res.status(422).json({ msg: "Usuário e senha obrigatórios" });
   }
-  
+
   try {
-    // Encontre o usuário no banco de dados
     const user = await User.findOne({ username });
+
     console.log('user', user)
-    console.log('senha', user.password)
     if (!user) {
-      // Se o usuário não existe, retorne credenciais inválidas
       return res.status(401).json({ success: false, message: "Credenciais inválidas" });
     }
-    
-    const isPasswordValid = bcrypt.compare(password, user.password);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     
     if (isPasswordValid) {
-      // Se a senha está correta, retorne autenticação bem-sucedida
       return res.status(200).json({ success: true, message: "Autenticação bem sucedida" });
     } else {
-      // Se a senha está incorreta, retorne credenciais inválidas
       return res.status(401).json({ success: false, message: "Credenciais inválidas" });
+      console.log('IsPassword', isPasswordValid)
     }
   } catch (error) {
     console.error("Erro ao autenticar o usuário:", error);
     res.status(500).json({ success: false, message: "Erro ao autenticar o usuário" });
   }
 };
+
 
 
