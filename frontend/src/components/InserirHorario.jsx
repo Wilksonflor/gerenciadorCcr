@@ -99,10 +99,12 @@ const InserirHorario = ({ onClose }) => {
       }
 
       if (horaTermino <= horaInicio) {
-        console.log("hora de termino deve ser maior que a de inicio");
-        message.error("Horário de término deve ser superior ao inicial", 2);
+        console.log("Horário deve ser diferente do inicial");
+        message.error("Horário deve ser diferente do inicial ", 2);
         return;
       }
+
+      
       const valor = calcularValor(horaInicio, horaTermino);
 
       const data = {

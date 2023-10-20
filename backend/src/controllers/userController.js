@@ -1,30 +1,48 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-
+const Client = require('../models/clientsModel')
 
 
 exports.registerUser = async (req, res) => {
   const { nomeCompleto, telefone, username, password} = req.body;
-  console.log('cliente criado com sucesso', req.body)
+  console.log('cliente criado com sucesso', req.body);
   try {
-  
-    // if (password !== confirmPassword) {
-    //   return res.status(400).json({ msg: "As senhas não coincidem" });
-    // }
+    const existingClient = await Client.findOne({ contato: telefone });
+    
+    if (!existingClient) {
+      const newClient = await Client.create({
+        nomeCompleto,
+        username,
+        contato: telefone,
+       
+      });
+      console.log('novo cliente', newClient)
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(password, salt);
 
-    // Hash da senha
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
+      const user = await User.create({
+        nomeCompleto,
+        telefone,
+        username,
+        password: passwordHash,
+        client: newClient._id,
+      });
+      console.log('user criado ', user)
+      return res.status(201).json({ msg: "Usuário criado com sucesso", user });
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(password, salt);
 
-    // Crie o usuário
-    const user = await User.create({
-      nomeCompleto,
-      telefone,
-      username,
-      password: passwordHash,
-    });
+      const user = await User.create({
+        nomeCompleto,
+        telefone,
+        username,
+        password: passwordHash,
+        client: existingClient._id,
+      });
 
-    res.status(201).json({ msg: "Usuário criado com sucesso", user });
+      return res.status(201).json({ msg: "Usuário criado com sucesso", user });
+    }
   } catch (error) {
     console.error("Erro ao criar usuário:", error);
     res.status(500).json({ msg: "Erro ao criar usuário", error });

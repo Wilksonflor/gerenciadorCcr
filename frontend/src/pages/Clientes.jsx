@@ -55,13 +55,15 @@ const Clientes = () => {
       clienteForm
         .validateFields()
         .then(async (values) => {
-          const response = await axios.post(
+          await axios.post(
             "http://localhost:5000/novoCliente",
             values
           );
           console.log("Cliente criado com sucesso", response.data);
-
-          setClientes([...clientes, response.data]);
+           const response = await axios.get('http://localhost:5000/clientes');
+           console.log('clientes atualizados', response)
+           setClientes(response.data.clientes)
+          // setClientes([...clientes, response.data]);
 
           clienteForm.resetFields();
           setModalVisible(false);
@@ -71,6 +73,7 @@ const Clientes = () => {
           console.error("Erro ao criar cliente", error);
         });
     } catch (error) {
+    
       console.error("Erro ao criar cliente", error);
     }
   };
@@ -413,6 +416,10 @@ const Clientes = () => {
                   {
                     required: true,
                     message: "Por favor, insira o contato do cliente",
+                  },
+                  {
+                    min: 8,
+                    message: "A senha deve ter mais de 8 caracteres",
                   },
                 ]}
               >

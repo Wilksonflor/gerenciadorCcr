@@ -3,7 +3,8 @@ import axios from "axios";
 import styles from "./criarConta.module.css";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
-import InputMask from 'react-input-mask'
+import MaskedInput from "../components/MaskedInput";
+import logo from "../assets/Logo.png";
 
 const CriarConta = ({ isOpen, closeModal }) => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const CriarConta = ({ isOpen, closeModal }) => {
     axios
       .post("http://localhost:5000/auth/register", user)
       .then((response) => {
-        // console.log("Dados enviados com sucesso:", response.data);
+        console.log("Dados enviados com sucesso:", response.data);
         navigate("/login");
       })
       .catch((error) => {
@@ -34,6 +35,7 @@ const CriarConta = ({ isOpen, closeModal }) => {
   return (
     <div className={styles.containerFormNewUser}>
       <div className={styles.contentFormNewUser}>
+    
         <Form
           className="form-control-lg"
           name="basic"
@@ -52,7 +54,15 @@ const CriarConta = ({ isOpen, closeModal }) => {
           onFinish={handleSubmit}
           autoComplete="off"
         >
+        
+            <img src={logo} alt="logo do colégio e curso real" id="logoForm"/>
+           
           <div className={styles.formControl}>
+          <div className={styles.textControl}>
+          <h2>Bem-vindo a arena REAL</h2>
+          <p>Preencha os dados e faça o seu cadastro</p>
+
+          </div>
             <Form.Item
               label="Nome"
               name="nomeCompleto"
@@ -74,6 +84,20 @@ const CriarConta = ({ isOpen, closeModal }) => {
             <Form.Item
               label="Contato"
               name="telefone"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor, insira o contato do cliente",
+                },
+              ]}
+            >
+              <MaskedInput />
+            </Form.Item>
+            {/* <Form.Item
+              label="Contato"
+              name="telefone"
               rules={[
                 {
                   required: true,
@@ -87,7 +111,7 @@ const CriarConta = ({ isOpen, closeModal }) => {
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
               />
-            </Form.Item>
+            </Form.Item> */}
 
             <Form.Item
               label="Usuário"

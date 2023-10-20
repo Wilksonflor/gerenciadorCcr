@@ -16,6 +16,7 @@ exports.criarHorario = async (req, res) => {
       horaInicio,
       horaTermino,
     });
+
     if (horarioExistente) {
       return res.status(400).json({
         message:

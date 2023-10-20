@@ -17,10 +17,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-//   confirmPassword: {
-//     type: String,
-//     require: true,
-// }
+  client:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Clients",
+  }
 });
 
 const User = mongoose.model("User", userSchema);
