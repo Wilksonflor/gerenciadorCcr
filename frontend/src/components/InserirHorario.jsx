@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SearchResults from "./SearchResults";
 import {
-  Button,
-  TimePicker,
   Modal,
   Form,
-  Input,
+  Select,
   DatePicker,
   ConfigProvider,
   message,
@@ -25,8 +23,69 @@ const InserirHorario = ({ onClose }) => {
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [clientesFiltrados, setClientesFiltrados] = useState([]);
   const [erroHorarioNaoDisponivel, setErroHorarioNaoDisponivel] =
-    useState(false); // Estado para controlar a exibição da mensagem de erro
+    useState(false);
+  const [horaInicio, setHoraInicio] = useState("");
+  const [horaTermino, setHoraTermino] = useState("");
+  const [horarioDisponivel, setHorarioDisponivel] = useState(true);
   const customTimeFormat = "HH:mm";
+
+  const opcoesHorarios = [
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+    "21:00",
+    "22:00",
+  ];
+  const verificarDisponibilidade = async (date, horaInicio, horaTermino) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/verificarDisponibilidade?date=${date}&horaInicio=${horaInicio}&horaTermino=${horaTermino}`
+      );
+   
+        console.log('reposta da verificação da disponibilidade', response.data.disponivel)
+      return response.data.disponivel;
+    } catch (error) {
+      console.log("erro ao verificar disponibilidade", error);
+      return false;
+    }
+  };
+
+  const handleHoraInicioChange = async (value) => {
+    setHoraInicio(value);
+
+    const horaInicioIndex = opcoesHorarios.indexOf(value);
+    const opcoesTermino = opcoesHorarios.slice(horaInicioIndex + 1);
+    setHoraTermino(opcoesTermino[0]);
+  
+    const date = document.getElementById(date).value
+    const disponivel = await verificarDisponibilidade(
+      date,
+      horaInicio,
+      horaTermino
+    );
+
+    if (!disponivel) {
+      setErroHorarioNaoDisponivel(true);
+    } else {
+      setErroHorarioNaoDisponivel(false);
+    }
+  };
+
+  const handleHoraTerminoChange = async (value) => {
+    setHoraTermino(value);
+
+    const disponivel = await verificarDisponibilidade(date, horaInicio, value);
+
+    if (!disponivel) {
+      setErroHorarioNaoDisponivel(true);
+    } else {
+      setErroHorarioNaoDisponivel(false);
+    }
+  };
 
   const handleOk = () => {
     setModalText("Agendando...");
@@ -38,7 +97,9 @@ const InserirHorario = ({ onClose }) => {
       setConfirmLoading(false);
 
       setTimeout(() => {
+        
         window.location.reload();
+        
       }, 2000);
     }, 2000);
   };
@@ -90,21 +151,13 @@ const InserirHorario = ({ onClose }) => {
   const handleAgendamento = async () => {
     try {
       const date = document.getElementById("date").value;
-      const horaInicio = document.getElementById("horaInicio").value;
-      const horaTermino = document.getElementById("horaTermino").value;
 
       if (!clienteSelecionado || !date || !horaInicio || !horaTermino) {
+        message.error("Preencha todos os campos");
         console.error("Por favor, preencha todos os campos.");
         return;
       }
 
-      if (horaTermino <= horaInicio) {
-        console.log("Horário deve ser diferente do inicial");
-        message.error("Horário deve ser diferente do inicial ", 2);
-        return;
-      }
-
-      
       const valor = calcularValor(horaInicio, horaTermino);
 
       const data = {
@@ -120,15 +173,15 @@ const InserirHorario = ({ onClose }) => {
         data
       );
 
-      // console.log("resposta", response);
       if (response.status >= 200 && response.status < 300) {
         handleOk();
       } else {
-        console.log('resposta do else', response)
+        console.log("resposta do else", response);
         const errorMessage = response.data.message;
         message.error(errorMessage, 2);
       }
     } catch (error) {
+      message.error("Horário indisponível", 2);
       console.error("Erro ao agendar", error);
     }
   };
@@ -187,17 +240,39 @@ const InserirHorario = ({ onClose }) => {
             </div>
 
             <div className={styles.horario_control}>
-              <input
-                type="time"
-                name="horaInicio"
-                id="horaInicio"
-                placeholder="Inicio"
-                required
-              />
-
-              <p>até</p>
-
-              <input type="time" name="horaTermino" id="horaTermino" required />
+              <Select
+                value={horaInicio}
+                onChange={handleHoraInicioChange}
+                placeholder="Horário de Início"
+                style={{ width: 150 }}
+              >
+                {opcoesHorarios.map((horario) => (
+                  <Select.Option key={horario} value={horario}>
+                    {horario}
+                  </Select.Option>
+                ))}
+              </Select>
+              <p>Até</p>
+              <Select
+                value={horaTermino}
+                placeholder="Horário de Término"
+                disabled={!horaInicio}
+                style={{ width: 150 }}
+                onChange={(value) => setHoraTermino(value)}
+              >
+                {horaTermino &&
+                  opcoesHorarios
+                    .filter(
+                      (horario) =>
+                        opcoesHorarios.indexOf(horario) >
+                        opcoesHorarios.indexOf(horaInicio)
+                    )
+                    .map((horario) => (
+                      <Select.Option key={horario} value={horario}>
+                        {horario}
+                      </Select.Option>
+                    ))}
+              </Select>
             </div>
 
             {erroHorarioNaoDisponivel && (

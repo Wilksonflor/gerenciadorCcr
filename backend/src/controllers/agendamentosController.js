@@ -70,3 +70,42 @@ exports.getAgendamentoPorCliente = async (req, res) => {
       .json({ msg: "Erro ao recuperar do relatorio por cliente", error });
   }
 };
+
+exports.verificarDisponibilidade = async (req,res) =>{
+  const {date, horaInicio, horaTermino} = req.query;
+
+  try{
+    const horarioExistente = await Horario.findOne({
+      date,
+      horaInicio,
+      horaTermino,
+    })
+    if(horarioExistente){
+      return res.json({disponivel: false})
+    }
+    else{
+      return res.json({disponivel: true})
+    }
+  }
+  catch(error){
+    res.status(500).json({error: "Erro ao verificar disponividade", error })
+  }
+}
+exports.verificarHorarioInicioAgendado = async (req, res) => {
+  const { date, horaInicio } = req.query;
+
+  try {
+    const horarioExistente = await Horario.findOne({
+      date,
+      horaInicio,
+    });
+
+    if (horarioExistente) {
+      return res.json({ horarioInicioAgendado: true });
+    } else {
+      return res.json({ horarioInicioAgendado: false });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao verificar horário de início agendado", error });
+  }
+};

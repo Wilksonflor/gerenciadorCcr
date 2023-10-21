@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  UserAddOutlined} from "@ant-design/icons";
+import { UserAddOutlined } from "@ant-design/icons";
 import Navbar from "../components/NavBar";
 import styles from "../layouts/Table.module.css";
 import { Button, Space, Modal, Form, Input, message } from "antd";
@@ -11,8 +10,6 @@ import MaskedInput from "../components/MaskedInput";
 import DescriptionIcon from "@mui/icons-material/DescriptionOutlined";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-
-
 
 const Clientes = () => {
   const [size] = useState("large");
@@ -55,25 +52,25 @@ const Clientes = () => {
       clienteForm
         .validateFields()
         .then(async (values) => {
-          await axios.post(
-            "http://localhost:5000/novoCliente",
-            values
-          );
-          console.log("Cliente criado com sucesso", response.data);
-           const response = await axios.get('http://localhost:5000/clientes');
-           console.log('clientes atualizados', response)
-           setClientes(response.data.clientes)
-          // setClientes([...clientes, response.data]);
-
-          clienteForm.resetFields();
-          setModalVisible(false);
-          showSuccessMessage();
-        })
-        .catch((error) => {
-          console.error("Erro ao criar cliente", error);
+          await axios.post("http://localhost:5000/novoCliente", values).then((response) => {
+            console.log("Cliente criado com sucesso", response.data); // Agora você pode acessar response aqui
+            axios.get("http://localhost:5000/clientes")
+              .then((response) => {
+                console.log("clientes atualizados", response);
+                setClientes([...clientes, response.data]);
+                clienteForm.resetFields();
+                setModalVisible(false);
+                showSuccessMessage();
+              })
+              .catch((error) => {
+                console.error("Erro ao obter clientes", error);
+              });
+          })
+          .catch((error) => {
+            console.error("Erro ao criar cliente", error);
+          });
         });
     } catch (error) {
-    
       console.error("Erro ao criar cliente", error);
     }
   };
@@ -118,9 +115,9 @@ const Clientes = () => {
       console.log("Cliente editado com sucesso", editedCliente);
 
       if (response.status === 200) {
-        setTimeout(() =>{
+        setTimeout(() => {
           window.location.reload();
-        }, 2000)
+        }, 2000);
         message.success("Cliente atualizado");
         setEditModalVisible(false);
       }
@@ -167,13 +164,12 @@ const Clientes = () => {
 
     // Definição e conteúdo do PDF
     const docDefinition = {
-     
       content: [
         { text: "Relatório de todos os clientes", style: "header" },
         {
           style: "tableExample",
           table: {
-            alignment: 'center',
+            alignment: "center",
             headerRows: 1,
             widths: [180, 120, 150],
             body: [
@@ -197,7 +193,6 @@ const Clientes = () => {
           bold: true,
           alignment: "center",
           margin: [0, 0, 0, 20],
-
         },
         tableExample: {
           margin: [20, 20, 0, 20],
@@ -218,32 +213,32 @@ const Clientes = () => {
   // Função para tirar relatório de apenas um cliente
   const handleRelatorioCliente = async (clienteId) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  
+
     try {
       const response = await axios.get(
         `http://localhost:5000/clientes/relatorio/${clienteId}`
       );
 
-      console.log('resposta do servidor', response.data)
+      console.log("resposta do servidor", response.data);
       const { clienteComAgendamento } = response.data;
       const { client, agendamentos } = clienteComAgendamento;
-  
-      console.log('dados do cliente', client)
-      console.log('agendamento do cliente', agendamentos);
+
+      console.log("dados do cliente", client);
+      console.log("agendamento do cliente", agendamentos);
       if (!client) {
         console.log("cliente não encontrado");
         return;
       }
-  
+
       // Calcular a soma dos valores
       const somaValores = agendamentos.reduce((total, agendamento) => {
         return total + (agendamento.valor || 0);
       }, 0);
-  
+
       const docDefinition = {
         content: [
           {
-            alignment: 'center',
+            alignment: "center",
             text: `Relatório de agendamentos de ${client.nomeCompleto}`,
             style: "header",
             width: [100, 100, 100],
@@ -266,10 +261,14 @@ const Clientes = () => {
                   agendamento.horaInicio,
                   agendamento.horaTermino,
                   {
-                    text: `R$ ${agendamento.valor ? agendamento.valor.toLocaleString("pt-BR") : ""},00`,
+                    text: `R$ ${
+                      agendamento.valor
+                        ? agendamento.valor.toLocaleString("pt-BR")
+                        : ""
+                    },00`,
                     style: "currency",
                     currency: "BRL",
-                  }
+                  },
                 ]),
                 [
                   { text: "Total", style: "tableHeader" },
@@ -280,7 +279,7 @@ const Clientes = () => {
                     style: "currency",
                     currency: "BRL",
                     bold: true,
-                  }
+                  },
                 ],
               ],
             },
@@ -295,7 +294,7 @@ const Clientes = () => {
           },
           tableExample: {
             margin: [0, 20, 0, 8],
-            alignment: 'center'
+            alignment: "center",
           },
           tableHeader: {
             bold: true,
@@ -313,9 +312,6 @@ const Clientes = () => {
       console.log("Erro ao gerar o relatório do cliente", error);
     }
   };
-
- 
-
 
   return (
     <>

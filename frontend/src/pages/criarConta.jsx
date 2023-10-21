@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import styles from "./criarConta.module.css";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import MaskedInput from "../components/MaskedInput";
 import logo from "../assets/Logo.png";
 
@@ -22,14 +22,18 @@ const CriarConta = ({ isOpen, closeModal }) => {
     };
 
     axios
-      .post("http://localhost:5000/auth/register", user)
-      .then((response) => {
-        console.log("Dados enviados com sucesso:", response.data);
+    .post("http://localhost:5000/auth/register", user)
+    .then((response) => {
+      console.log("Dados enviados com sucesso:", response.data);
+      message.success("Usuário criado com sucesso");
+        
+      setTimeout(() => {
         navigate("/login");
-      })
-      .catch((error) => {
-        console.error("Erro ao enviar dados:", error);
-      });
+      }, 3000);
+    })
+    .catch((error) => {
+      console.error("Erro ao enviar dados:", error);
+    });
   };
 
   return (
