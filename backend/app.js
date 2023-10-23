@@ -8,7 +8,7 @@ const userRoutes = require("./src/routes/userRoutes");
 const clientsRoutes = require("./src/routes/clientsRoutes");
 const agendamentoRoutes = require('./src/routes/agendamentoRoutes')
 require("dotenv").config();
-
+const path = require('path');
 
 const jwt = require("jsonwebtoken");
 const app = express();
