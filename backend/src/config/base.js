@@ -1,10 +1,15 @@
-const moongose = require('mongoose')
+const mongoose = require("mongoose");
 
-moongose.connect('mongodb://127.0.0.1:27017/colegioReal')
-.then(() =>{
-    console.log("Conectado ao mongoDB")
-})
-.catch((error) =>{
-    console.log("Erro ao conectar ao servidor", error)
-})
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASS;
 
+mongoose
+  .connect(
+    `mongodb+srv://wilksonflor12:wilkson88118577@cluster0.m33sao3.mongodb.net/`
+  )
+  .then(() => {
+    console.log("Conectado ao MongoDB");
+  })
+  .catch((error) => {
+    console.error("Erro ao conectar ao servidor", error);
+  });
