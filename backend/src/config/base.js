@@ -5,7 +5,7 @@ const dbPassword = process.env.DB_PASS;
 
 mongoose
   .connect(
-    `mongodb+srv://wilksonflor12:wilkson88118577@cluster0.m33sao3.mongodb.net/`
+    `mongodb+srv://wilksonflor12:wilkson88118577@cluster0.m33sao3.mongodb.net/colegioReal`
   )
   .then(() => {
     console.log("Conectado ao MongoDB");
