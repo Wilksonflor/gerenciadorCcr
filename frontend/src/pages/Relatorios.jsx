@@ -1,16 +1,14 @@
-import React from 'react'
-import Navbar from '../components/NavBar'
+import React from 'react';
+import Navbar from '../components/NavBar';
 const Relatorios = () => {
-  return (
-    <div>
-    <Navbar/>
-    <h2>Relatórios</h2>
+	return (
+		<div>
+			<Navbar />
+			<h2>Relatórios</h2>
 
-     <div>
-      
-     </div>
-    </div>
-  )
-}
+			<div></div>
+		</div>
+	);
+};
 
-export default Relatorios
+export default Relatorios;
