@@ -1,20 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+// import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Agendamento } from './agendamento.model';
-import { Clients } from '../clientes/cliente.model';
+import { CreateAgendamentoDto } from './dto/agendamento.dto';
+import { IAgendamento } from './interfaces/agendamento.interface';
+import { ICliente } from '../clientes/interfaces/cliente.interface';
 
 @Injectable()
 export class AgendamentoService {
   constructor(
-    @InjectModel(Agendamento.name) private readonly agendamentoModel: Model<Agendamento>,
-    @InjectModel(Clients.name) private readonly clientsModel: Model<Clients>,
+    @Inject('AGENDAMENTO_MODEL') private readonly agendamentoModel: Model<IAgendamento>,
+    @Inject('CLIENTE_MODEL') private readonly clientsModel: Model<ICliente>,
   ) {}
 
-  async criarHorario(data: Agendamento) {
+  async criarHorario(data: CreateAgendamentoDto) {
     try {
-     
-      const client = await this.clientsModel.findOne({ nomeCompleto: data.clientId });
+      // const client = await this.clientsModel.findOne({ nomeCompleto: data.clientId });
+      const client = await this.clientsModel.findById(data.clientId);
 
       if (!client) {
         throw new Error('Cliente não encontrado');
@@ -27,23 +28,22 @@ export class AgendamentoService {
       });
 
       if (horarioExistente) {
-        throw new Error('O horário não está disponível, por favor escolha outro horário');
+        throw new HttpException('O horário não está disponível, por favor escolha outro horário', HttpStatus.CONFLICT);
       }
 
       const novoHorario = await this.agendamentoModel.create(data);
 
       return novoHorario;
     } catch (error) {
-      throw error;
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   async getHorarios() {
     try {
-     
       return this.agendamentoModel.find().populate('client', 'nomeCompleto contato');
     } catch (error) {
-      throw error;
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -55,10 +55,9 @@ export class AgendamentoService {
         horaInicio,
         horaTermino,
       });
-
       return !horarioExistente; // Se não houver horário existente, está disponível
     } catch (error) {
-      throw error;
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
