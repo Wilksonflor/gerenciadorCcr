@@ -3,7 +3,7 @@ import { /*Navigate*/ useNavigate, Link } from 'react-router-dom';
 import jogador from '../assets/jogador.jpg';
 import logo from '../assets/logo-site-real.png';
 import styles from './Login.module.css';
-import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBCardBody, MDBCol, MDBInput, MDBRow } from 'mdb-react-ui-kit';
 import axios from 'axios';
 const Login = () => {
 	const [username, setUsername] = useState('');
@@ -25,7 +25,6 @@ const Login = () => {
 				username,
 				password,
 			});
-			console.log('fez o login', response);
 
 			navigate('/');
 		} catch (error) {
@@ -45,26 +44,32 @@ const Login = () => {
 					<h1>Gerenciador de horários</h1>
 					<img src={logo} className={styles.logoLogin} />
 					<h2>Faça login na sua conta</h2>
+
 				</div>
 				<MDBContainer>
-					<form className='form' onSubmit={handleSubmit}>
-						<MDBCol md='4'>
+					<form className='form ' onSubmit={handleSubmit}>
+						<MDBRow>
+						<MDBCol md="12" className='mx-auto'>
+
+						
 							<MDBCardBody className='d-flex flex-column'>
-								<label>Usuário</label>
+								
 								<MDBInput
 									wrapperClass='mb-4'
 									name='usuario'
 									id='usuario'
+									placeholder='Usuário'
 									value={username}
 									onChange={e => setUsername(e.target.value)}
 									type='text'
 									size='lg'
 								/>
-								<label>Senha</label>
+							
 								<MDBInput
 									wrapperClass='mb-4 '
 									name='password'
 									id='password'
+									placeholder='Senha'
 									value={password}
 									onChange={e => setPassword(e.target.value)}
 									type='password'
@@ -89,10 +94,12 @@ const Login = () => {
 									Não tem uma conta? <Link to='/newuser'>Criar conta</Link>
 								</p>
 							</MDBCardBody>
-						</MDBCol>
+							</MDBCol>
+						</MDBRow>
 					</form>
 				</MDBContainer>
-			</div>
+			
+				</div>
 		</div>
 	);
 };
