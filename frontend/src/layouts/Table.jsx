@@ -14,20 +14,18 @@ const Table = () => {
 	const fetchHorarios = async () => {
 		try {
 			const response = await axios.get('https://api.colegioreal.wilksondev.shop/horarios');
-			// console.log("Resposta do Axios", response);
-			// console.log("Dados recebido da API", response.data);
+			
 			setHorarios(response.data);
 		} catch (error) {
 			console.log('Erro ao obter resposta do servidor para horários', error);
 		}
 	};
 	const formatPhoneNumber = phoneNumber => {
-		// Remove todos os caracteres não numéricos, como espaços, hífens e parênteses
 		const formattedNumber = phoneNumber.replace(/\D/g, '');
 		return formattedNumber;
 	};
 
-	// Filtra os horários para garantir que apenas os associados a clientes existentes sejam exibidos
+	//
 	const horariosFiltrados = horarios.filter(horario => horario.client);
 
 	return (
