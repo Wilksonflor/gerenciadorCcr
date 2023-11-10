@@ -8,13 +8,13 @@ import { CreateAgendamentoDto, ResponseHorariosDto } from './dto/agendamento.dto
 export class AgendamentoController {
   constructor(private readonly agendamentoService: AgendamentoService) {}
 
-  @Post('novoAgendamento')
+  @Post('agendamento')
   @ApiOperation({ summary: 'Cria um novo agendamento' })
   @ApiBody({ type: CreateAgendamentoDto, description: 'Dados para criar um novo agendamento' })
   async criarHorario(@Body() createAgendamentoDto: CreateAgendamentoDto) {
     return await this.agendamentoService.criarHorario(createAgendamentoDto);
   }
-// Para listar os horários
+  
   @Get('horarios')
   @ApiOkResponse({ type: [ResponseHorariosDto], description: 'Horarios encontrados' })
   @ApiOperation({ summary: 'Obtém todos os horários disponíveis' })
@@ -22,7 +22,7 @@ export class AgendamentoController {
     return await this.agendamentoService.getHorarios();
   }
 
-  @Get('verificarDisponibilidade')
+  @Get('disponibilidades')
   @ApiOperation({ summary: 'Verifica a disponibilidade de um horário' })
   @ApiQuery({ name: 'date', required: true, type: String })
   @ApiQuery({ name: 'horaInicio', required: true, type: String })

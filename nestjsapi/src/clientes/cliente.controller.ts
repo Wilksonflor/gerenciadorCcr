@@ -8,7 +8,7 @@ import { CreateClienteDto, DeleteClienteDto, ResponseClienteDto, UpdateClienteDt
 export class ClienteController {
   constructor(private readonly clienteService: ClienteService) {}
 
-  @Post('novoCliente')
+  @Post('')
   @ApiOperation({ summary: 'Cria um novo cliente' })
   @ApiBody({ type: CreateClienteDto, description: 'Dados para criar um novo cliente' })
   async criarCliente(@Body() createClienteDto: CreateClienteDto) {
@@ -22,7 +22,7 @@ export class ClienteController {
     return await this.clienteService.getClientes();
   }
 
-  @Get('/cliente/:id')
+  @Get(':id')
   @ApiOperation({ summary: 'Obtém os dados de um cliente específico' })
   @ApiParam({ name: 'id', type: 'string' })
   @ApiOkResponse({ type: ResponseClienteDto, description: 'Cliente localizado' })
@@ -34,7 +34,7 @@ export class ClienteController {
     return cliente;
   }
 
-  @Put('atualizarCliente/:id')
+  @Put(':id')
   @ApiOperation({ summary: 'Atualiza um cliente existente' })
   @ApiParam({ name: 'id', type: 'string' })
   @ApiBody({ type: UpdateClienteDto, description: 'Dados para atualizar um cliente' })

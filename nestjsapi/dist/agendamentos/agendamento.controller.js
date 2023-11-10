@@ -33,7 +33,7 @@ let AgendamentoController = class AgendamentoController {
 };
 exports.AgendamentoController = AgendamentoController;
 __decorate([
-    (0, common_1.Post)('novoAgendamento'),
+    (0, common_1.Post)('agendamento'),
     (0, swagger_1.ApiOperation)({ summary: 'Cria um novo agendamento' }),
     (0, swagger_1.ApiBody)({ type: agendamento_dto_1.CreateAgendamentoDto, description: 'Dados para criar um novo agendamento' }),
     __param(0, (0, common_1.Body)()),
@@ -50,7 +50,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AgendamentoController.prototype, "getHorarios", null);
 __decorate([
-    (0, common_1.Get)('verificarDisponibilidade'),
+    (0, common_1.Get)('disponibilidades'),
     (0, swagger_1.ApiOperation)({ summary: 'Verifica a disponibilidade de um horário' }),
     (0, swagger_1.ApiQuery)({ name: 'date', required: true, type: String }),
     (0, swagger_1.ApiQuery)({ name: 'horaInicio', required: true, type: String }),

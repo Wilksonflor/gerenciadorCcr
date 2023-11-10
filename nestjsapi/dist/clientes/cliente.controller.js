@@ -47,7 +47,7 @@ let ClienteController = class ClienteController {
 };
 exports.ClienteController = ClienteController;
 __decorate([
-    (0, common_1.Post)('novoCliente'),
+    (0, common_1.Post)(''),
     (0, swagger_1.ApiOperation)({ summary: 'Cria um novo cliente' }),
     (0, swagger_1.ApiBody)({ type: cliente_dto_1.CreateClienteDto, description: 'Dados para criar um novo cliente' }),
     __param(0, (0, common_1.Body)()),
@@ -64,7 +64,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ClienteController.prototype, "getClientes", null);
 __decorate([
-    (0, common_1.Get)('/cliente/:id'),
+    (0, common_1.Get)(':id'),
     (0, swagger_1.ApiOperation)({ summary: 'Obtém os dados de um cliente específico' }),
     (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
     (0, swagger_1.ApiOkResponse)({ type: cliente_dto_1.ResponseClienteDto, description: 'Cliente localizado' }),
@@ -74,7 +74,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ClienteController.prototype, "getClienteById", null);
 __decorate([
-    (0, common_1.Put)('atualizarCliente/:id'),
+    (0, common_1.Put)(':id'),
     (0, swagger_1.ApiOperation)({ summary: 'Atualiza um cliente existente' }),
     (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
     (0, swagger_1.ApiBody)({ type: cliente_dto_1.UpdateClienteDto, description: 'Dados para atualizar um cliente' }),
