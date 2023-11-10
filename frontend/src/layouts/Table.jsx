@@ -11,6 +11,7 @@ const Table = () => {
     fetchHorarios();
   }, []);
 
+<<<<<<< HEAD
   const fetchHorarios = async () => {
     try {
       const response = await axios.get("http://localhost:5000/horarios");
@@ -28,6 +29,24 @@ const Table = () => {
 
   
   const horariosFiltrados = horarios.filter((horario) => horario.client);
+=======
+	const fetchHorarios = async () => {
+		try {
+			const response = await axios.get('https://api.colegioreal.wilksondev.shop/horarios');
+			
+			setHorarios(response.data);
+		} catch (error) {
+			console.log('Erro ao obter resposta do servidor para horários', error);
+		}
+	};
+	const formatPhoneNumber = phoneNumber => {
+		const formattedNumber = phoneNumber.replace(/\D/g, '');
+		return formattedNumber;
+	};
+
+	//
+	const horariosFiltrados = horarios.filter(horario => horario.client);
+>>>>>>> 98b940f1953495f29d79b3f6191e5f6126b2644b
 
   return (
     <div className="container-fluid">

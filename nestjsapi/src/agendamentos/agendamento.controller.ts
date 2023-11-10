@@ -1,42 +1,25 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Query,
-  NotFoundException,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { AgendamentoService } from './agendamento.service';
-import { ApiTags, ApiOperation, ApiBody, ApiQuery } from '@nestjs/swagger';
-import { CreateAgendamentoDto } from './agendamentos.dto';
+import { ApiTags, ApiOperation, ApiBody, ApiQuery, ApiOkResponse } from '@nestjs/swagger';
+import { CreateAgendamentoDto, ResponseHorariosDto } from './dto/agendamento.dto';
 
-
-@Controller('agendamento')
-@ApiTags('Agendamento') // Define as tags para a documentação
+@Controller('agendamentos')
+@ApiTags('Agendamento') 
 export class AgendamentoController {
   constructor(private readonly agendamentoService: AgendamentoService) {}
 
   @Post('novoAgendamento')
   @ApiOperation({ summary: 'Cria um novo agendamento' })
-  @ApiBody({ type: CreateAgendamentoDto }) 
-  async criarHorario(@Body() body: CreateAgendamentoDto) {
-    try {
-      const novoHorario = await this.agendamentoService.criarHorario(body);
-      return { message: 'Horário agendado com sucesso', novoHorario };
-    } catch (error) {
-      return { message: 'Erro ao criar horário', error };
-    }
+  @ApiBody({ type: CreateAgendamentoDto, description: 'Dados para criar um novo agendamento' })
+  async criarHorario(@Body() createAgendamentoDto: CreateAgendamentoDto) {
+    return await this.agendamentoService.criarHorario(createAgendamentoDto);
   }
-
+// Para listar os horários
   @Get('horarios')
+  @ApiOkResponse({ type: [ResponseHorariosDto], description: 'Horarios encontrados' })
   @ApiOperation({ summary: 'Obtém todos os horários disponíveis' })
   async getHorarios() {
-    try {
-      const horarios = await this.agendamentoService.getHorarios();
-      return horarios;
-    } catch (error) {
-      return { message: 'Erro ao recuperar os horários', error };
-    }
+    return await this.agendamentoService.getHorarios();
   }
 
   @Get('verificarDisponibilidade')
@@ -49,15 +32,6 @@ export class AgendamentoController {
     @Query('horaInicio') horaInicio: string,
     @Query('horaTermino') horaTermino: string,
   ) {
-    try {
-      const disponivel = await this.agendamentoService.verificarDisponibilidade(
-        date,
-        horaInicio,
-        horaTermino,
-      );
-      return { disponivel };
-    } catch (error) {
-      return { message: 'Erro ao verificar disponibilidade', error };
-    }
+    return await this.agendamentoService.verificarDisponibilidade(date, horaInicio, horaTermino);
   }
 }

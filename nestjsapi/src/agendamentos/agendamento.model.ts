@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Clients } from './clients.model';
+// import { Clients } from './clients.model';
 
 @Schema()
 export class Agendamento {
@@ -16,8 +16,8 @@ export class Agendamento {
   @Prop({ required: true })
   valor: number;
 
-  @Prop({ type: Clients })
-  client: Clients;
+  // @Prop({ type: Clients })
+  // client: Clients;
 }
 
 export type AgendamentoDocument = Agendamento & Document;
