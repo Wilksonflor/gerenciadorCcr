@@ -64,7 +64,7 @@ __decorate([
 ], AgendamentoController.prototype, "verificarDisponibilidade", null);
 exports.AgendamentoController = AgendamentoController = __decorate([
     (0, common_1.Controller)('agendamentos'),
-    (0, swagger_1.ApiTags)('Agendamento'),
+    (0, swagger_1.ApiTags)('Agendamentos'),
     __metadata("design:paramtypes", [agendamento_service_1.AgendamentoService])
 ], AgendamentoController);
 //# sourceMappingURL=agendamento.controller.js.map

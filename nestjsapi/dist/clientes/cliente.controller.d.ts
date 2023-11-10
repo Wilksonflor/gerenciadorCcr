@@ -5,5 +5,7 @@ export declare class ClienteController {
     constructor(clienteService: ClienteService);
     criarCliente(createClienteDto: CreateClienteDto): Promise<import("./interfaces/cliente.interface").ICliente>;
     getClientes(): Promise<import("./interfaces/cliente.interface").ICliente[]>;
+    getClienteById(id: string): Promise<import("./interfaces/cliente.interface").ICliente>;
     updateCliente(id: string, updateClienteDto: UpdateClienteDto): Promise<import("./interfaces/cliente.interface").ICliente>;
+    deleteCliente(id: string): Promise<void>;
 }

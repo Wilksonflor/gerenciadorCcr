@@ -4,7 +4,7 @@ import { ApiTags, ApiOperation, ApiBody, ApiQuery, ApiOkResponse } from '@nestjs
 import { CreateAgendamentoDto, ResponseHorariosDto } from './dto/agendamento.dto';
 
 @Controller('agendamentos')
-@ApiTags('Agendamento') 
+@ApiTags('Agendamentos') 
 export class AgendamentoController {
   constructor(private readonly agendamentoService: AgendamentoService) {}
 

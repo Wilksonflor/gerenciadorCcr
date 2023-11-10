@@ -27,8 +27,22 @@ let ClienteController = class ClienteController {
     async getClientes() {
         return await this.clienteService.getClientes();
     }
+    async getClienteById(id) {
+        const cliente = await this.clienteService.getClienteById(id);
+        if (!cliente) {
+            throw new common_1.NotFoundException(`Cliente não encontrado`);
+        }
+        return cliente;
+    }
     async updateCliente(id, updateClienteDto) {
         return await this.clienteService.updateCliente(id, updateClienteDto);
+    }
+    async deleteCliente(id) {
+        const cliente = await this.clienteService.getClienteById(id);
+        if (!cliente) {
+            throw new common_1.NotFoundException('Cliente não localizado');
+        }
+        await this.clienteService.deleteCliente(id);
     }
 };
 exports.ClienteController = ClienteController;
@@ -42,7 +56,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ClienteController.prototype, "criarCliente", null);
 __decorate([
-    (0, common_1.Get)('cliente'),
+    (0, common_1.Get)(''),
     (0, swagger_1.ApiOkResponse)({ type: [cliente_dto_1.ResponseClienteDto], description: 'Clientes encontrados' }),
     (0, swagger_1.ApiOperation)({ summary: 'Obtém todos os clientes' }),
     __metadata("design:type", Function),
@@ -50,9 +64,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ClienteController.prototype, "getClientes", null);
 __decorate([
+    (0, common_1.Get)('/cliente/:id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Obtém os dados de um cliente específico' }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
+    (0, swagger_1.ApiOkResponse)({ type: cliente_dto_1.ResponseClienteDto, description: 'Cliente localizado' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ClienteController.prototype, "getClienteById", null);
+__decorate([
     (0, common_1.Put)('atualizarCliente/:id'),
     (0, swagger_1.ApiOperation)({ summary: 'Atualiza um cliente existente' }),
-    (0, swagger_1.ApiParam)({ name: 'id', type: String }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
     (0, swagger_1.ApiBody)({ type: cliente_dto_1.UpdateClienteDto, description: 'Dados para atualizar um cliente' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -60,9 +84,18 @@ __decorate([
     __metadata("design:paramtypes", [String, cliente_dto_1.UpdateClienteDto]),
     __metadata("design:returntype", Promise)
 ], ClienteController.prototype, "updateCliente", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Delete um cliente especifico' }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ClienteController.prototype, "deleteCliente", null);
 exports.ClienteController = ClienteController = __decorate([
     (0, common_1.Controller)('clientes'),
-    (0, swagger_1.ApiTags)('Cliente'),
+    (0, swagger_1.ApiTags)('Clientes'),
     __metadata("design:paramtypes", [cliente_service_1.ClienteService])
 ], ClienteController);
 //# sourceMappingURL=cliente.controller.js.map

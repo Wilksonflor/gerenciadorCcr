@@ -26,8 +26,14 @@ let ClienteService = class ClienteService {
     async getClientes() {
         return await this.clienteModel.find().exec();
     }
+    async getClienteById(id) {
+        return await this.clienteModel.findById(id).exec();
+    }
     async updateCliente(id, updateClienteDto) {
         return await this.clienteModel.findByIdAndUpdate(id, updateClienteDto, { new: true }).exec();
+    }
+    async deleteCliente(id) {
+        return await this.clienteModel.findByIdAndDelete(id).exec();
     }
 };
 exports.ClienteService = ClienteService;

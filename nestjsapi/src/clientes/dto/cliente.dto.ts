@@ -39,3 +39,8 @@ export class UpdateClienteDto {
   @IsString()
   observacoes: string;
 }
+
+export class DeleteClienteDto {
+  @ApiProperty()
+  id: string;
+}
