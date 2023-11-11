@@ -16,9 +16,35 @@ exports.UsuarioService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 let UsuarioService = class UsuarioService {
-    constructor(agendamentoModel, clientsModel) {
+    constructor(agendamentoModel, clientsModel, usuarioModel) {
         this.agendamentoModel = agendamentoModel;
         this.clientsModel = clientsModel;
+        this.usuarioModel = usuarioModel;
+    }
+    async criarUsuario(data) {
+        try {
+            const user = await this.usuarioModel.create({
+                nomeCompleto: data.nomeCompleto,
+                contato: data.contato,
+                username: data.username,
+                password: data.password,
+            });
+            console.log(user);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Falha ao criar o usuário', common_1.HttpStatus.CONFLICT);
+        }
+    }
+    async getUsuarios() {
+        try {
+            return this.usuarioModel.find();
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    async getUsuarioById(id) {
+        return this.usuarioModel.findById(id);
     }
 };
 exports.UsuarioService = UsuarioService;
@@ -26,7 +52,9 @@ exports.UsuarioService = UsuarioService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)('AGENDAMENTO_MODEL')),
     __param(1, (0, common_1.Inject)('CLIENTE_MODEL')),
+    __param(2, (0, common_1.Inject)('USUARIO_MODEL')),
     __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model,
         mongoose_1.Model])
 ], UsuarioService);
 //# sourceMappingURL=usuario.service.js.map

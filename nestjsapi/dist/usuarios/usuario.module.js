@@ -13,6 +13,7 @@ const usuario_service_1 = require("./usuario.service");
 const database_module_1 = require("../database/database.module");
 const agendamento_providers_1 = require("../agendamentos/agendamento.providers");
 const cliente_providers_1 = require("../clientes/cliente.providers");
+const usuario_provider_1 = require("./usuario.provider");
 let UsuarioModule = class UsuarioModule {
 };
 exports.UsuarioModule = UsuarioModule;
@@ -20,7 +21,7 @@ exports.UsuarioModule = UsuarioModule = __decorate([
     (0, common_1.Module)({
         imports: [database_module_1.DatabaseModule],
         controllers: [usuario_controller_1.UsuarioController],
-        providers: [usuario_service_1.UsuarioService, ...agendamento_providers_1.agendamentoProviders, ...cliente_providers_1.clienteProviders],
+        providers: [usuario_service_1.UsuarioService, ...agendamento_providers_1.agendamentoProviders, ...cliente_providers_1.clienteProviders, ...usuario_provider_1.usuarioProviders],
     })
 ], UsuarioModule);
 //# sourceMappingURL=usuario.module.js.map

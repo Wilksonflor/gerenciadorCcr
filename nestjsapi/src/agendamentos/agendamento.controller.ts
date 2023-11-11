@@ -4,7 +4,7 @@ import { ApiTags, ApiOperation, ApiBody, ApiQuery, ApiOkResponse } from '@nestjs
 import { CreateAgendamentoDto, ResponseHorariosDto } from './dto/agendamento.dto';
 
 @Controller('agendamentos')
-@ApiTags('Agendamentos') 
+@ApiTags('Agendamentos')
 export class AgendamentoController {
   constructor(private readonly agendamentoService: AgendamentoService) {}
 
@@ -14,7 +14,7 @@ export class AgendamentoController {
   async criarHorario(@Body() createAgendamentoDto: CreateAgendamentoDto) {
     return await this.agendamentoService.criarHorario(createAgendamentoDto);
   }
-  
+
   @Get('horarios')
   @ApiOkResponse({ type: [ResponseHorariosDto], description: 'Horarios encontrados' })
   @ApiOperation({ summary: 'Obtém todos os horários disponíveis' })
