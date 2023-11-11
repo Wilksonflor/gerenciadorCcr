@@ -24,15 +24,18 @@
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 import { AgendamentoService } from './agendamento.service';
-import { CreateAgendamentoDto } from './dto/agendamento.dto';
+import { CreateAgendamentoDto, updateAgendamentoDto } from './dto/agendamento.dto';
+import { IAgendamento } from './interfaces/agendamento.interface';
 export declare class AgendamentoController {
     private readonly agendamentoService;
     constructor(agendamentoService: AgendamentoService);
-    criarHorario(createAgendamentoDto: CreateAgendamentoDto): Promise<import("mongoose").Document<unknown, {}, import("./interfaces/agendamento.interface").IAgendamento> & import("./interfaces/agendamento.interface").IAgendamento & {
+    criarHorario(createAgendamentoDto: CreateAgendamentoDto): Promise<import("mongoose").Document<unknown, {}, IAgendamento> & IAgendamento & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    getHorarios(): Promise<Omit<import("mongoose").Document<unknown, {}, import("./interfaces/agendamento.interface").IAgendamento> & import("./interfaces/agendamento.interface").IAgendamento & {
+    getHorarios(): Promise<Omit<import("mongoose").Document<unknown, {}, IAgendamento> & IAgendamento & {
         _id: import("mongoose").Types.ObjectId;
     }, never>[]>;
     verificarDisponibilidade(date: string, horaInicio: string, horaTermino: string): Promise<boolean>;
+    updateAgendamentoDto(id: string, updateAgendamentoDto: updateAgendamentoDto): Promise<IAgendamento>;
+    deleteAgendamento(id: string): Promise<void>;
 }

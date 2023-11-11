@@ -30,6 +30,15 @@ let AgendamentoController = class AgendamentoController {
     async verificarDisponibilidade(date, horaInicio, horaTermino) {
         return await this.agendamentoService.verificarDisponibilidade(date, horaInicio, horaTermino);
     }
+    async updateAgendamentoDto(id, updateAgendamentoDto) {
+        return await this.agendamentoService.updateAgendamento(id, updateAgendamentoDto);
+    }
+    async deleteAgendamento(id) {
+        const agendamento = await this.agendamentoService.deleteAgendamento(id);
+        if (!agendamento) {
+            throw new common_1.NotFoundException('Horário não encontrado');
+        }
+    }
 };
 exports.AgendamentoController = AgendamentoController;
 __decorate([
@@ -62,6 +71,27 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], AgendamentoController.prototype, "verificarDisponibilidade", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Edita e Atualiza o agendamento' }),
+    (0, swagger_1.ApiBody)({ type: agendamento_dto_1.updateAgendamentoDto, description: 'Atualiza e edita o agendamento' }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, agendamento_dto_1.updateAgendamentoDto]),
+    __metadata("design:returntype", Promise)
+], AgendamentoController.prototype, "updateAgendamentoDto", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Deletar um horário agendado' }),
+    (0, swagger_1.ApiBody)({ type: agendamento_dto_1.DeleteAgendamentoDto, description: 'Deleta um horário' }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AgendamentoController.prototype, "deleteAgendamento", null);
 exports.AgendamentoController = AgendamentoController = __decorate([
     (0, common_1.Controller)('agendamentos'),
     (0, swagger_1.ApiTags)('Agendamentos'),

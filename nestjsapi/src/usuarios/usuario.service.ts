@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { IAgendamento } from '../agendamentos/interfaces/agendamento.interface';
 import { ICliente } from '../clientes/interfaces/cliente.interface';
 import { IUsuario } from './interfaces/usuario.interface';
-import { CreateUsuarioDto } from './dto/usuario.dto';
+import { CreateUsuarioDto, UpdateUsuarioDto } from './dto/usuario.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -37,5 +37,17 @@ export class UsuarioService {
 
   async getUsuarioById(id: string): Promise<IUsuario | null> {
     return this.usuarioModel.findById(id);
+  }
+
+  async updateUsuario(id: string, updateUsuarioDto: UpdateUsuarioDto): Promise<IUsuario | null> {
+    return await this.usuarioModel
+      .findByIdAndUpdate(id, updateUsuarioDto, {
+        new: true,
+      })
+      .exec();
+  }
+
+  async deleteUsuario(id: string): Promise<IUsuario | null> {
+    return await this.usuarioModel.findByIdAndDelete(id).exec();
   }
 }

@@ -32,3 +32,22 @@ export class ResponseUsuarioDto {
   @ApiProperty()
   password: string;
 }
+
+export class UpdateUsuarioDto {
+  @ApiProperty()
+  @IsString()
+  nomeCompleto: string;
+
+  @ApiProperty()
+  @IsString()
+  contato: string;
+
+  @ApiProperty()
+  @IsString()
+  password: string;
+}
+
+export class deleteUsuarioDto {
+  @ApiProperty()
+  id: string;
+}

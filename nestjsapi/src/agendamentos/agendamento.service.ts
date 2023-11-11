@@ -1,9 +1,10 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 // import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateAgendamentoDto } from './dto/agendamento.dto';
+import { CreateAgendamentoDto, updateAgendamentoDto, DeleteAgendamentoDto } from './dto/agendamento.dto';
 import { IAgendamento } from './interfaces/agendamento.interface';
 import { ICliente } from '../clientes/interfaces/cliente.interface';
+import { UpdateClienteDto } from 'src/clientes/dto/cliente.dto';
 
 @Injectable()
 export class AgendamentoService {
@@ -59,5 +60,13 @@ export class AgendamentoService {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  async updateAgendamento(id: string, updateAgendamentoDto: updateAgendamentoDto): Promise<IAgendamento | null> {
+    return await this.agendamentoModel.findByIdAndUpdate(id, updateAgendamentoDto);
+  }
+
+  async deleteAgendamento(id: string): Promise<IAgendamento | null> {
+    return await this.agendamentoModel.findByIdAndDelete(id).exec();
   }
 }

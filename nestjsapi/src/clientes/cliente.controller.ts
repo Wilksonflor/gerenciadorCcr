@@ -44,6 +44,7 @@ export class ClienteController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete um cliente especifico' })
+  @ApiBody({ type: DeleteClienteDto, description: 'Deletar o cliente' })
   @ApiParam({ name: 'id', type: 'string' })
   async deleteCliente(@Param('id') id: string): Promise<void> {
     const cliente = await this.clienteService.getClienteById(id);

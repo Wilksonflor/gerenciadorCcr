@@ -1,7 +1,13 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Query, Param, NotFoundException } from '@nestjs/common';
 import { AgendamentoService } from './agendamento.service';
-import { ApiTags, ApiOperation, ApiBody, ApiQuery, ApiOkResponse } from '@nestjs/swagger';
-import { CreateAgendamentoDto, ResponseHorariosDto } from './dto/agendamento.dto';
+import { ApiTags, ApiOperation, ApiBody, ApiQuery, ApiOkResponse, ApiParam } from '@nestjs/swagger';
+import {
+  CreateAgendamentoDto,
+  ResponseHorariosDto,
+  DeleteAgendamentoDto,
+  updateAgendamentoDto,
+} from './dto/agendamento.dto';
+import { IAgendamento } from './interfaces/agendamento.interface';
 
 @Controller('agendamentos')
 @ApiTags('Agendamentos')
@@ -33,5 +39,24 @@ export class AgendamentoController {
     @Query('horaTermino') horaTermino: string,
   ) {
     return await this.agendamentoService.verificarDisponibilidade(date, horaInicio, horaTermino);
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'Edita e Atualiza o agendamento' })
+  @ApiBody({ type: updateAgendamentoDto, description: 'Atualiza e edita o agendamento' })
+  @ApiParam({ name: 'id', type: 'string' })
+  async updateAgendamentoDto(@Param('id') id: string, @Body() updateAgendamentoDto: updateAgendamentoDto) {
+    return await this.agendamentoService.updateAgendamento(id, updateAgendamentoDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Deletar um horário agendado' })
+  @ApiBody({ type: DeleteAgendamentoDto, description: 'Deleta um horário' })
+  @ApiParam({ name: 'id', type: 'string' })
+  async deleteAgendamento(@Param('id') id: string): Promise<void> {
+    const agendamento = await this.agendamentoService.deleteAgendamento(id);
+    if (!agendamento) {
+      throw new NotFoundException('Horário não encontrado');
+    }
   }
 }

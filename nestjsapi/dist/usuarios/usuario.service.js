@@ -46,6 +46,16 @@ let UsuarioService = class UsuarioService {
     async getUsuarioById(id) {
         return this.usuarioModel.findById(id);
     }
+    async updateUsuario(id, updateUsuarioDto) {
+        return await this.usuarioModel
+            .findByIdAndUpdate(id, updateUsuarioDto, {
+            new: true,
+        })
+            .exec();
+    }
+    async deleteUsuario(id) {
+        return await this.usuarioModel.findByIdAndDelete(id).exec();
+    }
 };
 exports.UsuarioService = UsuarioService;
 exports.UsuarioService = UsuarioService = __decorate([

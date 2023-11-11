@@ -87,6 +87,7 @@ __decorate([
 __decorate([
     (0, common_1.Delete)(':id'),
     (0, swagger_1.ApiOperation)({ summary: 'Delete um cliente especifico' }),
+    (0, swagger_1.ApiBody)({ type: cliente_dto_1.DeleteClienteDto, description: 'Deletar o cliente' }),
     (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

@@ -62,6 +62,12 @@ let AgendamentoService = class AgendamentoService {
             throw new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async updateAgendamento(id, updateAgendamentoDto) {
+        return await this.agendamentoModel.findByIdAndUpdate(id, updateAgendamentoDto);
+    }
+    async deleteAgendamento(id) {
+        return await this.agendamentoModel.findByIdAndDelete(id).exec();
+    }
 };
 exports.AgendamentoService = AgendamentoService;
 exports.AgendamentoService = AgendamentoService = __decorate([

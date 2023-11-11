@@ -1,5 +1,5 @@
-import { CreateUsuarioDto, ResponseUsuarioDto } from './dto/usuario.dto';
-import { Controller, Get, Post, Put, Body, Query, Param, NotFoundException } from '@nestjs/common';
+import { CreateUsuarioDto, ResponseUsuarioDto, UpdateUsuarioDto, deleteUsuarioDto } from './dto/usuario.dto';
+import { Controller, Get, Post, Put, Delete, Body, Query, Param, NotFoundException } from '@nestjs/common';
 import { ApiOperation, ApiTags, ApiBody, ApiOkResponse, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { UsuarioService } from './usuario.service';
 
@@ -38,5 +38,22 @@ export class UsuarioController {
     }
   }
 
-  
+  @Put(':id')
+  @ApiOperation({ summary: 'Para editar e atualizar informações do usuário' })
+  @ApiParam({ name: 'id', type: 'string' })
+  @ApiBody({ type: UpdateUsuarioDto, description: 'Para atualizar o usuário' })
+  async UpdateUsuarioDto(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+    return await this.usuarioService.updateUsuario(id, updateUsuarioDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Deleta o usuário' })
+  @ApiBody({ type: deleteUsuarioDto, description: 'Deletar o usuário' })
+  @ApiParam({ name: 'id', type: 'string' })
+  async deleteUsuario(@Param('id') id: string): Promise<void> {
+    const usuario = await this.usuarioService.deleteUsuario(id);
+    if (!usuario) {
+      throw new NotFoundException('Usuário não localizado');
+    }
+  }
 }

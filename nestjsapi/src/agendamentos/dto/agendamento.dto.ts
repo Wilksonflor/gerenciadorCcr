@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsDate, IsNumber } from 'class-validator';
+import { IsString, IsDate, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateAgendamentoDto {
   @ApiProperty()
@@ -37,4 +37,40 @@ export class ResponseHorariosDto {
   client: string;
   @ApiProperty()
   __v: number;
+}
+export class updateAgendamentoDto {
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  nomeCompleto?: string;
+
+  @ApiProperty({ required: false })
+  @IsDate()
+  @IsOptional()
+  date?: Date;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  horaInicio?: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  horaTermino?: string;
+
+  // @ApiProperty({ required: false })
+  // @IsNumber()
+  // @IsOptional()
+  // valor?: number;
+
+  // @ApiProperty({ required: false })
+  // @IsString()
+  // @IsOptional()
+  // clientId?: string;
+}
+export class DeleteAgendamentoDto {
+  @ApiProperty()
+  @IsString()
+  agendamentoId: string;
 }

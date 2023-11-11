@@ -26,7 +26,7 @@ import { Model } from 'mongoose';
 import { IAgendamento } from '../agendamentos/interfaces/agendamento.interface';
 import { ICliente } from '../clientes/interfaces/cliente.interface';
 import { IUsuario } from './interfaces/usuario.interface';
-import { CreateUsuarioDto } from './dto/usuario.dto';
+import { CreateUsuarioDto, UpdateUsuarioDto } from './dto/usuario.dto';
 export declare class UsuarioService {
     private readonly agendamentoModel;
     private readonly clientsModel;
@@ -37,4 +37,6 @@ export declare class UsuarioService {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
     getUsuarioById(id: string): Promise<IUsuario | null>;
+    updateUsuario(id: string, updateUsuarioDto: UpdateUsuarioDto): Promise<IUsuario | null>;
+    deleteUsuario(id: string): Promise<IUsuario | null>;
 }

@@ -23,7 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { CreateUsuarioDto } from './dto/usuario.dto';
+import { CreateUsuarioDto, UpdateUsuarioDto } from './dto/usuario.dto';
 import { UsuarioService } from './usuario.service';
 export declare class UsuarioController {
     private readonly usuarioService;
@@ -33,4 +33,6 @@ export declare class UsuarioController {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
     getUsuarioById(id: string): Promise<import("./interfaces/usuario.interface").IUsuario>;
+    UpdateUsuarioDto(id: string, updateUsuarioDto: UpdateUsuarioDto): Promise<import("./interfaces/usuario.interface").IUsuario>;
+    deleteUsuario(id: string): Promise<void>;
 }

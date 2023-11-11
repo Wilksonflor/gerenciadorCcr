@@ -39,6 +39,15 @@ let UsuarioController = class UsuarioController {
             throw new common_1.NotFoundException('Usuário não encontrado');
         }
     }
+    async UpdateUsuarioDto(id, updateUsuarioDto) {
+        return await this.usuarioService.updateUsuario(id, updateUsuarioDto);
+    }
+    async deleteUsuario(id) {
+        const usuario = await this.usuarioService.deleteUsuario(id);
+        if (!usuario) {
+            throw new common_1.NotFoundException('Usuário não localizado');
+        }
+    }
 };
 exports.UsuarioController = UsuarioController;
 __decorate([
@@ -68,6 +77,27 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UsuarioController.prototype, "getUsuarioById", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Para editar e atualizar informações do usuário' }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
+    (0, swagger_1.ApiBody)({ type: usuario_dto_1.UpdateUsuarioDto, description: 'Para atualizar o usuário' }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, usuario_dto_1.UpdateUsuarioDto]),
+    __metadata("design:returntype", Promise)
+], UsuarioController.prototype, "UpdateUsuarioDto", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Deleta o usuário' }),
+    (0, swagger_1.ApiBody)({ type: usuario_dto_1.deleteUsuarioDto, description: 'Deletar o usuário' }),
+    (0, swagger_1.ApiParam)({ name: 'id', type: 'string' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsuarioController.prototype, "deleteUsuario", null);
 exports.UsuarioController = UsuarioController = __decorate([
     (0, common_1.Controller)('usuarios'),
     (0, swagger_1.ApiTags)('usuario'),

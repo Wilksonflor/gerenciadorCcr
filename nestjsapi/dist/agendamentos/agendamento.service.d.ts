@@ -23,7 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { CreateAgendamentoDto } from './dto/agendamento.dto';
+import { CreateAgendamentoDto, updateAgendamentoDto } from './dto/agendamento.dto';
 import { IAgendamento } from './interfaces/agendamento.interface';
 import { ICliente } from '../clientes/interfaces/cliente.interface';
 export declare class AgendamentoService {
@@ -37,4 +37,6 @@ export declare class AgendamentoService {
         _id: import("mongoose").Types.ObjectId;
     }, never>[]>;
     verificarDisponibilidade(date: string, horaInicio: string, horaTermino: string): Promise<boolean>;
+    updateAgendamento(id: string, updateAgendamentoDto: updateAgendamentoDto): Promise<IAgendamento | null>;
+    deleteAgendamento(id: string): Promise<IAgendamento | null>;
 }
