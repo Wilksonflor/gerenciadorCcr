@@ -21,7 +21,7 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
-			const response = await axios.post('ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/authenticate', {
+			const response = await axios.post('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/authenticate', {
 				username,
 				password,
 			});

@@ -22,7 +22,7 @@ const CriarConta = () => {
 		};
 
 		axios
-			.post('ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/auth/register', user)
+			.post('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/auth/register', user)
 			.then(response => {
 				console.log('Dados enviados com sucesso:', response.data);
 				message.success('Usuário criado com sucesso');
