@@ -24,7 +24,7 @@ const InserirHorario = ({ onClose }) => {
 	const verificarDisponibilidade = async (date, horaInicio, horaTermino) => {
 		try {
 			const response = await axios.get(
-				`https://api.colegioreal.wilksondev.shop/verificarDisponibilidade?date=${date}&horaInicio=${horaInicio}&horaTermino=${horaTermino}`,
+				`ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/verificarDisponibilidade?date=${date}&horaInicio=${horaInicio}&horaTermino=${horaTermino}`,
 			);
 
 			console.log('reposta da verificação da disponibilidade', response.data.disponivel);
@@ -93,7 +93,7 @@ const InserirHorario = ({ onClose }) => {
 		// setBusca(value);
 
 		axios
-			.get(`https://api.colegioreal.wilksondev.shop/clientes?search=${value}`)
+			.get(`ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes?search=${value}`)
 			.then(response => {
 				if (response.status === 200) {
 					return response.data.clients;
@@ -141,7 +141,7 @@ const InserirHorario = ({ onClose }) => {
 				valor,
 			};
 
-			const response = await axios.post('https://api.colegioreal.wilksondev.shop/novoAgendamento', data);
+			const response = await axios.post('ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoAgendamento', data);
 
 			if (response.status >= 200 && response.status < 300) {
 				handleOk();
