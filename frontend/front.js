@@ -3,7 +3,7 @@ var path = require('path');
 var serveStatic = require('serve-static');
 
 var app = express();
-app.use(serveStatic(path.join(_dirname, 'dist')));
+app.use(serveStatic(path.join( './dist')));
 
 var port = 5475;
 app.listen(port);
