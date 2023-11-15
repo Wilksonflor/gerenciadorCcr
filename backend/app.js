@@ -17,7 +17,7 @@ const app = express();
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.text({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-app.use(cors({ origin: 'ec2-18-191-81-30.us-east-2.compute.amazonaws.com' }));
+app.use(cors({ origin: 'ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5173' }));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
