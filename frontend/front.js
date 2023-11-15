@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var serveStatic = require('server-static');
+var serveStatic = require('serve-static');
 
 var app = express();
 app.use(serveStatic(path.join(_dirname, 'dist')));
