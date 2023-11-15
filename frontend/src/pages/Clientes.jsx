@@ -53,7 +53,7 @@ const Clientes = () => {
 				await axios
 					.post('ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoCliente', values)
 					.then(response => {
-						console.log('Cliente criado com sucesso', response.data); // Agora você pode acessar response aqui
+						console.log('Cliente criado com sucesso', response.data); 
 						axios
 							.get('ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes')
 							.then(response => {
