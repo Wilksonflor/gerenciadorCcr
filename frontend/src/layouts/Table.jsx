@@ -29,7 +29,7 @@ const Table = () => {
 	const horariosFiltrados = horarios.filter(horario => horario.client);
 
 	return (
-		<div>
+		<div className={styles.containerTable}>
 			<table className={styles.table}>
 				<thead>
 					<tr>

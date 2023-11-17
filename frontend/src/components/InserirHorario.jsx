@@ -141,7 +141,10 @@ const InserirHorario = ({ onClose }) => {
 				valor,
 			};
 
-			const response = await axios.post('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoAgendamento', data);
+			const response = await axios.post(
+				'http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoAgendamento',
+				data,
+			);
 
 			if (response.status >= 200 && response.status < 300) {
 				handleOk();

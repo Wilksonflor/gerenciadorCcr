@@ -96,23 +96,6 @@ const CriarConta = () => {
 						>
 							<MaskedInput />
 						</Form.Item>
-						{/* <Form.Item
-              label="Contato"
-              name="telefone"
-              rules={[
-                {
-                  required: true,
-                  message: "Por favor, insira seu contato!",
-                },
-              ]}
-            >
-              <Input
-                type="tel"
-                placeholder="(99) 99999-9999"
-                value={telefone}
-                onChange={(e) => setTelefone(e.target.value)}
-              />
-            </Form.Item> */}
 
 						<Form.Item
 							label='Usuário'
@@ -142,8 +125,9 @@ const CriarConta = () => {
 
 						<Form.Item
 							wrapperCol={{
-								offset: 8,
-								span: 16,
+								xs: { span: 24 }, 
+								sm: { span: 16, offset: 4 }, 
+								md: { span: 8, offset: 8 }, 
 							}}
 						>
 							<Button type='primary' htmlType='submit'>

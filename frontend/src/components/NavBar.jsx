@@ -7,6 +7,8 @@ import { Button, Space } from 'antd';
 
 const NavBar = () => {
 	const [modalOpen, setModalOpen] = useState(false);
+	const [menuOpen, setMenuOpen] = useState(false);
+
 	const handleOpenModal = () => {
 		setModalOpen(true); // Para abrir o modal
 	};
@@ -14,37 +16,49 @@ const NavBar = () => {
 		setModalOpen(false); // Para fechar o modal
 	};
 
-	// const loginSucess = () => {};
+	const handleToggleMenu = () => {
+		setMenuOpen(!menuOpen);
+	};
 
 	return (
 		<div className={styles.header_container}>
-			<nav>
 				<Link to='/'>
-					<img src={logo} />
+					<img src={logo} alt='Logo' />
 				</Link>
+			<nav>
 
-				<ul>
+				<div className={styles.menu_icon} onClick={handleToggleMenu}>
+					<div className={styles.icon_bar}></div>
+					<div className={styles.icon_bar}></div>
+					<div className={styles.icon_bar}></div>
+				</div>
+
+				<ul className={menuOpen ? styles.menu_open : styles.menu}>
 					<li>
 						<Link to='/'>Inicio</Link>
 					</li>
 					<li>
 						<Link to='/relatorios'>Relatórios</Link>
 					</li>
-
 					<li>
 						<Link to='/clientes'>Clientes</Link>
 					</li>
+					<li id='btnNavbarLi'>
+						<Button
+							type='primary'
+							id='btnNavbar'
+							style={{
+								margin: 0,
+							}}
+							onClick={handleOpenModal}
+						>
+							Agendar horário
+						</Button>
+					</li>
 				</ul>
-
-				<Space wrap>
-					<Button type='primary' id='btnNavbar' onClick={handleOpenModal}>
-						Agendar horário
-					</Button>
-				</Space>
 			</nav>
 			{modalOpen && <InserirHorario onClose={handleCloseModal} />}
 		</div>
 	);
 };
-
 export default NavBar;

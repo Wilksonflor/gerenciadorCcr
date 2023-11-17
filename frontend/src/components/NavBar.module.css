@@ -1,59 +1,118 @@
 .header_container {
-  width: 100%;
-  height: 100px;
-  display: flex;
-  display: flex;
-  align-items: center;
+	width: 100%;
+	height: 100px;
+	display: flex;
+	display: flex;
+	align-items: center;
 
-  background: rgba(205, 205, 205, 0.27);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	background: rgba(205, 205, 205, 0.27);
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
-.header_container nav {
-  width: 100%;
-  display: flex;
+.header_container .menu_icon {
+	display: none;
+	cursor: pointer;
+	padding: 10px;
 
-  align-items: center;
-  justify-content: space-between;
 }
+.header_container .icon_bar {
+	width: 25px;
+	height: 3px;
+	background-color: #000;
+	margin: 5px 0;
+}
+
 .header_container img {
-  width: 200px;
-  height: 95px;
+	width: 200px;
+	height: 95px;
 
-  margin-left: 20px;
-  padding-bottom: 7px;
+	margin-left: 20px;
+	padding-bottom: 7px;
 }
+
+.header_container nav {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
 .header_container nav ul {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  
-  margin-top: 25px;
-  list-style-type: none;
+  width: 30%;
+	display: flex;
+	align-items: center;
+  justify-content: space-evenly;
+	gap: 30px;
+	margin-top: 25px;
+	list-style-type: none;
 }
+.header_container nav ul li {
+	display: flex;
+  justify-content: center;
+	margin-right: 8px; 
+}
+
 .header_container nav ul li a {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  color: #000;
-  opacity: 0.8;
-  transition: 0.3s ease-in-out;
-  text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	color: #000;
+	opacity: 0.8;
+	transition: 0.3s ease-in-out;
+	text-decoration: none;
 }
 .header_container nav ul li a:hover {
-  opacity: 1;
+	opacity: 1;
 }
 .header_container nav button {
-  cursor: pointer;
-  width: 150px;
-  height: 40px;
+	cursor: pointer;
+	width: 150px;
+	height: 40px;
 
-  margin-right: 12rem;
+	margin-right: 12rem;
 
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-size: 1rem;
-  opacity: 1;
-  border: none;
-  border-radius: 5px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	font-size: 1rem;
+	opacity: 1;
+	border: none;
+	border-radius: 5px;
+}
+._header_container_z26er_1 nav button {
+  width: 100%; 
+  border: 2px solid black;
+  text-align: center;
 }
 
-/* menu responsivo */
+
+/* Response */
+@media only screen and (max-width: 780px) {
+	.header_container nav ul {
+		flex-direction: column;
+		width: 100%;
+		position: absolute;
+		top: 70px;
+		left: 0;
+		background-color: rgb(255, 255, 255);
+		border: 1px solid #ccc;
+		display: none;
+		z-index: 1;
+	}
+
+	.header_container nav ul.menu_open {
+		display: flex; 
+   
+	}
+
+	.header_container nav ul li {
+		width: 100%;
+		text-align: center;
+		margin: 0;
+		padding: 10px;
+	}
+
+
+	.header_container .menu_icon {
+		display: block;
+    margin-right: 10px;
+
+	}
+}

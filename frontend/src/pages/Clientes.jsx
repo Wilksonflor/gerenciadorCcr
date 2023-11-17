@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UserAddOutlined } from '@ant-design/icons';
 import Navbar from '../components/NavBar';
 import styles from '../layouts/Table.module.css';
+import btnStyle from './Clientes.module.css';
 import { Button, Space, Modal, Form, Input, message } from 'antd';
 import axios from 'axios';
 import ClientList from '../components/ClientList';
@@ -41,19 +42,17 @@ const Clientes = () => {
 		}
 	};
 
-	// Função para abrir o modal "Adicionar Cliente"
 	const adicionarCliente = () => {
 		setModalVisible(true);
 	};
 
-	// Função para lidar com o envio do formulário de adição de cliente
 	const handleModalOk = async () => {
 		try {
 			clienteForm.validateFields().then(async values => {
 				await axios
 					.post('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoCliente', values)
 					.then(response => {
-						console.log('Cliente criado com sucesso', response.data); 
+						console.log('Cliente criado com sucesso', response.data);
 						axios
 							.get('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes')
 							.then(response => {
@@ -97,19 +96,22 @@ const Clientes = () => {
 		setEditModalVisible(true);
 
 		clienteEditForm.setFieldsValue({
-			nomeCompleto: 'cliente.nomeCompleto',
-			contato: '82996198762', //'cliente.contato',
-			observacoes: 'cliente.observacoes',
+			nomeCompleto: cliente.nomeCompleto,
+			contato: cliente.contato,
+			observacoes: cliente.observacoes,
 		});
 	};
 
 	const handleSaveEdit = async () => {
 		try {
-			const response = await axios.put(`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/${editedCliente._id}`, {
-				nomeCompleto: clienteEditForm.getFieldValue('nomeCompleto'),
-				contato: clienteEditForm.getFieldValue('contato'),
-				observacoes: clienteEditForm.getFieldValue('observacoes'),
-			});
+			const response = await axios.put(
+				`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/${editedCliente._id}`,
+				{
+					nomeCompleto: clienteEditForm.getFieldValue('nomeCompleto'),
+					contato: clienteEditForm.getFieldValue('contato'),
+					observacoes: clienteEditForm.getFieldValue('observacoes'),
+				},
+			);
 			console.log('Cliente editado com sucesso', editedCliente);
 
 			if (response.status === 200) {
@@ -152,11 +154,9 @@ const Clientes = () => {
 		}
 	};
 
-	// Função para gerar um relatório com todos os clientes
 	const handleRelatorio = () => {
-		// pdfMake.vfs = pdfFonts.pdfMake.vfs;
 		pdfMake.vfs = pdfFonts;
-		// Definição e conteúdo do PDF
+
 		const docDefinition = {
 			content: [
 				{ text: 'Relatório de todos os clientes', style: 'header' },
@@ -201,15 +201,15 @@ const Clientes = () => {
 		};
 		const pdfDoc = pdfMake.createPdf(docDefinition);
 		pdfDoc.open();
-		// pdfMake.createPdf(docDefinition).download("Relatório de todos os clientes");
 	};
 
-	// Função para tirar relatório de apenas um cliente
 	const handleRelatorioCliente = async clienteId => {
 		pdfMake.vfs = pdfFonts;
 
 		try {
-			const response = await axios.get(`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/relatorio/${clienteId}`);
+			const response = await axios.get(
+				`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/relatorio/${clienteId}`,
+			);
 
 			console.log('resposta do servidor', response.data);
 			const { clienteComAgendamento } = response.data;
@@ -222,7 +222,6 @@ const Clientes = () => {
 				return;
 			}
 
-			// Calcular a soma dos valores
 			const somaValores = agendamentos.reduce((total, agendamento) => {
 				return total + (agendamento.valor || 0);
 			}, 0);
@@ -269,10 +268,10 @@ const Clientes = () => {
 								]),
 								[
 									{ text: 'Total', style: 'tableHeader' },
-									'', // Célula vazia para as colunas Data e Hora
+									'',
 									'',
 									{
-										text: `R$ ${somaValores.toFixed(2)}`, // Formatando a soma com 2 casas decimais
+										text: `R$ ${somaValores.toFixed(2)}`,
 										style: 'currency',
 										currency: 'BRL',
 										bold: true,
@@ -302,9 +301,6 @@ const Clientes = () => {
 			};
 			const pdfDoc = pdfMake.createPdf(docDefinition);
 			pdfDoc.open();
-			// pdfMake
-			//   .createPdf(docDefinition)
-			//   .download(`Relatório de Agendamentos de ${client.nomeCompleto}.pdf`);
 		} catch (error) {
 			console.log('Erro ao gerar o relatório do cliente', error);
 		}
@@ -313,29 +309,34 @@ const Clientes = () => {
 	return (
 		<>
 			<Navbar />
-			{/* Botão para adicionar cliente */}
-			<div className='container-form m-5'>
-				<Space wrap>
-					<Button type='primary' icon={<UserAddOutlined />} size={size} onClick={adicionarCliente}>
-						Adicionar cliente
-					</Button>
-				</Space>
-				<Space wrap>
-					<Button
-						type='button'
-						className='btn btn-danger m-lg-1'
-						icon={<DescriptionIcon />}
-						size={size}
-						onClick={handleRelatorio}
-					>
-						Lista de clientes
-					</Button>
-				</Space>
+
+			<div className={btnStyle.containerBtn}>
+				<div className=''>
+					<Space wrap>
+						<Button type='primary' icon={<UserAddOutlined />} size={size} onClick={adicionarCliente}>
+							Adicionar cliente
+						</Button>
+					</Space>
+				</div>
+
+				<div className="">
+					<Space wrap>
+						<Button
+							type='button'
+							className='btn btn-info w-100'
+							icon={<DescriptionIcon />}
+							size={size}
+							onClick={handleRelatorio}
+						>
+							Lista de clientes
+						</Button>
+					</Space>
+				</div>
 			</div>
 
 			{/* Tabela de clientes */}
 			<div className='container-lg'>
-				<table className={styles.table}>
+				<table className={`${styles.table} responsive-table`}>
 					<thead>
 						<tr>
 							<th>Cliente</th>

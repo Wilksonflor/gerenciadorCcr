@@ -1,4 +1,4 @@
-
+/* 
 .container_table{
     width: 100%;
     margin-top: 50px;
@@ -8,7 +8,6 @@
     justify-content: center;
 }
 .table{
-    border: 2px solid red;
     width: 80%;
 }
 
@@ -27,3 +26,55 @@
     transform: translateX(-50%);
     z-index: 9999;
   }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  */
+  
+  /* Adicione media queries para ajustar o layout em telas menores */
+  /* @media (max-width: 767px) {
+    .table th, .table td {
+      font-size: 12px; 
+    }
+  
+    .table thead {
+      display: none; 
+    }
+  
+    .table, .table tbody, .table tr, .table td {
+      display: block;
+      width: 100%;
+    }
+  
+    .table tr {
+      margin-bottom: 10px;
+    }
+  
+    .table td {
+      text-align: right; 
+    }
+  }  */
+
+  .containerBtn{
+    width: 30%;
+    margin: 60px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+  }
+
+@media (min-width: 320px) and (max-width: 1280px) {
+  .containerBtn{
+    margin-left: 40px;
+    gap: 30px;
+  }
+}
