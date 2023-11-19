@@ -16,7 +16,7 @@ exports.registerUser = async (req, res) => {
         contato: telefone,
        
       });
-      console.log('novo cliente', newClient)
+      // console.log('novo cliente', newClient)
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(password, salt);
 
@@ -27,7 +27,7 @@ exports.registerUser = async (req, res) => {
         password: passwordHash,
         client: newClient._id,
       });
-      console.log('user criado ', user)
+      // console.log('user criado ', user)
       return res.status(201).json({ msg: "Usuário criado com sucesso", user });
     } else {
       const salt = await bcrypt.genSalt(10);
@@ -125,7 +125,7 @@ exports.authenticateUser = async (req, res) => {
       return res.status(200).json({ success: true, message: "Autenticação bem sucedida" });
     } else {
       return res.status(401).json({ success: false, message: "Credenciais inválidas" });
-      console.log('IsPassword', isPasswordValid)
+      // console.log('IsPassword', isPasswordValid)
     }
   } catch (error) {
     console.error("Erro ao autenticar o usuário:", error);

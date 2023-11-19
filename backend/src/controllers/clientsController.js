@@ -82,8 +82,8 @@ exports.relatorioClient = async (req, res) => {
   const { id } = req.params;
   
   try {
-    console.log("Chegou do relatório do cliente", req.body);
-    console.log("ID do cliente", id);
+    // console.log("Chegou do relatório do cliente", req.body);
+    // console.log("ID do cliente", id);
 
     const client = await Clients.findOne({ _id: id }).populate({
       path: "client", 
@@ -94,12 +94,12 @@ exports.relatorioClient = async (req, res) => {
       return res.status(404).json({ msg: "Cliente não encontrado" });
     }
    
-    console.log("Cliente encontrado", client);
+    // console.log("Cliente encontrado", client);
     
 
 
     const agendamentos = await Horario.find({ client: id });
-    console.log("Agendamentos: ", agendamentos);
+    // console.log("Agendamentos: ", agendamentos);
 
 
     const clienteComAgendamento = {

@@ -88,11 +88,7 @@ form {
   border: none;
 }
 
-@media (min-width: 1025px) {
-  .h-custom-2 {
-    height: 100%;
-  }
-}
+
 @media only screen and (max-width: 960px) {
   .wrapper_form{
     width: 100%;
@@ -100,8 +96,20 @@ form {
   .login_left {
     display: none;
   }
+  .header_form img{
+    width: 100%;
 
+  }
   .login_right {
+    width: 100%;
+  }
+}
+@media (min-width: 1025px) {
+  .h-custom-2 {
+    height: 100%;
+  }
+  .header_form img{
+
     width: 100%;
   }
 }

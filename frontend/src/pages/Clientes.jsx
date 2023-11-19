@@ -52,7 +52,6 @@ const Clientes = () => {
 				await axios
 					.post('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoCliente', values)
 					.then(response => {
-						console.log('Cliente criado com sucesso', response.data);
 						axios
 							.get('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes')
 							.then(response => {
@@ -112,7 +111,6 @@ const Clientes = () => {
 					observacoes: clienteEditForm.getFieldValue('observacoes'),
 				},
 			);
-			console.log('Cliente editado com sucesso', editedCliente);
 
 			if (response.status === 200) {
 				setTimeout(() => {
@@ -211,12 +209,9 @@ const Clientes = () => {
 				`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/relatorio/${clienteId}`,
 			);
 
-			console.log('resposta do servidor', response.data);
 			const { clienteComAgendamento } = response.data;
 			const { client, agendamentos } = clienteComAgendamento;
 
-			console.log('dados do cliente', client);
-			console.log('agendamento do cliente', agendamentos);
 			if (!client) {
 				console.log('cliente não encontrado');
 				return;
@@ -319,7 +314,7 @@ const Clientes = () => {
 					</Space>
 				</div>
 
-				<div className="">
+				<div className=''>
 					<Space wrap>
 						<Button
 							type='button'
