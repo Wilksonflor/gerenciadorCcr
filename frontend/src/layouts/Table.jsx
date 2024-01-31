@@ -13,8 +13,8 @@ const Table = () => {
 
 	const fetchHorarios = async () => {
 		try {
-			const response = await axios.get('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/horarios');
-			
+			const response = await axios.get('http://localhost:5000/horarios');
+
 			setHorarios(response.data);
 		} catch (error) {
 			console.log('Erro ao obter resposta do servidor para horários', error);

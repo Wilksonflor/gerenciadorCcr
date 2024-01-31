@@ -35,7 +35,7 @@ const Clientes = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes');
+			const response = await axios.get('http://localhost:5000/clientes');
 			setClientes(response.data.clients);
 		} catch (error) {
 			console.error('Erro ao obter clientes:', error);
@@ -50,10 +50,10 @@ const Clientes = () => {
 		try {
 			clienteForm.validateFields().then(async values => {
 				await axios
-					.post('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoCliente', values)
+					.post('http://localhost:5000/novoCliente', values)
 					.then(response => {
 						axios
-							.get('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes')
+							.get('http://localhost:5000/clientes')
 							.then(response => {
 								console.log('clientes atualizados', response);
 								setClientes([...clientes, response.data]);
@@ -103,14 +103,11 @@ const Clientes = () => {
 
 	const handleSaveEdit = async () => {
 		try {
-			const response = await axios.put(
-				`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/${editedCliente._id}`,
-				{
-					nomeCompleto: clienteEditForm.getFieldValue('nomeCompleto'),
-					contato: clienteEditForm.getFieldValue('contato'),
-					observacoes: clienteEditForm.getFieldValue('observacoes'),
-				},
-			);
+			const response = await axios.put(`http://localhost:5000/clientes/${editedCliente._id}`, {
+				nomeCompleto: clienteEditForm.getFieldValue('nomeCompleto'),
+				contato: clienteEditForm.getFieldValue('contato'),
+				observacoes: clienteEditForm.getFieldValue('observacoes'),
+			});
 
 			if (response.status === 200) {
 				setTimeout(() => {
@@ -138,7 +135,7 @@ const Clientes = () => {
 	// Função para confirmar a exclusão do cliente
 	const handleConfirmDelete = async () => {
 		try {
-			await axios.delete(`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/${clienteToDelete._id}`);
+			await axios.delete(`http://localhost:5000/${clienteToDelete._id}`);
 
 			const updatedClientes = clientes.filter(c => c._id !== clienteToDelete._id);
 			setClientes(updatedClientes);
@@ -205,9 +202,7 @@ const Clientes = () => {
 		pdfMake.vfs = pdfFonts;
 
 		try {
-			const response = await axios.get(
-				`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes/relatorio/${clienteId}`,
-			);
+			const response = await axios.get(`http://localhost:5000/relatorio/${clienteId}`);
 
 			const { clienteComAgendamento } = response.data;
 			const { client, agendamentos } = clienteComAgendamento;

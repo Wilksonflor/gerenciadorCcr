@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 mongoose
   .connect(
-    `mongodb+srv://wilksonflor12:wilkson88118577@cluster0.m33sao3.mongodb.net/colegioReal`
+    `mongodb://127.0.0.1:27017/colegioReal`
   )
   .then(() => {
     console.log("Conectado ao MongoDB");

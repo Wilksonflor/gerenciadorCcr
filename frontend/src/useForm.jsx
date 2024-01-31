@@ -11,9 +11,7 @@ const useForm = initialState => {
 		// Obtém o nome e o valor do campo de input
 		const { name, value } = target;
 
-		// Exibe os valores no console
-		console.log(`Campo: ${name}, Valor: ${value}`);
-
+		
 		setInputValues({
 			...inputValues,
 			[name]: value,

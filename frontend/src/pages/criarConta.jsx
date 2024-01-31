@@ -22,7 +22,7 @@ const CriarConta = () => {
 		};
 
 		axios
-			.post('http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/auth/register', user)
+			.post('http://localhost:5000/auth/register', user)
 			.then(response => {
 				console.log('Dados enviados com sucesso:', response.data);
 				message.success('Usuário criado com sucesso');
@@ -125,9 +125,9 @@ const CriarConta = () => {
 
 						<Form.Item
 							wrapperCol={{
-								xs: { span: 24 }, 
-								sm: { span: 16, offset: 4 }, 
-								md: { span: 8, offset: 8 }, 
+								xs: { span: 24 },
+								sm: { span: 16, offset: 4 },
+								md: { span: 8, offset: 8 },
 							}}
 						>
 							<Button type='primary' htmlType='submit'>

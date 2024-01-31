@@ -24,7 +24,7 @@ const InserirHorario = ({ onClose }) => {
 	const verificarDisponibilidade = async (date, horaInicio, horaTermino) => {
 		try {
 			const response = await axios.get(
-				`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/verificarDisponibilidade?date=${date}&horaInicio=${horaInicio}&horaTermino=${horaTermino}`,
+				`http://localhost:5000/verificarDisponibilidade?date=${date}&horaInicio=${horaInicio}&horaTermino=${horaTermino}`,
 			);
 
 			console.log('reposta da verificação da disponibilidade', response.data.disponivel);
@@ -93,7 +93,7 @@ const InserirHorario = ({ onClose }) => {
 		// setBusca(value);
 
 		axios
-			.get(`http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/clientes?search=${value}`)
+			.get(`http://localhost:5000/clientes?search=${value}`)
 			.then(response => {
 				if (response.status === 200) {
 					return response.data.clients;
@@ -141,10 +141,7 @@ const InserirHorario = ({ onClose }) => {
 				valor,
 			};
 
-			const response = await axios.post(
-				'http://ec2-18-191-81-30.us-east-2.compute.amazonaws.com:5000/novoAgendamento',
-				data,
-			);
+			const response = await axios.post('http://localhost:5000/novoAgendamento', data);
 
 			if (response.status >= 200 && response.status < 300) {
 				handleOk();
@@ -160,7 +157,7 @@ const InserirHorario = ({ onClose }) => {
 	};
 
 	const calcularValor = (horaInicio, horaTermino) => {
-		const [/*horaInicioHora*/ horaInicioMin] = horaInicio.split(':');
+		const [horaInicioHora, horaInicioMin] = horaInicio.split(':');
 		const [horaTerminoHora, horaTerminoMin] = horaTermino.split(':');
 		const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicio, 10);
 		const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10);
