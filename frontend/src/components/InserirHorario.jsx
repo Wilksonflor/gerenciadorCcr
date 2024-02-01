@@ -1,33 +1,33 @@
-import React, { useState /*useEffect*/ } from 'react';
-// import SearchResults from './SearchResults';
+/* eslint-disable linebreak-style */
+import React, { useState } from 'react';
 import { Modal, Form, Select, DatePicker, ConfigProvider, message, AutoComplete } from 'antd';
 import ptBR from 'antd/lib/locale/pt_BR';
-import styles from './InserirHorario.module.css';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import styles from './InserirHorario.module.css';
+
 dayjs.extend(customParseFormat);
 
 const InserirHorario = ({ onClose }) => {
 	const [confirmLoading, setConfirmLoading] = useState(false);
-	// const [modalText, setModalText] = useState('');
-	// const [busca, setBusca] = useState('');
 	const [clienteSelecionado, setClienteSelecionado] = useState(null);
 	const [clientesFiltrados, setClientesFiltrados] = useState([]);
 	const [erroHorarioNaoDisponivel, setErroHorarioNaoDisponivel] = useState(false);
 	const [horaInicio, setHoraInicio] = useState('');
 	const [horaTermino, setHoraTermino] = useState('');
-	// const [horarioDisponivel, setHorarioDisponivel] = useState(true);
-	// const customTimeFormat = 'HH:mm';
+	const [modalidade, setModalidade] = useState('');
+	const [horariosAgendados, setHorariosAgendados] = useState([]);
 
 	const opcoesHorarios = ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+
 	const verificarDisponibilidade = async (date, horaInicio, horaTermino) => {
 		try {
 			const response = await axios.get(
 				`http://localhost:5000/verificarDisponibilidade?date=${date}&horaInicio=${horaInicio}&horaTermino=${horaTermino}`,
 			);
 
-			console.log('reposta da verificação da disponibilidade', response.data.disponivel);
+			// console.log('resposta da verificação da disponibilidade', response.data.disponivel);
 			return response.data.disponivel;
 		} catch (error) {
 			console.log('erro ao verificar disponibilidade', error);
@@ -42,32 +42,13 @@ const InserirHorario = ({ onClose }) => {
 		const opcoesTermino = opcoesHorarios.slice(horaInicioIndex + 1);
 		setHoraTermino(opcoesTermino[0]);
 
-		const date = document.getElementById(date).value;
+		const date = document.getElementById('date').value;
 		const disponivel = await verificarDisponibilidade(date, horaInicio, horaTermino);
 
-		if (!disponivel) {
-			setErroHorarioNaoDisponivel(true);
-		} else {
-			setErroHorarioNaoDisponivel(false);
-		}
+		setErroHorarioNaoDisponivel(!disponivel);
 	};
-
-	/*
-	const handleHoraTerminoChange = async value => {
-		setHoraTermino(value);
-
-		const disponivel = await verificarDisponibilidade(date, horaInicio, value);
-
-		if (!disponivel) {
-			setErroHorarioNaoDisponivel(true);
-		} else {
-			setErroHorarioNaoDisponivel(false);
-		}
-	};
-  */
 
 	const handleOk = () => {
-		//setModalText('Agendando...');
 		setConfirmLoading(true);
 
 		setTimeout(() => {
@@ -90,8 +71,6 @@ const InserirHorario = ({ onClose }) => {
 	};
 
 	const handleBusca = value => {
-		// setBusca(value);
-
 		axios
 			.get(`http://localhost:5000/clientes?search=${value}`)
 			.then(response => {
@@ -106,7 +85,6 @@ const InserirHorario = ({ onClose }) => {
 
 				clientesFiltrados.sort((a, b) => a.nomeCompleto.localeCompare(b.nomeCompleto));
 				setClientesFiltrados(clientesFiltrados);
-				// console.log("Dados da resposta:", data);
 			})
 			.catch(error => {
 				console.error('Erro na requisição:', error);
@@ -135,6 +113,7 @@ const InserirHorario = ({ onClose }) => {
 
 			const data = {
 				date,
+				modalidade,
 				horaInicio,
 				horaTermino,
 				clientId: clienteSelecionado,
@@ -159,7 +138,7 @@ const InserirHorario = ({ onClose }) => {
 	const calcularValor = (horaInicio, horaTermino) => {
 		const [horaInicioHora, horaInicioMin] = horaInicio.split(':');
 		const [horaTerminoHora, horaTerminoMin] = horaTermino.split(':');
-		const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicio, 10);
+		const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicioHora, 10);
 		const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10);
 
 		const valor = horas * 50 + (minutos / 60) * 50;
@@ -205,6 +184,20 @@ const InserirHorario = ({ onClose }) => {
 							<DatePicker format='DD/MM/YYYY' disabledDate={disableDate} />
 						</Form.Item>
 
+						<Select value={modalidade} style={{ width: 150 }} onChange={value => setModalidade(value)}>
+							<Select.Option key='selecione' value='' disabled>
+								Modalidade
+							</Select.Option>
+							<Select.Option key='futsal' value='Futsal'>
+								Futsal
+							</Select.Option>
+							<Select.Option key='BeachTennis' value='BeachTênis'>
+								BeachTênis
+							</Select.Option>
+							<Select.Option key='volei' value='Vôlei'>
+								Vôlei
+							</Select.Option>
+						</Select>
 						<div className={styles.horario_Legend}>
 							<span>Horário</span>
 						</div>
@@ -222,6 +215,7 @@ const InserirHorario = ({ onClose }) => {
 									</Select.Option>
 								))}
 							</Select>
+
 							<p>Até</p>
 							<Select
 								value={horaTermino}

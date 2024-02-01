@@ -22,6 +22,10 @@ const agendamentoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Clients",
   },
+  modalidade: {
+    type: String,
+    require: true,
+  },
 });
 
 const Horario = mongoose.model("Horario", agendamentoSchema);

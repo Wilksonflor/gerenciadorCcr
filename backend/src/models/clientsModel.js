@@ -6,7 +6,7 @@ const clientsSchema = new mongoose.Schema({
     required: true,
   },
   contato: {
-    type: String, 
+    type: String,
     required: true,
   },
   observacoes: {
@@ -15,8 +15,12 @@ const clientsSchema = new mongoose.Schema({
   },
   client: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Horario"
-  }
+    ref: "Horario",
+  },
+  modalidade: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Horario",
+  },
 });
 
 const Clients = mongoose.model("Clients", clientsSchema);

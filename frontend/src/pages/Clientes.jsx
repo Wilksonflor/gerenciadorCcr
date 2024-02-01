@@ -202,8 +202,7 @@ const Clientes = () => {
 		pdfMake.vfs = pdfFonts;
 
 		try {
-			const response = await axios.get(`http://localhost:5000/relatorio/${clienteId}`);
-
+			const response = await axios.get(`http://localhost:5000/clientes/relatorio/${clienteId}`);
 			const { clienteComAgendamento } = response.data;
 			const { client, agendamentos } = clienteComAgendamento;
 
@@ -236,6 +235,7 @@ const Clientes = () => {
 										text: 'Data de Agendamento',
 										style: 'tableHeader',
 									},
+
 									{
 										text: 'Hora de Início',
 										style: 'tableHeader',
@@ -244,12 +244,16 @@ const Clientes = () => {
 										text: 'Hora de Término',
 										style: 'tableHeader',
 									},
-									{ text: 'Valor', style: 'tableHeader' },
+									{
+										text: 'Valor',
+										style: 'tableHeader',
+									},
 								],
 								...agendamentos.map(agendamento => [
 									agendamento.date,
 									agendamento.horaInicio,
 									agendamento.horaTermino,
+
 									{
 										text: `R$ ${agendamento.valor ? agendamento.valor.toLocaleString('pt-BR') : ''},00`,
 										style: 'currency',

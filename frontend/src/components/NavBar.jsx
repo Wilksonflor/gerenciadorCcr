@@ -22,11 +22,10 @@ const NavBar = () => {
 
 	return (
 		<div className={styles.header_container}>
-				<Link to='/'>
-					<img src={logo} alt='Logo' />
-				</Link>
+			<Link to='/'>
+				<img src={logo} alt='Logo' />
+			</Link>
 			<nav>
-
 				<div className={styles.menu_icon} onClick={handleToggleMenu}>
 					<div className={styles.icon_bar}></div>
 					<div className={styles.icon_bar}></div>

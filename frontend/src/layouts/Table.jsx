@@ -35,6 +35,7 @@ const Table = () => {
 					<tr>
 						<th>Cliente</th>
 						<th>Data do jogo</th>
+						<th>Modalidade</th>
 						<th>Horário de inicio</th>
 						<th>Horário final</th>
 						<th>Valor</th>
@@ -51,6 +52,7 @@ const Table = () => {
 							<tr key={index}>
 								<td>{horario.client.nomeCompleto}</td>
 								<td>{horario.date}</td>
+								<td>{horario.modalidade}</td>
 								<td>{horario.horaInicio}</td>
 								<td>{horario.horaTermino}</td>
 								<td>{horario.valor !== undefined ? `R$ ${horario.valor.toFixed(2)}` : 'Valor não definido'}</td>

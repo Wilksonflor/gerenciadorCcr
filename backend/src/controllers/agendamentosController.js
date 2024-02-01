@@ -2,7 +2,8 @@ const Horario = require("../models/agendamentoModel");
 const Clients = require("../models/clientsModel");
 
 exports.criarHorario = async (req, res) => {
-  const { date, horaInicio, horaTermino, clientId, valor } = req.body;
+  const { date, horaInicio, horaTermino, clientId, valor, modalidade } =
+    req.body;
   console.log("Horário agendado com sucesso", req.body);
   try {
     // const client = await Clients.findById(clientId);
@@ -12,6 +13,7 @@ exports.criarHorario = async (req, res) => {
       return res.status(400).json({ msg: "Cliente não encontrado" });
     }
     const horarioExistente = await Horario.findOne({
+      modalidade,
       date,
       horaInicio,
       horaTermino,
@@ -26,6 +28,7 @@ exports.criarHorario = async (req, res) => {
 
     // Se horário estiver livre, cria o outro horário
     const novoHorario = await Horario.create({
+      modalidade,
       nomeCompleto: client.nomeCompleto,
       date,
       horaInicio,
@@ -60,7 +63,7 @@ exports.getAgendamentoPorCliente = async (req, res) => {
     const { id } = req.params;
     const agendamentos = await Horario.Find().populate(
       "client",
-      "nomeCompleto contato horaInicio horaTermino valor"
+      "nomeCompleto modalidade contato horaInicio horaTermino valor"
     );
     res.status(200).json(agendamentos);
   } catch (error) {
@@ -71,26 +74,24 @@ exports.getAgendamentoPorCliente = async (req, res) => {
   }
 };
 
-exports.verificarDisponibilidade = async (req,res) =>{
-  const {date, horaInicio, horaTermino} = req.query;
+exports.verificarDisponibilidade = async (req, res) => {
+  const { date, horaInicio, horaTermino } = req.query;
 
-  try{
+  try {
     const horarioExistente = await Horario.findOne({
       date,
       horaInicio,
       horaTermino,
-    })
-    if(horarioExistente){
-      return res.json({disponivel: false})
+    });
+    if (horarioExistente) {
+      return res.json({ disponivel: false });
+    } else {
+      return res.json({ disponivel: true });
     }
-    else{
-      return res.json({disponivel: true})
-    }
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao verificar disponividade", error });
   }
-  catch(error){
-    res.status(500).json({error: "Erro ao verificar disponividade", error })
-  }
-}
+};
 exports.verificarHorarioInicioAgendado = async (req, res) => {
   const { date, horaInicio } = req.query;
 
@@ -106,6 +107,8 @@ exports.verificarHorarioInicioAgendado = async (req, res) => {
       return res.json({ horarioInicioAgendado: false });
     }
   } catch (error) {
-    res.status(500).json({ error: "Erro ao verificar horário de início agendado", error });
+    res
+      .status(500)
+      .json({ error: "Erro ao verificar horário de início agendado", error });
   }
 };
