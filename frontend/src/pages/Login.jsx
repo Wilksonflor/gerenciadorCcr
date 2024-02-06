@@ -1,22 +1,17 @@
 /* eslint-disable linebreak-style */
-import React, { useState /* useHistory */ } from 'react';
-import { /*Navigate*/ useNavigate, Link } from 'react-router-dom';
-import jogador from '../assets/jogador.jpg';
-import logo from '../assets/logo-site-real.png';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
-import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from 'mdb-react-ui-kit';
 import axios from 'axios';
+import { MDBContainer, MDBCardBody, MDBCol, MDBInput } from 'mdb-react-ui-kit';
+import jogador from '../assets/jogador.jpg';
+import logo from '../assets/logo.png';
+
 const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
-	// const [inputErrorClass, setInputErrorClass] = useState('');
-	// const [isModalOpen, setIsModalOpen] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
-
-	// const openModal = () => {setIsModalOpen(true)};
-
-	// const closeModal = () => {setIsModalOpen(false)};
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -29,7 +24,6 @@ const Login = () => {
 
 			navigate('/');
 		} catch (error) {
-			// console.log('Erro na autenticação erro:', error);
 			setErrorMessage('Credenciais inválidas');
 		}
 	};

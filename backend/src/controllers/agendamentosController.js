@@ -51,7 +51,7 @@ exports.getHorarios = async (req, res) => {
       "client",
       "nomeCompleto contato"
     );
-    console.log("Horários com dados do cliente populados:", horarios);
+    // console.log("Horários com dados do cliente populados:", horarios);
     res.status(200).json(horarios);
   } catch (error) {
     res.status(500).json({ msg: "Erro ao recuperar os horários", error });

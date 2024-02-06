@@ -1,22 +1,26 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const Client = require('../models/clientsModel')
-
+const Client = require("../models/clientsModel");
 
 exports.registerUser = async (req, res) => {
-  const { nomeCompleto, telefone, username, password} = req.body;
-  console.log('cliente criado com sucesso', req.body);
+  const { nomeCompleto, telefone, username, password } = req.body;
+  console.log("cliente criado com sucesso", req.body);
   try {
-    const existingClient = await Client.findOne({ contato: telefone });
-    
+    const existingClient = await Client.findOne({ nomeCompleto: nomeCompleto });
+
     if (!existingClient) {
       const newClient = await Client.create({
         nomeCompleto,
         username,
         contato: telefone,
-       
       });
-      // console.log('novo cliente', newClient)
+
+      const existingUser = await User.findOne({ username: username });
+
+      if (existingUser) {
+        return res.status(400).json({ msg: "Nome do usuário em uso!" });
+      }
+
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(password, salt);
 
@@ -27,7 +31,7 @@ exports.registerUser = async (req, res) => {
         password: passwordHash,
         client: newClient._id,
       });
-      // console.log('user criado ', user)
+
       return res.status(201).json({ msg: "Usuário criado com sucesso", user });
     } else {
       const salt = await bcrypt.genSalt(10);
@@ -48,7 +52,6 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ msg: "Erro ao criar usuário", error });
   }
 };
-
 
 exports.getAllUser = async (req, res) => {
   try {
@@ -114,24 +117,29 @@ exports.authenticateUser = async (req, res) => {
   try {
     const user = await User.findOne({ username });
 
-    console.log('user', user)
+    console.log("user", user);
     if (!user) {
-      return res.status(401).json({ success: false, message: "Credenciais inválidas" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Credenciais inválidas" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    
+
     if (isPasswordValid) {
-      return res.status(200).json({ success: true, message: "Autenticação bem sucedida" });
+      return res
+        .status(200)
+        .json({ success: true, message: "Autenticação bem sucedida" });
     } else {
-      return res.status(401).json({ success: false, message: "Credenciais inválidas" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Credenciais inválidas" });
       // console.log('IsPassword', isPasswordValid)
     }
   } catch (error) {
     console.error("Erro ao autenticar o usuário:", error);
-    res.status(500).json({ success: false, message: "Erro ao autenticar o usuário" });
+    res
+      .status(500)
+      .json({ success: false, message: "Erro ao autenticar o usuário" });
   }
 };
-
-
-

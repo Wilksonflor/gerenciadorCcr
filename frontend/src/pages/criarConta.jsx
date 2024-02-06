@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './criarConta.module.css';
@@ -24,7 +25,7 @@ const CriarConta = () => {
 		axios
 			.post('http://localhost:5000/auth/register', user)
 			.then(response => {
-				console.log('Dados enviados com sucesso:', response.data);
+				// console.log('Dados enviados com sucesso:', response.data);
 				message.success('Usuário criado com sucesso');
 
 				setTimeout(() => {

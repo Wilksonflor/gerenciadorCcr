@@ -1,13 +1,17 @@
+/* eslint-disable linebreak-style */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './NavBar.module.css';
 import logo from '../assets/Logo.png';
 import InserirHorario from './InserirHorario';
-import { Button, Space } from 'antd';
+import { Button } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+// import { useClient } from '../components/UserContext/UserContext';
 
 const NavBar = () => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
+	// const { clientName } = useClient();
 
 	const handleOpenModal = () => {
 		setModalOpen(true); // Para abrir o modal
@@ -20,6 +24,15 @@ const NavBar = () => {
 		setMenuOpen(!menuOpen);
 	};
 
+	// const fetchClientName = async () => {
+
+	// 	const axios = await
+	// };
+
+	// useEffect(() => {
+	// 	fetchClientName();
+	// }, []);
+
 	return (
 		<div className={styles.header_container}>
 			<Link to='/'>
@@ -31,7 +44,6 @@ const NavBar = () => {
 					<div className={styles.icon_bar}></div>
 					<div className={styles.icon_bar}></div>
 				</div>
-
 				<ul className={menuOpen ? styles.menu_open : styles.menu}>
 					<li>
 						<Link to='/'>Inicio</Link>
@@ -55,6 +67,15 @@ const NavBar = () => {
 						</Button>
 					</li>
 				</ul>
+				<Button
+					style={{
+						width: 50,
+						backgroundColor: 'transparent',
+						fontSize: '1.5rem',
+					}}
+				>
+					<UserOutlined />
+				</Button>
 			</nav>
 			{modalOpen && <InserirHorario onClose={handleCloseModal} />}
 		</div>
