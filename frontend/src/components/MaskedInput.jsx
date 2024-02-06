@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React, { forwardRef, useRef, useEffect } from 'react';
 import InputMask from 'react-input-mask';
 import { Input } from 'antd';
@@ -17,8 +16,8 @@ const MaskedInput = forwardRef((props, ref) => {
 	}, [ref]);
 
 	return (
-		<InputMask mask='(99) 99999-9999' maskChar='_' {...props}>
-			{({ inputRef, ...inputProps }) => <Input {...inputProps} ref={inputRef || inputRef} />}
+		<InputMask mask='(99) 99999-9999' maskChar='_' {...props} ref={inputRef}>
+			{inputProps => <Input {...inputProps} />}
 		</InputMask>
 	);
 });

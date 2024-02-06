@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './Table.module.css';
@@ -45,7 +46,7 @@ const Table = () => {
 				<tbody>
 					{horariosFiltrados.length === 0 ? (
 						<tr>
-							<td colSpan='6'>Nenhum horário marcado</td>
+							<td colSpan='7'>Nenhum horário marcado</td>
 						</tr>
 					) : (
 						horariosFiltrados.map((horario, index) => (

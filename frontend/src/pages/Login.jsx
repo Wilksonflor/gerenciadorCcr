@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React, { useState /* useHistory */ } from 'react';
 import { /*Navigate*/ useNavigate, Link } from 'react-router-dom';
 import jogador from '../assets/jogador.jpg';
@@ -21,15 +22,14 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
-			const response = await axios.post('mongodb://127.0.0.1:27017/authenticate', {
+			const response = await axios.post('http://localhost:5000/authenticate', {
 				username,
 				password,
 			});
-			console.log('fez o login', response);
 
 			navigate('/');
 		} catch (error) {
-			console.log('Erro na autenticação erro:', error);
+			// console.log('Erro na autenticação erro:', error);
 			setErrorMessage('Credenciais inválidas');
 		}
 	};

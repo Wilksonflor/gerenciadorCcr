@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React, { useState, useEffect } from 'react';
 import { UserAddOutlined } from '@ant-design/icons';
 import Navbar from '../components/NavBar';
@@ -135,7 +136,7 @@ const Clientes = () => {
 	// Função para confirmar a exclusão do cliente
 	const handleConfirmDelete = async () => {
 		try {
-			await axios.delete(`http://localhost:5000/${clienteToDelete._id}`);
+			await axios.delete(`http://localhost:5000/clientes/${clienteToDelete._id}`);
 
 			const updatedClientes = clientes.filter(c => c._id !== clienteToDelete._id);
 			setClientes(updatedClientes);

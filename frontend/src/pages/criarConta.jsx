@@ -90,7 +90,7 @@ const CriarConta = () => {
 							rules={[
 								{
 									required: true,
-									message: 'Por favor, insira o contato do cliente',
+									message: 'Por favor, insira o contato!',
 								},
 							]}
 						>

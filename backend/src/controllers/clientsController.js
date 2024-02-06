@@ -32,7 +32,7 @@ exports.getOneClient = async (req, res) => {
   const { id } = req.params;
   try {
     const client = await Clients.findOne({ _id: id });
-    if (!cliente) {
+    if (!client) {
       return res.status(404).json({ msg: "Cliente não encontrado" });
     }
     res.status(200).json({ msg: "Cliente: ", client });

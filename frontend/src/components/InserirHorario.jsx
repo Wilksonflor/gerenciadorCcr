@@ -184,7 +184,7 @@ const InserirHorario = ({ onClose }) => {
 							<DatePicker format='DD/MM/YYYY' disabledDate={disableDate} />
 						</Form.Item>
 
-						<Select value={modalidade} style={{ width: 150 }} onChange={value => setModalidade(value)}>
+						<Select value={modalidade} style={{ width: 150 }} onChange={value => setModalidade(value)} required>
 							<Select.Option key='selecione' value='' disabled>
 								Modalidade
 							</Select.Option>
