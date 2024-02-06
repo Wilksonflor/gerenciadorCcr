@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom/client';
 // import App from './App.jsx';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 
 import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
 import Clientes from './pages/Clientes.jsx';
 import Relatorios from './pages/Relatorios.jsx';
 import CriarConta from './pages/criarConta.jsx';
-// import MaskedInput from "./components/MaskedInput.jsx";
 const router = createBrowserRouter([
 	{
 		path: '/login',
@@ -29,13 +28,16 @@ const router = createBrowserRouter([
 		element: <Relatorios />,
 	},
 	{
+		path: '/',
+		element: <Navigate to='/login' />,
+	},
+	{
 		path: '/newuser',
 		element: <CriarConta />,
 	},
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-	<React.StrictMode>
-		<RouterProvider router={router} />
-	</React.StrictMode>,
-);
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement);
+
+root.render(<RouterProvider router={router} />);

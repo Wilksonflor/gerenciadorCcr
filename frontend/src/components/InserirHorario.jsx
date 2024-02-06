@@ -17,6 +17,7 @@ const InserirHorario = ({ onClose }) => {
 	const [horaInicio, setHoraInicio] = useState('');
 	const [horaTermino, setHoraTermino] = useState('');
 	const [modalidade, setModalidade] = useState('');
+	const [valorHoraBeach, setValorHoraBeach] = useState(60.0);
 	const [horariosAgendados, setHorariosAgendados] = useState([]);
 
 	const opcoesHorarios = ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
@@ -109,7 +110,12 @@ const InserirHorario = ({ onClose }) => {
 				return;
 			}
 
-			const valor = calcularValor(horaInicio, horaTermino);
+			let valor;
+			if (modalidade === 'BeachTênis') {
+				valor = calcularValorBeach(horaInicio, horaTermino, valorHoraBeach);
+			} else {
+				valor = calcularValor(horaInicio, horaTermino);
+			}
 
 			const data = {
 				date,
@@ -145,6 +151,15 @@ const InserirHorario = ({ onClose }) => {
 		return valor;
 	};
 
+	const calcularValorBeach = (horaInicio, horaTermino) => {
+		const [horaInicioHora, horaInicioMin] = horaInicio.split(':');
+		const [horaTerminoHora, horaTerminoMin] = horaTermino.split(':');
+		const horas = parseInt(horaTerminoHora, 10) - parseInt(horaInicioHora, 10);
+		const minutos = parseInt(horaTerminoMin, 10) - parseInt(horaInicioMin, 10);
+
+		const valor = horas * 60 + (minutos / 60) * 60;
+		return valor;
+	};
 	return (
 		<Modal
 			title='Agendar horários'

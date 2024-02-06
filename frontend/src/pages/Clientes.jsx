@@ -24,11 +24,14 @@ const Clientes = () => {
 	const [clienteEditForm] = Form.useForm();
 	const [clienteForm] = Form.useForm();
 	const [editedCliente, setEditedCliente] = useState(null);
-	const { inputValues, handleInputChange /*, resetForm, form*/ } = useForm({
-		nomeCompleto: '',
-		contato: '',
-		observacoes: '',
-	});
+	const { inputValues, handleInputChange, resetForm, form } = useForm(
+		{
+			nomeCompleto: '',
+			contato: '',
+			observacoes: '',
+		},
+		clienteForm,
+	);
 
 	useEffect(() => {
 		fetchData();
@@ -45,6 +48,7 @@ const Clientes = () => {
 
 	const adicionarCliente = () => {
 		setModalVisible(true);
+		clienteForm.resetFields();
 	};
 
 	const handleModalOk = async () => {
@@ -56,7 +60,6 @@ const Clientes = () => {
 						axios
 							.get('http://localhost:5000/clientes')
 							.then(response => {
-								console.log('clientes atualizados', response);
 								setClientes([...clientes, response.data]);
 								clienteForm.resetFields();
 								setModalVisible(false);
@@ -75,22 +78,18 @@ const Clientes = () => {
 		}
 	};
 
-	// Função para fechar o modal "Adicionar Cliente"
 	const handleModalCancel = () => {
 		setModalVisible(false);
 	};
 
-	// Função para exibir a mensagem de sucesso
 	const showSuccessMessage = () => {
 		message.success('Cliente criado com sucesso!');
-		// setSuccessMessageVisible(true);
+
 		setTimeout(() => {
-			// setSuccessMessageVisible(false);
 			window.location.reload();
 		}, 2000);
 	};
 
-	// Função para abrir o modal "Editar Cliente"
 	const handleEdit = cliente => {
 		setEditedCliente(cliente);
 		setEditModalVisible(true);
@@ -122,18 +121,15 @@ const Clientes = () => {
 		}
 	};
 
-	// Função para cancelar a exclusão
 	const handleCancelDelete = () => {
 		setDeleteModalVisible(false);
 	};
 
-	// Função para abrir o modal de confirmação de exclusão
 	const handleDelete = cliente => {
 		setClienteToDelete(cliente);
 		setDeleteModalVisible(true);
 	};
 
-	// Função para confirmar a exclusão do cliente
 	const handleConfirmDelete = async () => {
 		try {
 			await axios.delete(`http://localhost:5000/clientes/${clienteToDelete._id}`);

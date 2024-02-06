@@ -20,7 +20,7 @@ const ClientesPdf = clientes => {
 	clientes.forEach(cliente => {
 		details.push({ text: `Cliente: ${cliente.nomeCompleto}` });
 		details.push({ text: `Contato: ${cliente.contato}` });
-		details.push({ text: `Modalidade: ${cliente.modalidade}` });
+		details.push({ text: `Modalidade: ${cliente.modalidade}`, bold: true });
 		details.push({ text: `Observações: ${cliente.observacoes} || "N/A` });
 	});
 	pdfMake.createPdf(docDefinitions).download();
