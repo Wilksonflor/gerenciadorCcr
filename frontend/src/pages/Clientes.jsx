@@ -242,6 +242,10 @@ const Clientes = () => {
 										style: 'tableHeader',
 									},
 									{
+										text: 'Modalidade',
+										style: 'tableHeader',
+									},
+									{
 										text: 'Valor',
 										style: 'tableHeader',
 									},
@@ -250,6 +254,7 @@ const Clientes = () => {
 									agendamento.date,
 									agendamento.horaInicio,
 									agendamento.horaTermino,
+									agendamento.modalidade,
 
 									{
 										text: `R$ ${agendamento.valor ? agendamento.valor.toLocaleString('pt-BR') : ''},00`,
