@@ -7,5 +7,8 @@ router.get('/horarios', agendamentoController.getHorarios)
 router.get('/horarios/cliente/:id', agendamentoController.getAgendamentoPorCliente)
 router.post('/novoAgendamento', agendamentoController.criarHorario)
 router.get('/verificarDisponibilidade', agendamentoController.verificarDisponibilidade)
+router.get('/horarios/dataJogo', agendamentoController.dataJogo)
+
+
 
 module.exports = router;

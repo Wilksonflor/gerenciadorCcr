@@ -99,6 +99,7 @@ exports.verificarHorarioInicioAgendado = async (req, res) => {
     const horarioExistente = await Horario.findOne({
       date,
       horaInicio,
+      horaTermino,
     });
 
     if (horarioExistente) {
@@ -110,5 +111,20 @@ exports.verificarHorarioInicioAgendado = async (req, res) => {
     res
       .status(500)
       .json({ error: "Erro ao verificar horário de início agendado", error });
+  }
+};
+
+exports.dataJogo = async (req, res) => {
+  const { date } = req.query;
+  console.log(`Chegou do dataJogo ${req.query}`);
+  try {
+    const horariosFiltrados = await Horario.find({
+      date,
+    });
+    console.log(`horarios filtrados ${horariosFiltrados}`);
+    res.status(200).json(horariosFiltrados);
+  } catch (error) {
+    console.log("Erro ao filtrar os horários", error);
+    res.status(500).json({ error: "Erro ao filtrar os horários" });
   }
 };

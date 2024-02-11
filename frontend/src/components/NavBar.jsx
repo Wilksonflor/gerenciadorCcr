@@ -69,12 +69,13 @@ const NavBar = () => {
 				</ul>
 				<Button
 					style={{
-						width: 50,
+						width: 100,
 						backgroundColor: 'transparent',
-						fontSize: '1.5rem',
+						// fontSize: '1.5rem',
 					}}
 				>
-					<UserOutlined />
+					<UserOutlined style={{ fontSize: '1.3rem' }} />
+					User
 				</Button>
 			</nav>
 			{modalOpen && <InserirHorario onClose={handleCloseModal} />}

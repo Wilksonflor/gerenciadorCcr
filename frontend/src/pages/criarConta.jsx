@@ -1,12 +1,12 @@
 /* eslint-disable linebreak-style */
 import React, { useState } from 'react';
-import axios from 'axios';
-import styles from './criarConta.module.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Form, Input, Button, message } from 'antd';
+import styles from './criarConta.module.css';
 import MaskedInput from '../components/MaskedInput';
 import logo from '../assets/Logo.png';
-// { isOpen, closeModal }
+
 const CriarConta = () => {
 	const navigate = useNavigate();
 	const [nomeCompleto, setNomeCompleto] = useState('');
@@ -25,7 +25,6 @@ const CriarConta = () => {
 		axios
 			.post('http://localhost:5000/auth/register', user)
 			.then(response => {
-				// console.log('Dados enviados com sucesso:', response.data);
 				message.success('Usuário criado com sucesso');
 
 				setTimeout(() => {
