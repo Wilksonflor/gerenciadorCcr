@@ -92,8 +92,9 @@ exports.verificarDisponibilidade = async (req, res) => {
     res.status(500).json({ error: "Erro ao verificar disponividade", error });
   }
 };
+
 exports.verificarHorarioInicioAgendado = async (req, res) => {
-  const { date, horaInicio } = req.query;
+  const { date, horaInicio, horaTermino } = req.query;
 
   try {
     const horarioExistente = await Horario.findOne({
@@ -115,13 +116,11 @@ exports.verificarHorarioInicioAgendado = async (req, res) => {
 };
 
 exports.dataJogo = async (req, res) => {
-  const { date } = req.query;
-  console.log(`Chegou do dataJogo ${req.query}`);
+  const { date } = req.params;
+  console.log(`Chegou do dataJogo: date= ${date}`);
   try {
-    const horariosFiltrados = await Horario.find({
-      date,
-    });
-    console.log(`horarios filtrados ${horariosFiltrados}`);
+    const horariosFiltrados = await Horario.find({ date });
+    console.log("Horários filtrados:", horariosFiltrados);
     res.status(200).json(horariosFiltrados);
   } catch (error) {
     console.log("Erro ao filtrar os horários", error);

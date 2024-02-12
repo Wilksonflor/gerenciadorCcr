@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable linebreak-style */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -29,7 +30,6 @@ const Table = () => {
 		const formattedNumber = phoneNumber.replace(/\D/g, '');
 		return formattedNumber;
 	};
-	const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
 
 	const handleFilterDate = async () => {
 		if (!selectedDate) {
@@ -38,15 +38,17 @@ const Table = () => {
 		}
 
 		try {
-			const response = await axios.get('http://localhost:5000/horarios/dataJogo');
-			console.log(response.data);
+			const formattedDate = selectedDate.format('DD-MM-YYYY');
+			const response = await axios.get(`http://localhost:5000/horarios/dataJogo/${formattedDate}`);
+
+			console.log('Resposta do backend:', response.data);
 			setHorarioFiltrado(response.data);
 		} catch (error) {
 			console.log('Erro ao filtrar os horários', error);
 		}
 	};
 
-	const horariosFiltrados = horarios.filter(horario => horario.client);
+	const horariosFiltrados = horarioFiltrado.filter(horario => horario.client);
 
 	return (
 		<>
@@ -70,7 +72,7 @@ const Table = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{horarioFiltrado.length === 0
+						{horariosFiltrados.length === 0
 							? horarios.map((horario, index) => (
 									<tr key={index}>
 										<td>{horario.client.nomeCompleto}</td>

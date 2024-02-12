@@ -35,7 +35,7 @@
 	margin: 0 auto;
 	width: 80%;
 	border-collapse: collapse;
-
+	margin-top: 20px;
 }
 .table th {
 	background-color: #cdcdcd;
@@ -46,24 +46,20 @@
 	text-align: left;
 	text-align: center;
 	border: 1px solid #ddd;
-
 }
 .table tbody tr:hover {
-	background-color: #f5f5f5; 
-	
-  }
-.table a{
-  text-decoration: none;
-    font-weight: 600;
-    color: #000;
-    opacity: 0.8;
-    margin-left: 7px;
+	background-color: #f5f5f5;
 }
-.table a:hover{
-  opacity: 1;
-} 
-
-
+.table a {
+	text-decoration: none;
+	font-weight: 600;
+	color: #000;
+	opacity: 0.8;
+	margin-left: 7px;
+}
+.table a:hover {
+	opacity: 1;
+}
 
 @media (max-width: 780px) {
 	.table th,
@@ -73,7 +69,6 @@
 
 	.table thead {
 		display: none;
-		
 	}
 
 	.table,
@@ -95,7 +90,7 @@
 	.table tbody {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start; 
+		align-items: flex-start;
 	}
 
 	.table tr {
@@ -105,11 +100,11 @@
 
 	.table td {
 		font-weight: 500;
-		text-align: left; 
+		text-align: left;
 	}
 }
 
-@media (min-width: 782px) and (max-width: 1128px){
+@media (min-width: 782px) and (max-width: 1128px) {
 	.containerTable,
 	.table {
 		width: 100%;
